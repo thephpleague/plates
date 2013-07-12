@@ -4,7 +4,7 @@ namespace Plates\Extension;
 
 class Insert extends Base
 {
-    public $methods = ['insert'];
+    public $methods = array('insert');
     public $engine;
     public $template;
 

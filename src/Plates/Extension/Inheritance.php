@@ -4,26 +4,22 @@ namespace Plates\Extension;
 
 class Inheritance extends Base
 {
-    public $methods = ['startBlock', 'endBlock'];
+    public $methods = array('startBlock', 'endBlock');
     public $engine;
     public $template;
-    public $blocks;
-
-    public function __construct()
-    {
-        $this->blocks = [];
-    }
+    public $blocks = array();
 
     public function startBlock($name)
     {
         $this->blocks[] = $name;
+
         ob_start();
     }
 
     public function endBlock()
     {
         if (!count($this->blocks)) {
-            trigger_error('You must open a block before you can end it.', E_USER_ERROR);
+            throw new \LogicException('You must open a block before you can end it.');
         }
 
         $output = ob_get_contents();

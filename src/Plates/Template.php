@@ -22,7 +22,7 @@ class Template
         ob_end_clean();
 
         if (ob_get_level()) {
-            trigger_error('Unable to render correctly, there are incomplete nested templates.', E_USER_ERROR);
+            throw new \LogicException('Unable to render correctly, there are incomplete nested templates.');
         }
 
         return $output;
@@ -34,6 +34,6 @@ class Template
         $extension->engine = $this->engine;
         $extension->template = $this;
 
-        return call_user_func_array([$extension, $name], $arguments);
+        return call_user_func_array(array($extension, $name), $arguments);
     }
 }

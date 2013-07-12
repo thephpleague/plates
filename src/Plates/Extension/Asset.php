@@ -4,7 +4,7 @@ namespace Plates\Extension;
 
 class Asset extends Base
 {
-    public $methods = ['asset'];
+    public $methods = array('asset');
     public $engine;
     public $template;
     public $path;
@@ -24,11 +24,11 @@ class Asset extends Base
                 $path['dirname'] = '';
             }
 
-            echo $path['dirname'] . '/' . $path['filename'] . '.' . $last_updated . '.' . $path['extension'];
+            return $path['dirname'] . '/' . $path['filename'] . '.' . $last_updated . '.' . $path['extension'];
 
         } else {
 
-            echo $url;
+            return $url;
         }
     }
 }

@@ -4,17 +4,17 @@ namespace Plates\Extension;
 
 class Escape extends Base
 {
-    public $methods = ['escape', 'e'];
+    public $methods = array('escape', 'e');
     public $engine;
     public $template;
 
-    public function escape($str)
+    public function escape($var)
     {
-        echo htmlentities($str);
+        return htmlentities($var);
     }
 
-    public function e($str)
+    public function e($var)
     {
-        $this->escape($str);
+        return $this->escape($var);
     }
 }

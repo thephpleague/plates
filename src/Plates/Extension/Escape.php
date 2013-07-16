@@ -2,7 +2,7 @@
 
 namespace Plates\Extension;
 
-class Escape extends Base
+class Escape
 {
     public $methods = array('escape', 'e');
     public $engine;

@@ -15,8 +15,6 @@ class Engine
         $this->setFileExtension($fileExtension);
 
         $this->loadExtension(new Extension\Escape);
-        $this->loadExtension(new Extension\Insert);
-        $this->loadExtension(new Extension\Inheritance);
     }
 
     public function setDirectory($directory)
@@ -62,7 +60,7 @@ class Engine
         $this->folders[$namespace] = $directory;
     }
 
-    public function loadExtension(Extension\Base $extension)
+    public function loadExtension($extension)
     {
         if (!isset($extension->methods)) {
             throw new \LogicException('The extension "' . get_class($extension) . '" has no public methods parameter defined.');

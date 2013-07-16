@@ -2,7 +2,7 @@
 
 namespace Plates\Extension;
 
-class Asset extends Base
+class Asset
 {
     public $methods = array('asset');
     public $engine;

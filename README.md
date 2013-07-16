@@ -339,7 +339,7 @@ Plate does not enforce a specific template file extension. By default it assumes
 ```php
 <?php
 
-// Create new plates engine and set the default extension to ".tpl"
+// Create new plates engine and set the file default extension to ".tpl"
 $plates = new \Plates\Engine('/path/to/templates', 'tpl');
 ```
 
@@ -348,6 +348,6 @@ $plates = new \Plates\Engine('/path/to/templates', 'tpl');
 ```php
 <?php
 
-// Create new plates engine and set the default extension to ".tpl"
+// Sets the default file extension to ".tpl" after engine instantiation
 $plates->setFileExtension('tpl');
 ```

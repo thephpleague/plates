@@ -13,6 +13,17 @@ Slick native PHP template system that’s fast, extendable and easy to use.
 - Not framework specific, will work with any project
 - Composer ready
 
+## Table of contents
+
+- [Getting started](#getting-started)
+- [Simple example](#simple-example)
+- [Inheritance example](#inheritance-example)
+- [Building extensions](#building-extensions)
+- [Inserting templates](#inserting-templates)
+- [Inheritance](#inheritance)
+- [Template syntax](#template-syntax)
+- [Template file extensions](#template-file-extensions)
+
 ## Getting started
 
 ### Installation
@@ -332,7 +343,7 @@ Here is an example of a template that complies with the above syntax rules.
 
 ## Template file extensions
 
-Plate does not enforce a specific template file extension. By default it assumes `.php`. This file extension is automatically appended to your template names when rendered. You are welcome to change the default extension using one of the two methods below.
+Plates does not enforce a specific template file extension. By default it assumes `.php`. This file extension is automatically appended to your template names when rendered. You are welcome to change the default extension using one of the two methods below.
 
 ### Constructor method
 

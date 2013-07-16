@@ -289,21 +289,21 @@ The `child()` method is a special function only available in the template layout
 </html>
 ```
 
-## View syntax
+## Template syntax
 
 While the actual syntax you use in your templates is entirely your choice (it's just PHP after all), we recommend the following syntax guidelines to help keep templates clean and legible.
 
 - Always use HTML with inline PHP. Never use blocks of PHP.
 - Always escape potentially dangerous variables prior to outputting using the built-in escape functions. Ie. `$this->e($var)`
-- If [short tags](http://www.php.net/manual/en/ini.core.php#ini.short-open-tag) are enabled, which they almost always are now, use `<?`, `<?=` and `?>`.
+- If [short tags](http://www.php.net/manual/en/ini.core.php#ini.short-open-tag) are enabled, which they almost always are, use `<?`, `<?=` and `?>`.
 - Avoid using the full `<?php` tag, unless short tags are disabled.
-- Always use the [alternative syntax for control structures](http://php.net/manual/en/control-structures.alternative-syntax.php).
+- Always use the [alternative syntax for control structures](http://php.net/manual/en/control-structures.alternative-syntax.php), which are designed to make templates more legible.
 - Never use PHP curly brackets.
-- Always have only one statement in a each PHP tag.
-- Avoid using semicolons. They are not needed when there is only one statement in a PHP tag.
+- Only ever have one statement in a each PHP tag.
+- Avoid using semicolons. They are not needed when there is only one statement per PHP tag.
 - Never use the `use` operator. Templates should not be interacting with classes in this way.
 - Never use the `for`, `while` or `switch` control structures. Instead use `if` and `foreach`.
-- Avoid assigning variables, other than templates variables. Ie. `<? $this->foo = 'bar' ?>`
+- Other than templates variables, avoid variable assignment.
 
 ### Syntax example
 
@@ -332,7 +332,7 @@ Here is an example of a template that complies with the above syntax rules.
 
 ## Template file extensions
 
-Plate does not enforce a specific template file extension. By default it assumes `.php`. This file extension is automatically appended to your view names when rendered. You are welcome to change the default extension using one of the two methods below.
+Plate does not enforce a specific template file extension. By default it assumes `.php`. This file extension is automatically appended to your template names when rendered. You are welcome to change the default extension using one of the two methods below.
 
 ### Constructor method
 

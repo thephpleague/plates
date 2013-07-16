@@ -32,8 +32,8 @@ class Engine
 
     public function setFileExtension($fileExtension)
     {
-        if (!is_string($fileExtension)) {
-            throw new \LogicException('The file extension must be a string, ' . gettype($fileExtension) . ' given.');
+        if (!is_string($fileExtension) and !is_null($fileExtension)) {
+            throw new \LogicException('The file extension must be a string or null, ' . gettype($fileExtension) . ' given.');
         }
 
         $this->fileExtension = $fileExtension;
@@ -127,7 +127,7 @@ class Engine
                 throw new \LogicException('The path cannot be an empty.');
             }
 
-            $filePath = $this->directory . '/' . $parts[0] . '.' . $this->fileExtension;
+            $filePath = $this->directory . '/' . $parts[0];
 
         } else if (count($parts) === 2) {
 
@@ -143,7 +143,11 @@ class Engine
                 throw new \LogicException('The folder "' . $parts[0] . '" does not exist.');
             }
 
-            $filePath = $this->folders[$parts[0]] . '/' . $parts[1] . '.' . $this->fileExtension;
+            $filePath = $this->folders[$parts[0]] . '/' . $parts[1];
+        }
+
+        if (!is_null($this->fileExtension)) {
+            $filePath .= '.' . $this->fileExtension;
         }
 
         if (!is_file($filePath)) {

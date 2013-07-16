@@ -48,11 +48,12 @@ class EngineTest extends \PHPUnit_Framework_TestCase
     public function testSetValidFileExtension()
     {
         $this->assertNull($this->engine->setFileExtension('tpl'));
+        $this->assertNull($this->engine->setFileExtension(null));
     }
 
     public function testSetInvalidFileExtension()
     {
-        foreach (array(null, array(), true, 1, new \StdClass) as $var) {
+        foreach (array(array(), true, 1, new \StdClass) as $var) {
             try {
                 $this->engine->setFileExtension($var);
                 $this->fail('No exception thrown for invalid variable type "' . gettype($var) . '".');

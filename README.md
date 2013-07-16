@@ -351,3 +351,13 @@ $plates = new \Plates\Engine('/path/to/templates', 'tpl');
 // Sets the default file extension to ".tpl" after engine instantiation
 $plates->setFileExtension('tpl');
 ```
+
+### Manually assign file extension
+
+If you'd prefer to manually set the template file extension (ie. `$template->render('home.tpl')`), simply set the default file extension to `null`:
+
+```php
+<?php
+
+$plates->setFileExtension(null);
+```

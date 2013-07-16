@@ -288,3 +288,66 @@ The `child()` method is a special function only available in the template layout
 </body>
 </html>
 ```
+
+## View syntax
+
+While the actual syntax you use in your templates is entirely your choice (it's just PHP after all), we recommend the following syntax guidelines to help keep templates clean and legible.
+
+- Always use HTML with inline PHP. Never use blocks of PHP.
+- Always escape potentially dangerous variables prior to outputting using the built-in escape functions. Ie. `$this->e($var)`
+- If [short tags](http://www.php.net/manual/en/ini.core.php#ini.short-open-tag) are enabled, which they almost always are now, use `<?`, `<?=` and `?>`.
+- Avoid using the full `<?php` tag, unless short tags are disabled.
+- Always use the [alternative syntax for control structures](http://php.net/manual/en/control-structures.alternative-syntax.php).
+- Never use PHP curly brackets.
+- Always have only one statement in a each PHP tag.
+- Avoid using semicolons. They are not needed when there is only one statement in a PHP tag.
+- Never use the `use` operator. Templates should not be interacting with classes in this way.
+- Never use the `for`, `while` or `switch` control structures. Instead use `if` and `foreach`.
+- Avoid assigning variables, other than templates variables. Ie. `<? $this->foo = 'bar' ?>`
+
+### Syntax example
+
+Here is an example of a template that complies with the above syntax rules.
+
+```php
+<? $this->layout('template') ?>
+
+<? $this->title = 'User Profile' ?>
+
+<h1>Welcome!</h1>
+<p>Welcome, <?=$this->e($this->name)?></p>
+
+<h2>Friends</h2>
+<ul>
+    <? foreach($this->friends as $friend): ?>
+        <li><a href="/profile/<?=$this->e($friend->id)?>"><?=$this->e($friend->name)?></a></li>
+    <? endforeach ?>
+</ul>
+
+<? if ($this->invitations): ?>
+    <h2>Invitations</h2>
+    <p>You have some friend invites!</p>
+<? endif ?>
+```
+
+## Template file extensions
+
+Plate does not enforce a specific template file extension. By default it assumes `.php`. This file extension is automatically appended to your view names when rendered. You are welcome to change the default extension using one of the two methods below.
+
+### Constructor method
+
+```php
+<?php
+
+// Create new plates engine and set the default extension to ".tpl"
+$plates = new \Plates\Engine('/path/to/templates', 'tpl');
+```
+
+### Setter method
+
+```php
+<?php
+
+// Create new plates engine and set the default extension to ".tpl"
+$plates->setFileExtension('tpl');
+```

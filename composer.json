@@ -2,7 +2,7 @@
     "name": "reinink/plates",
     "description": "Slick native PHP template system that’s fast, extendable and easy to use.",
     "license": "MIT",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "autoload":
     {
         "psr-0":

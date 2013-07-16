@@ -147,7 +147,7 @@ echo $template->render('emails::welcome');
 
 Creating extensions couldn't be easier. Simply create a class with a public `$methods` parameter indicating which methods are to be available within a template.
 
-### Simple extension example
+### Simple extensions example
 
 ```php
 <?php
@@ -170,7 +170,7 @@ class ChangeCase
 }
 ```
 
-To use this extension in your template, call the methods you made available:
+To use this extension in your template, call the methods you've made available:
 
 ```php
 <p>Hello, <?=$this->uppercase($this->firstname)?> <?=$this->lowercase($this->firstname)?>.</p>
@@ -178,7 +178,7 @@ To use this extension in your template, call the methods you made available:
 
 ### Single method extension
 
-Alternatively, you may choose to expose the entire extension object to the template using a single method. This can make your methods more legible, and also reduces the chances of conflicts with other extensions.
+Alternatively, you may choose to expose the entire extension object to the template using a single method. This can make your methods more legible, and also reduce the chance of conflicts with other extensions.
 
 ```php
 <?php
@@ -225,7 +225,7 @@ $plates->loadExtension(new \ChangeCase());
 
 ## Inserting templates
 
-Inserting (or including) another template into the current template done using the `insert()` method:
+Inserting (or including) another template into the current template is done using the `insert()` method:
 
 ```php
 <? $this->insert('header') ?>
@@ -268,7 +268,7 @@ In the following example, the content between the `start()` and `end()` methods 
 
 The `child()` method is a special function only available in the template layout. It will return all outputted content from a child template that hasn't been defined in a section. This can be helpful if you prefer to not use sections, but still want to use the layout feature.
 
-### profile.tpl
+#### profile.tpl
 
 ```php
 <? $this->layout('template') ?>
@@ -276,7 +276,7 @@ The `child()` method is a special function only available in the template layout
 <p>Hello World!</p>
 ```
 
-### template.tpl
+#### template.tpl
 
 ```php
 <!DOCTYPE html>

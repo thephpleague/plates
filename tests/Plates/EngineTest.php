@@ -163,6 +163,19 @@ class EngineTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    public function testMethodExistsReturnsTrue()
+    {
+        $extension = \Mockery::mock('\Plates\Extension\Base');
+        $extension->methods = array('someMethod');
+        $this->engine->loadExtension($extension);
+        $this->assertTrue($this->engine->methodExists('someMethod'));
+    }
+
+    public function testMethodExistsReturnsFalse()
+    {
+        $this->assertFalse($this->engine->methodExists('someMethod'));
+    }
+
     public function testResolvePathWithInvalidPath()
     {
         foreach (array('', 'a::b::c', '::b', 'a::', null, array(), true, 1, new \StdClass) as $var) {

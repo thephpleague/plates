@@ -575,7 +575,7 @@ location ~* (.+)\.(?:\d+)\.(js|css|png|jpg|jpeg|gif)$ {
 }
 ```
 
-### Using the URI extension
+### Using the asset extension
 
 ```php
 <!DOCTYPE html>

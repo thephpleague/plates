@@ -155,7 +155,7 @@ Folders make it really easy to organize and access your various template groups.
 
 ### Creating folders
 
-To create folders, use the engine's `addFolder()` method:
+To create folders, use the engine's `addFolder()` function:
 
 ```php
 <?php
@@ -166,7 +166,7 @@ $plates->addFolder('emails', '/path/to/email/templates');
 
 ### Using folders
 
-To use the folders you created within your project simply append the folder name with two colons before the template name. This works with all template definition methods: `render()`, `insert()` and `layout()`. For example, to render a welcome email:
+To use the folders you created within your project simply append the folder name with two colons before the template name. This works with all template definition functions: `render()`, `insert()` and `layout()`. For example, to render a welcome email:
 
 ```php
 $email = $template->render('emails::welcome');
@@ -175,7 +175,7 @@ $email = $template->render('emails::welcome');
 
 ## Inserting templates
 
-Inserting (or including) another template into the current template is done using the `insert()` method:
+Inserting (or including) another template into the current template is done using the `insert()` function:
 
 ```php
 <? $this->insert('header') ?>
@@ -185,7 +185,7 @@ Inserting (or including) another template into the current template is done usin
 <? $this->insert('footer') ?>
 ```
 
-The `insert()` method also works with folders: 
+The `insert()` function also works with folders: 
 
 ```php
 <? $this->insert('partials::header') ?>
@@ -251,7 +251,7 @@ While template inheritance sounds complicated, it really isn't. The best way to 
 
 ### Layouts
 
-The `layout()` method allows you to define a layout template that the current template will "implement". It can be placed anywhere in your template, but is probably best found near the top. This method works with folders as well.
+The `layout()` function allows you to define a layout template that the current template will "implement". It can be placed anywhere in your template, but is probably best found near the top. This function works with folders as well.
 
 Note: Your actual template will be rendered before the layout, which is quite helpful as you can assign variables (ie. `<? $this->title = 'User Profile' ?>`) that will be available when the layout is rendered.
 
@@ -261,9 +261,9 @@ Note: Your actual template will be rendered before the layout, which is quite he
 
 ### Sections
 
-The `start()` and `end()` methods allow you to build sections (or blocks) of content within your template, but instead of them being rendered directly, they are placed into variables for use elsewhere (ie. in your layout). You define the name of this variable in the `start('variable_name')` method.
+The `start()` and `end()` functions allow you to build sections (or blocks) of content within your template, but instead of them being rendered directly, they are placed into variables for use elsewhere (ie. in your layout). You define the name of this variable in the `start('variable_name')` function.
 
-In the following example, the content between the `start()` and `end()` methods will be rendered into a variable called `$this->content`.
+In the following example, the content between the `start()` and `end()` functions will be rendered into a variable called `$this->content`.
 
 ```php
 <? $this->start('content') ?>
@@ -274,9 +274,9 @@ In the following example, the content between the `start()` and `end()` methods 
 <? $this->end() ?>
 ```
 
-### Working without sections
+### Content outside of sections
 
-If you prefer to not use sections, but still want to use the layout feature, you need a way to access the rendered page template within your layout template. The `child()` method is a special function only available in the layout template, which will return all outputted content from the child template that hasn't been defined in a section. Here is an example:
+If you prefer to not use sections, but still want to use the layout feature, you need a way to access the rendered page template within your layout template. The `child()` function is a special function only available in the layout template, which will return all outputted content from the child template that hasn't been defined in a section. Here is an example:
 
 #### profile.tpl
 
@@ -302,7 +302,7 @@ If you prefer to not use sections, but still want to use the layout feature, you
 
 ## Building extensions
 
-Creating extensions couldn't be easier, and can really make Plates sing for your specific project. Simply create a class with a public `$methods` parameter indicating which methods in that class are to be available within your templates.
+Creating extensions couldn't be easier, and can really make Plates sing for your specific project. Simply create a class with a public `$methods` parameter indicating which functions in that class are to be available within your templates.
 
 ### Simple extensions example
 
@@ -327,7 +327,7 @@ class ChangeCase
 }
 ```
 
-To use this extension in your template, call the methods you've made available:
+To use this extension in your template, call the functions you've made available:
 
 ```php
 <p>Hello, <?=$this->uppercase($this->firstname)?> <?=$this->lowercase($this->firstname)?>.</p>
@@ -335,7 +335,7 @@ To use this extension in your template, call the methods you've made available:
 
 ### Single method extensions
 
-Alternatively, you may choose to expose the entire extension object to the template using a single method. This can make your methods more legible, and also reduce the chance of conflicts with other extensions.
+Alternatively, you may choose to expose the entire extension object to the template using a single method. This can make your template functions more legible, and also reduce the chance of conflicts with other extensions.
 
 ```php
 <?php
@@ -363,7 +363,7 @@ class ChangeCase
 }
 ```
 
-To use this extension in your template, first call the primary method, then the secondary methods:
+To use this extension in your template, first call the primary function, then the secondary functions:
 
 ```php
 <p>Hello, <?=$this->case()->upper($this->firstname)?> <?=$this->case()->lower($this->firstname)?>.</p>
@@ -371,7 +371,7 @@ To use this extension in your template, first call the primary method, then the 
 
 ### Loading extensions
 
-Once you've created an extension, load it into the `Engine` object using the `loadExtension()` method.
+Once you've created an extension, load it into the `Engine` object using the `loadExtension()` function.
 
 ```php
 <?php
@@ -425,7 +425,7 @@ Here is an example of a template that complies with the above syntax rules.
 
 ## Escape extension
 
-The escape extension comes packaged with Plates and is enabled by default. It provides two shortcuts methods to the `htmlentities()` function.
+The escape extension comes packaged with Plates and is enabled by default. It provides two shortcuts to the `htmlentities()` function.
 
 ```php
 <?=$this->escape($this->var)?>
@@ -435,7 +435,7 @@ The escape extension comes packaged with Plates and is enabled by default. It pr
 
 ## Batch extension
 
-Sometimes you need to apply more than method to a variable in your templates. This can become quite illegible. The batch extension helps by allowing you to apply multiple extension methods AND native PHP functions to a variable at one time.
+Sometimes you need to apply more than function to a variable in your templates. This can become somewhat illegible. The batch extension helps by allowing you to apply multiple extension functions AND native PHP functions to a variable at one time.
 
 ### Batch example
 
@@ -453,7 +453,7 @@ Example using batch
 
 ### How the batch extension works
 
-The batch extension works well for methods that accept one parameter, modify it, and then return it. It's also important to note that it executes methods left to right. It will also favour extension methods over native PHP functions if there are conflicts.
+The batch extension works well for functions that accept one parameter, modify it, and then return it. It's also important to note that it executes functions left to right. It will also favour extension functions over native PHP functions if there are conflicts.
 
 ```php
 <!-- Will output: JONATHAN -->
@@ -466,7 +466,7 @@ The batch extension works well for methods that accept one parameter, modify it,
 
 ## URI extension
 
-The URI extension is designed to make URI checks within templates easier. The most common use is marking the current page in a menu as "selected". It only has one method, `uri()`, but can do a number of helpful tasks depending on the parameters passed to it.
+The URI extension is designed to make URI checks within templates easier. The most common use is marking the current page in a menu as "selected". It only has one function, `uri()`, but can do a number of helpful tasks depending on the parameters passed to it.
 
 ### Installing the URI extension
 

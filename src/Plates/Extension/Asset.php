@@ -8,27 +8,37 @@ class Asset
     public $engine;
     public $template;
     public $path;
+    public $filenameMethod;
 
-    public function __construct($path)
+    public function __construct($path, $filenameMethod = false)
     {
-        $this->path = $path;
+        $this->path = rtrim($path, '/');
+        $this->filenameMethod = $filenameMethod;
     }
 
     public function asset($url)
     {
-        if (file_exists($this->path . $url) and $last_updated = filemtime($this->path . $url)) {
+        $filePath = $this->path . '/' .  ltrim($url, '/');
 
-            $path = pathinfo($url);
+        if (!file_exists($filePath)) {
+            throw new \LogicException('Unable to locate the asset "' . $url . '" in the "' . $this->path . '" directory.');
+        }
 
-            if ($path['dirname'] === '/') {
-                $path['dirname'] = '';
-            }
+        $lastUpdated = filemtime($filePath);
+        $pathInfo = pathinfo($url);
 
-            return $path['dirname'] . '/' . $path['filename'] . '.' . $last_updated . '.' . $path['extension'];
-
+        if ($pathInfo['dirname'] === '.') {
+            $directory = '';
+        } elseif ($pathInfo['dirname'] === '/') {
+            $directory = '/';
         } else {
+            $directory = $pathInfo['dirname'] . '/';
+        }
 
-            return $url;
+        if ($this->filenameMethod) {
+            return $directory . $pathInfo['filename'] . '.' . $lastUpdated . '.' . $pathInfo['extension'];
+        } else {
+            return $directory . $pathInfo['filename'] . '.' . $pathInfo['extension'] . '?v=' . $lastUpdated;
         }
     }
 }

@@ -1,6 +1,12 @@
 {
     "name": "reinink/plates",
     "description": "The native PHP template system that's fast, easy to extend and natural to use.",
+    "authors" : [
+        {
+            "name": "Jonathan Reinink",
+            "email": "jonathan@reinink.ca"
+        }
+    ],
     "license": "MIT",
     "version": "1.0.3",
     "autoload":

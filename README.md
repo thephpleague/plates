@@ -1,7 +1,8 @@
 Plates
 ======
 
-Slick native PHP template system that's fast, extendable and easy to use.
+The native PHP template system that's fast, easy to extend and natural to use.
+
 
 ## Highlights
 
@@ -16,6 +17,12 @@ Slick native PHP template system that's fast, extendable and easy to use.
 - Not framework specific, will work with any project
 - Composer ready
 
+
+## About
+
+Plates was created by [Jonathan Reinink](https://twitter.com/reinink), and was inspired by the excellent [Twig](http://twig.sensiolabs.org/) template engine. It aspires to bring modern template language functionality to native PHP templates.
+
+
 ## Table of contents
 
 - [Getting started](#getting-started)
@@ -26,10 +33,11 @@ Slick native PHP template system that's fast, extendable and easy to use.
 - [Inserting templates](#inserting-templates)
 - [Template inheritance](#template-inheritance)
 - [Building extensions](#building-extensions)
-- [Template syntax](#template-syntax)
 - [Escape extension](#escape-extension)
 - [Batch extension](#batch-extension)
 - [URI extension](#uri-extension)
+- [Recommended template syntax](#recommended-template-syntax)
+
 
 ## Getting started
 
@@ -384,22 +392,6 @@ $plates->loadExtension(new \ChangeCase());
 ```
 
 
-## Template syntax
-
-While the actual syntax you use in your templates is entirely your choice (it's just PHP after all), we recommend the following syntax guidelines to help keep templates clean and legible.
-
-- Always use HTML with inline PHP. Never use blocks of PHP.
-- Always escape potentially dangerous variables prior to outputting using the built-in escape functions. Ie. `$this->e($var)`
-- If [short tags](http://www.php.net/manual/en/ini.core.php#ini.short-open-tag) are enabled, which they almost always are, use `<?`, `<?=` and `?>`.
-- Avoid using the full `<?php` tag, unless short tags are disabled.
-- Always use the [alternative syntax for control structures](http://php.net/manual/en/control-structures.alternative-syntax.php), which are designed to make templates more legible.
-- Never use PHP curly brackets.
-- Only ever have one statement in a each PHP tag.
-- Avoid using semicolons. They are not needed when there is only one statement per PHP tag.
-- Never use the `use` operator. Templates should not be interacting with classes in this way.
-- Never use the `for`, `while` or `switch` control structures. Instead use `if` and `foreach`.
-- Other than templates variables, avoid variable assignment.
-
 ### Syntax example
 
 Here is an example of a template that complies with the above syntax rules.
@@ -542,3 +534,20 @@ Check if a regular expression string (first parameter) matches the current URI. 
     <li <?=$this->uri('/contact', 'class="selected"')?>><a href="/contact">Contact</a></li>
 </ul>
 ```
+
+
+## Recommended template syntax
+
+While the actual syntax you use in your templates is entirely your choice (it's just PHP after all), we recommend the following syntax guidelines to help keep templates clean and legible.
+
+- Always use HTML with inline PHP. Never use blocks of PHP.
+- Always escape potentially dangerous variables prior to outputting using the built-in escape functions. Ie. `$this->e($var)`
+- If [short tags](http://www.php.net/manual/en/ini.core.php#ini.short-open-tag) are enabled, which they almost always are, use `<?`, `<?=` and `?>`.
+- Avoid using the full `<?php` tag, unless short tags are disabled.
+- Always use the [alternative syntax for control structures](http://php.net/manual/en/control-structures.alternative-syntax.php), which are designed to make templates more legible.
+- Never use PHP curly brackets.
+- Only ever have one statement in a each PHP tag.
+- Avoid using semicolons. They are not needed when there is only one statement per PHP tag.
+- Never use the `use` operator. Templates should not be interacting with classes in this way.
+- Never use the `for`, `while` or `switch` control structures. Instead use `if` and `foreach`.
+- Other than templates variables, avoid variable assignment.

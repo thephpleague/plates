@@ -14,7 +14,8 @@ class Engine
         $this->setDirectory($directory);
         $this->setFileExtension($fileExtension);
 
-        $this->loadExtension(new Extension\Escape);
+        $this->loadExtension(new Extension\Filter);
+        $this->loadExtension(new Extension\Batch);
     }
 
     public function setDirectory($directory)

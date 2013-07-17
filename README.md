@@ -24,6 +24,8 @@ Slick native PHP template system that’s fast, extendable and easy to use.
 - [Template inheritance](#template-inheritance)
 - [Building extensions](#building-extensions)
 - [Template syntax](#template-syntax)
+- [Filter extension](#filter-extension)
+- [Batch extension](#batch-extension)
 - [URI extension](#uri-extension)
 
 ## Getting started
@@ -112,7 +114,7 @@ $email = $template->render('emails::welcome');
 
 Plates uses a central object called the `Engine`, which is used to store the environment configuration and extensions. It helps decouple your templates from the file system and other dependencies. For example, if you want to change the folder where your templates are stored, you can do so by simply changing the path in one location.
 
-Templates themselves are very simple objects. The only dependency they require are an instance of the engine object. This design makes it easy to use dependency injection to inject your templates into other objects, which in return makes them easier to test and mock.
+Templates themselves are very simple objects. The only dependency they require is an instance of the engine object. This design makes it easy to use dependency injection to inject your templates into other objects, which in return makes them easier to test and mock.
 
 
 ## File extensions
@@ -418,6 +420,84 @@ Here is an example of a template that complies with the above syntax rules.
     <h2>Invitations</h2>
     <p>You have some friend invites!</p>
 <? endif ?>
+```
+
+
+## Filter extension
+
+The filter extension comes packaged with Plates and is enabled by default. It provides a number of shortcuts to common string manipulation functions in PHP, the most notible being the escape function.
+
+Escape (`htmlentities()`)
+
+```php
+<?=$this->escape($this->var)?>
+```
+
+Escape shortform (`htmlentities()`)
+
+```php
+<?=$this->e($this->var)?>
+```
+
+Uppercase (`strtoupper()`)
+
+```php
+<?=$this->upper($this->var)?>
+```
+
+Lowercase (`strtolower()`)
+
+```php
+<?=$this->lower($this->var)?>
+```
+
+Title case (`ucwords()`)
+
+```php
+<?=$this->title($this->var)?>
+```
+
+Sentence case (`ucfirst()`)
+
+```php
+<?=$this->sentence($this->var)?>
+```
+
+Strip HTML tags (`strip_tags()`)
+
+```php
+<?=$this->striptags($this->var)?>
+```
+
+
+## Batch extension
+
+Sometimes you need to apply more than one filter, or any other extension method for that matter, to a variable in your themes. This can become quite verbose. The batch extension can help by allowing you to apply multiple extension methods to a variable at one time.
+
+### Batch example
+
+Example without using batch
+
+```php
+<p>Welcome, <?=$this->upper($this->escape($this->striptags($this->name)))?></p>
+```
+
+Example using batch
+
+```php
+<p>Welcome, <?=$this->batch($this->name, 'striptags|e|upper')?></p>
+```
+
+### How the batch extension works
+
+Note that the batch extension only works for methods that accept one paramter, modify it, and return it back. It's also important to note that it executes methods left to right.
+
+```php
+<!-- Will output: JONATHAN -->
+<?=$this->batch('Jonathan', 'lower|upper')?>
+
+<!-- Will output: jonathan -->
+<?=$this->batch('Jonathan', 'upper|lower')?>
 ```
 
 

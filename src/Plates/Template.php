@@ -68,10 +68,6 @@ class Template
             include($this->_internal['engine']->resolvePath($this->_internal['layout']));
         }
 
-        if (ob_get_level() > 1) {
-            throw new \LogicException('Unable to render correctly, there are unended sections.');
-        }
-
         return ob_get_clean();
     }
 }

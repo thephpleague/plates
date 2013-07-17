@@ -17,12 +17,11 @@ Slick native PHP template system that’s fast, extendable and easy to use.
 
 - [Getting started](#getting-started)
 - [Simple example](#simple-example)
-- [Inheritance example](#inheritance-example)
-- [Building extensions](#building-extensions)
+- [Template file extensions](#template-file extensions)
 - [Inserting templates](#inserting-templates)
-- [Inheritance](#inheritance)
+- [Template inheritance](#template-inheritance)
+- [Building extensions](#building-extensions)
 - [Template syntax](#template-syntax)
-- [Template file extensions](#template-file-extensions)
 - [URI extension](#uri-extension)
 
 ## Getting started
@@ -106,9 +105,90 @@ echo $template->render('emails::welcome');
 </html>
 ```
 
-## Inheritance example
 
-### profile.tpl
+## Template file extensions
+
+Plates does not enforce a specific template file extension. By default it assumes `.php`. This file extension is automatically appended to your template names when rendered. You are welcome to change the default extension using one of the two methods below.
+
+### Constructor method
+
+```php
+<?php
+
+// Create new plates engine and set the file default extension to ".tpl"
+$plates = new \Plates\Engine('/path/to/templates', 'tpl');
+```
+
+### Setter method
+
+```php
+<?php
+
+// Sets the default file extension to ".tpl" after engine instantiation
+$plates->setFileExtension('tpl');
+```
+
+### Manually assign file extension
+
+If you'd prefer to manually set the template file extension (ie. `$template->render('home.tpl')`), simply set the default file extension to `null`:
+
+```php
+<?php
+
+$plates->setFileExtension(null);
+```
+
+
+## Inserting templates
+
+Inserting (or including) another template into the current template is done using the `insert()` method:
+
+```php
+<? $this->insert('header') ?>
+```
+
+The `insert()` method also works with folder namespaces: 
+
+```php
+<? $this->insert('partials::header') ?>
+```
+
+
+## Template inheritance
+
+Template inheritance is a really powerful part of Plates. It allows you to create a base template (like a website layout) that contains all the common sections of your site (see `template.tpl` below). Then, when you create your actual page template (see `profile.tpl`), you tell Plates the layout you want to use and it will automatically render the page inside your layout using the sections you define.
+
+### Inheritance example
+
+While template inheritance sounds complicated, it really isn't. The best way to understand it is by an example:
+
+#### template.tpl
+
+```php
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title><?=$this->title?></title>
+</head>
+
+<body>
+
+<div id="content">
+    <?=$this->content?>
+</div>
+
+<? if ($this->sidebar): ?>
+    <div id="sidebar">
+        <?=$this->sidebar?>
+    </div>
+<? endif ?>
+
+</body>
+</html>
+```
+
+#### profile.tpl
 
 ```php
 <? $this->layout('template') ?>
@@ -131,29 +211,56 @@ echo $template->render('emails::welcome');
 <? $this->end() ?>
 ```
 
-### template.tpl
+### Layouts
+
+The `layout()` method allows you to define a layout template that the current template will "implement". It can be placed anywhere in your template, but is probably best found near the top. This method works with folder namespacing as well.
+
+Note: Your actual template will be rendered before the layout, which is quite helpful as you can assign variables (ie. `<? $this->title = 'User Profile' ?>`) that will be available when the layout is rendered.
+
+```php
+<? $this->layout('template') ?>
+```
+
+### Sections
+
+The `start()` and `end()` methods allow you to build sections (or blocks) of content within your template, but instead of them being rendered directly, they are placed into variables for use elsewhere (ie. in your layout). You define the name of this variable in the `start('variable_name')` method.
+
+In the following example, the content between the `start()` and `end()` methods will be rendered into a variable called `$this->content`.
+
+```php
+<? $this->start('content') ?>
+
+    <h1>Welcome!</h1>
+    <p>Welcome, <?=$this->e($this->name)?></p>
+
+<? $this->end() ?>
+```
+
+### Working without sections
+
+If you prefer to not use sections, but still want to use the layout feature, you'll need a way to access the rendered page template content within your layout template. The `child()` method is a special function only available in the layout template. It will return all outputted content from the child template that hasn't been defined in a section.
+
+#### profile.tpl
+
+```php
+<? $this->layout('template') ?>
+
+<p>Hello World!</p>
+```
+
+#### template.tpl
 
 ```php
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title><?=$this->title?></title>
-</head>
-
 <body>
 
-<div id="content">
-    <?=$this->content?>
-</div>
-
-<div id="sidebar">
-    <?=$this->sidebar?>
-</div>
+<!-- Will output: <p>Hello World!</p> -->
+<?=$this->child()?>
 
 </body>
 </html>
 ```
+
 
 ## Building extensions
 
@@ -235,71 +342,6 @@ Once you've created an extension, load it into the `Engine` object in your proje
 $plates->loadExtension(new \ChangeCase());
 ```
 
-## Inserting templates
-
-Inserting (or including) another template into the current template is done using the `insert()` method:
-
-```php
-<? $this->insert('header') ?>
-```
-
-The `insert()` method also works with folder namespaces: 
-
-```php
-<? $this->insert('partials::header') ?>
-```
-
-## Inheritance
-
-There are four methods available when using inheritance:
-
-### layout()
-
-This defines the layout template which the current template will implement. It can be placed anywhere in your template, but is probably best found near the top. This method works with folder namespacing as well.
-
-```php
-<? $this->layout('template') ?>
-```
-
-### start() and end()
-
-The `start()` and `end()` methods allow you to build sections (or blocks) of content within your template, but instead of them being rendered directly, they are placed into variables for use elsewhere (ie. in your layout). You define the name of this variable in the `start('variable_name')` method.
-
-In the following example, the content between the `start()` and `end()` methods will be rendered into a variable called `$this->content`.
-
-```php
-<? $this->start('content') ?>
-
-    <h1>Welcome!</h1>
-    <p>Welcome, <?=$this->e($this->name)?></p>
-
-<? $this->end() ?>
-```
-
-### child()
-
-The `child()` method is a special function only available in the template layout. It will return all outputted content from a child template that hasn't been defined in a section. This can be helpful if you prefer to not use sections, but still want to use the layout feature.
-
-#### profile.tpl
-
-```php
-<? $this->layout('template') ?>
-
-<p>Hello World!</p>
-```
-
-#### template.tpl
-
-```php
-<!DOCTYPE html>
-<body>
-
-<!-- Will output: <p>Hello World!</p> -->
-<?=$this->child()?>
-
-</body>
-</html>
-```
 
 ## Template syntax
 
@@ -342,43 +384,12 @@ Here is an example of a template that complies with the above syntax rules.
 <? endif ?>
 ```
 
-## Template file extensions
-
-Plates does not enforce a specific template file extension. By default it assumes `.php`. This file extension is automatically appended to your template names when rendered. You are welcome to change the default extension using one of the two methods below.
-
-### Constructor method
-
-```php
-<?php
-
-// Create new plates engine and set the file default extension to ".tpl"
-$plates = new \Plates\Engine('/path/to/templates', 'tpl');
-```
-
-### Setter method
-
-```php
-<?php
-
-// Sets the default file extension to ".tpl" after engine instantiation
-$plates->setFileExtension('tpl');
-```
-
-### Manually assign file extension
-
-If you'd prefer to manually set the template file extension (ie. `$template->render('home.tpl')`), simply set the default file extension to `null`:
-
-```php
-<?php
-
-$plates->setFileExtension(null);
-```
 
 ## URI extension
 
 The URI extension is designed to make URI checks within templates easier. The most common use is marking the current page in a menu as "selected". It only has one method, `uri()`, but can do a number of helpful tasks depending on the parameters passed to it.
 
-### Installing URI extension
+### Installing the URI extension
 
 The URI extension comes packaged with Plates but is not enabled by default, as it requires an extra parameter passed to it at instantiation.
 
@@ -403,19 +414,19 @@ Get a specified segment of the URI.
 <? $this->uri(1) ?>
 ```
 
-Check if a specific segment (first parameter) equals a given string (second parameter). Returns `true` on success or `false` on failure.
+Check if a specific segment of the URI (first parameter) equals a given string (second parameter). Returns `true` on success or `false` on failure.
 
 ```php
 <? $this->uri(1, 'home') ?>
 ```
 
-Check if a specific segment (first parameter) equals a given string (second parameter). Returns string (third parameter) on success or `false` on failure.
+Check if a specific segment of the URI (first parameter) equals a given string (second parameter). Returns string (third parameter) on success or `false` on failure.
 
 ```php
 <? $this->uri(1, 'home', 'success') ?>
 ```
 
-Check if a specific segment (first parameter) equals a given string (second parameter). Returns string (third parameter) on success or string (fourth parameter) on failure.
+Check if a specific segment of the URI (first parameter) equals a given string (second parameter). Returns string (third parameter) on success or string (fourth parameter) on failure.
 
 ```php
 <? $this->uri(1, 'home', 'success', 'fail') ?>

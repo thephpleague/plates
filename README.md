@@ -24,7 +24,7 @@ Slick native PHP template system that’s fast, extendable and easy to use.
 - [Template inheritance](#template-inheritance)
 - [Building extensions](#building-extensions)
 - [Template syntax](#template-syntax)
-- [Filter extension](#filter-extension)
+- [Escape extension](#escape-extension)
 - [Batch extension](#batch-extension)
 - [URI extension](#uri-extension)
 
@@ -423,81 +423,44 @@ Here is an example of a template that complies with the above syntax rules.
 ```
 
 
-## Filter extension
+## Escape extension
 
-The filter extension comes packaged with Plates and is enabled by default. It provides a number of shortcuts to common string manipulation functions in PHP, the most notible being the escape function.
-
-Escape (`htmlentities()`)
+The escape extension comes packaged with Plates and is enabled by default. It provides two shortcuts methods to the `htmlentities()` function.
 
 ```php
 <?=$this->escape($this->var)?>
-```
-
-Escape shortform (`htmlentities()`)
-
-```php
 <?=$this->e($this->var)?>
-```
-
-Uppercase (`strtoupper()`)
-
-```php
-<?=$this->upper($this->var)?>
-```
-
-Lowercase (`strtolower()`)
-
-```php
-<?=$this->lower($this->var)?>
-```
-
-Title case (`ucwords()`)
-
-```php
-<?=$this->title($this->var)?>
-```
-
-Sentence case (`ucfirst()`)
-
-```php
-<?=$this->sentence($this->var)?>
-```
-
-Strip HTML tags (`strip_tags()`)
-
-```php
-<?=$this->striptags($this->var)?>
 ```
 
 
 ## Batch extension
 
-Sometimes you need to apply more than one filter, or any other extension method for that matter, to a variable in your themes. This can become quite verbose. The batch extension can help by allowing you to apply multiple extension methods to a variable at one time.
+Sometimes you need to apply more than method to a variable in your templates. This can become quite illegible. The batch extension helps by allowing you to apply multiple extension methods AND native PHP functions to a variable at one time.
 
 ### Batch example
 
 Example without using batch
 
 ```php
-<p>Welcome, <?=$this->upper($this->escape($this->striptags($this->name)))?></p>
+<p>Welcome, <?=strtoupper($this->escape(strip_tags($this->name)))?></p>
 ```
 
 Example using batch
 
 ```php
-<p>Welcome, <?=$this->batch($this->name, 'striptags|e|upper')?></p>
+<p>Welcome, <?=$this->batch($this->name, 'strip_tags|e|strtoupper')?></p>
 ```
 
 ### How the batch extension works
 
-Note that the batch extension only works for methods that accept one paramter, modify it, and return it back. It's also important to note that it executes methods left to right.
+The batch extension works well for methods that accept one parameter, modify it, and then return it. It's also important to note that it executes methods left to right. It will also favour extension methods over native PHP functions if there are conflicts.
 
 ```php
 <!-- Will output: JONATHAN -->
-<?=$this->batch('Jonathan', 'lower|upper')?>
+<?=$this->batch('Jonathan', 'e|strtolower|strtoupper')?>
 
 <!-- Will output: jonathan -->
-<?=$this->batch('Jonathan', 'upper|lower')?>
+<?=$this->batch('Jonathan', 'e|strtoupper|strtolower')?>
 ```
 
 

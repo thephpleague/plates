@@ -14,7 +14,7 @@ class Engine
         $this->setDirectory($directory);
         $this->setFileExtension($fileExtension);
 
-        $this->loadExtension(new Extension\Filter);
+        $this->loadExtension(new Extension\Escape);
         $this->loadExtension(new Extension\Batch);
     }
 
@@ -99,11 +99,16 @@ class Engine
             throw new \LogicException('The extension method must be a string, ' . gettype($method) . ' given.');
         }
 
-        if (!isset($this->methods[$method])) {
+        if (!$this->methodExists($method)) {
             throw new \LogicException('No extensions with the method "' . $method . '" were found.');
         }
 
         return $this->methods[$method];
+    }
+
+    public function methodExists($method)
+    {
+        return isset($this->methods[$method]);
     }
 
     public function resolvePath($path)

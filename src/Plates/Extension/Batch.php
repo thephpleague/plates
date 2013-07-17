@@ -11,7 +11,13 @@ class Batch
     public function batch($var, $methods)
     {
         foreach (explode('|', $methods) as $method) {
-            $var = $this->template->$method($var);
+            if ($this->engine->methodExists($method)) {
+                $var = $this->template->$method($var);
+            } else if (is_callable($method)) {
+                $var = call_user_func($method, $var);
+            } else {
+                throw new \LogicException('The batch method was unable to find the supplied "' . $method . '" function.');
+            }
         }
 
         return $var;

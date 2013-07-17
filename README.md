@@ -1,15 +1,18 @@
 Plates
 ======
 
-Slick native PHP template system that’s fast, extendable and easy to use.
+Slick native PHP template system that's fast, extendable and easy to use.
 
 ## Highlights
 
 - Native PHP templates
 - This is a template system, not a template language
+- Encourages use of existing PHP functions
 - Folders for super simple template paths
-- Layouts, inheritance and escaping built-in
+- Powerful layouts and inheritance tools
+- Escaping built-in
 - Really easy to extend using extensions
+- Decoupled design makes templates easy to test and mock
 - Not framework specific, will work with any project
 - Composer ready
 

@@ -17,7 +17,7 @@ Slick native PHP template system that’s fast, extendable and easy to use.
 
 - [Getting started](#getting-started)
 - [Simple example](#simple-example)
-- [Template file extensions](#template-file extensions)
+- [File extensions](#file-extensions)
 - [Inserting templates](#inserting-templates)
 - [Template inheritance](#template-inheritance)
 - [Building extensions](#building-extensions)
@@ -106,7 +106,7 @@ echo $template->render('emails::welcome');
 ```
 
 
-## Template file extensions
+## File extensions
 
 Plates does not enforce a specific template file extension. By default it assumes `.php`. This file extension is automatically appended to your template names when rendered. You are welcome to change the default extension using one of the two methods below.
 

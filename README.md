@@ -7,7 +7,7 @@ Slick native PHP template system that’s fast, extendable and easy to use.
 
 - Native PHP templates
 - This is a template system, not a template language
-- Namespacing for super simple template paths
+- Folders for super simple template paths
 - Layouts, inheritance and escaping built-in
 - Really easy to extend using extensions
 - Not framework specific, will work with any project
@@ -19,6 +19,7 @@ Slick native PHP template system that’s fast, extendable and easy to use.
 - [Simple example](#simple-example)
 - [The engine](#the-engine)
 - [File extensions](#file-extensions)
+- [Folders](#folders)
 - [Inserting templates](#inserting-templates)
 - [Template inheritance](#template-inheritance)
 - [Building extensions](#building-extensions)
@@ -53,7 +54,7 @@ $plates = new \Plates\Engine('/path/to/templates');
 // Load any additional extensions
 $plates->loadExtension(new \Plates\Extension\Asset('/path/to/public'));
 
-// Any any additional, namespaced folders
+// Any any additional folders
 $plates->addFolder('emails', '/path/to/emails');
 ```
 
@@ -71,8 +72,8 @@ $template->name = 'Jonathan';
 // Render the template
 echo $template->render('home');
 
-// Render namespaced template
-echo $template->render('emails::welcome');
+// Render folder template
+$email = $template->render('emails::welcome');
 ```
 
 ## Simple example
@@ -109,9 +110,9 @@ echo $template->render('emails::welcome');
 
 ## The engine
 
-Plates uses a central object called the `Engine`, which is used to store the environment configuration and extensions. It helps decouple your templates from the file system and other dependencies. For example, if you want to change the folder where your templates are stored, you can do so easily by simply changing the path in one location.
+Plates uses a central object called the `Engine`, which is used to store the environment configuration and extensions. It helps decouple your templates from the file system and other dependencies. For example, if you want to change the folder where your templates are stored, you can do so by simply changing the path in one location.
 
-Templates themselves are very simple objects. The only dependency they require are an instance of the engine object. This design makes it easy to use dependency injection to inject your template objects into your methods, which in return makes them easier to test and mock.
+Templates themselves are very simple objects. The only dependency they require are an instance of the engine object. This design makes it easy to use dependency injection to inject your templates into other objects, which in return makes them easier to test and mock.
 
 
 ## File extensions
@@ -146,6 +147,29 @@ If you'd prefer to manually set the template file extension (ie. `$template->ren
 $plates->setFileExtension(null);
 ```
 
+## Folders
+
+Folders make it really easy to organize and access your various template groups. Folders allow to group your templates under different namespaces which each have their own template paths.
+
+### Creating folders
+
+To create folders, use the engine's `addFolder()` method:
+
+```php
+<?php
+
+$plates->addFolder('admin', '/path/to/admin/templates');
+$plates->addFolder('emails', '/path/to/email/templates');
+```
+
+### Using folders
+
+To use the folders you created within your project simply append the folder name with two colons before the template name. This works with all template definition methods: `render()`, `insert()` and `layout()`. For example, to render a welcome email:
+
+```php
+$email = $template->render('emails::welcome');
+```
+
 
 ## Inserting templates
 
@@ -159,7 +183,7 @@ Inserting (or including) another template into the current template is done usin
 <? $this->insert('footer') ?>
 ```
 
-The `insert()` method also works with folder namespaces: 
+The `insert()` method also works with folders: 
 
 ```php
 <? $this->insert('partials::header') ?>
@@ -225,7 +249,7 @@ While template inheritance sounds complicated, it really isn't. The best way to 
 
 ### Layouts
 
-The `layout()` method allows you to define a layout template that the current template will "implement". It can be placed anywhere in your template, but is probably best found near the top. This method works with folder namespacing as well.
+The `layout()` method allows you to define a layout template that the current template will "implement". It can be placed anywhere in your template, but is probably best found near the top. This method works with folders as well.
 
 Note: Your actual template will be rendered before the layout, which is quite helpful as you can assign variables (ie. `<? $this->title = 'User Profile' ?>`) that will be available when the layout is rendered.
 

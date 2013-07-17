@@ -17,6 +17,7 @@ Slick native PHP template system that’s fast, extendable and easy to use.
 
 - [Getting started](#getting-started)
 - [Simple example](#simple-example)
+- [The engine](#the-engine)
 - [File extensions](#file-extensions)
 - [Inserting templates](#inserting-templates)
 - [Template inheritance](#template-inheritance)
@@ -106,16 +107,23 @@ echo $template->render('emails::welcome');
 ```
 
 
+## The engine
+
+Plates uses a central object called the `Engine`, which is used to store the environment configuration and extensions. It helps decouple your templates from the file system and other dependencies. For example, if you want to change the folder where your templates are stored, you can do so easily by simply changing the path in one location.
+
+Templates themselves are very simple objects. The only dependency they require are an instance of the engine object. This design makes it easy to use dependency injection to inject your template objects into your methods, which in return makes them easier to test and mock.
+
+
 ## File extensions
 
-Plates does not enforce a specific template file extension. By default it assumes `.php`. This file extension is automatically appended to your template names when rendered. You are welcome to change the default extension using one of the two methods below.
+Plates does not enforce a specific template file extension. By default it assumes `.php`. This file extension is automatically appended to your template names when rendered. You are welcome to change the default extension using one of the following methods.
 
 ### Constructor method
 
 ```php
 <?php
 
-// Create new plates engine and set the file default extension to ".tpl"
+// Create new plates engine and set the default file extension to ".tpl"
 $plates = new \Plates\Engine('/path/to/templates', 'tpl');
 ```
 
@@ -145,6 +153,10 @@ Inserting (or including) another template into the current template is done usin
 
 ```php
 <? $this->insert('header') ?>
+
+<p>Your content.</p>
+
+<? $this->insert('footer') ?>
 ```
 
 The `insert()` method also works with folder namespaces: 
@@ -238,7 +250,7 @@ In the following example, the content between the `start()` and `end()` methods 
 
 ### Working without sections
 
-If you prefer to not use sections, but still want to use the layout feature, you'll need a way to access the rendered page template content within your layout template. The `child()` method is a special function only available in the layout template. It will return all outputted content from the child template that hasn't been defined in a section.
+If you prefer to not use sections, but still want to use the layout feature, you need a way to access the rendered page template within your layout template. The `child()` method is a special function only available in the layout template, which will return all outputted content from the child template that hasn't been defined in a section. Here is an example:
 
 #### profile.tpl
 
@@ -264,7 +276,7 @@ If you prefer to not use sections, but still want to use the layout feature, you
 
 ## Building extensions
 
-Creating extensions couldn't be easier. Simply create a class with a public `$methods` parameter indicating which methods are to be available within a template.
+Creating extensions couldn't be easier, and can really make Plates sing for your specific project. Simply create a class with a public `$methods` parameter indicating which methods in that class are to be available within your templates.
 
 ### Simple extensions example
 
@@ -295,7 +307,7 @@ To use this extension in your template, call the methods you've made available:
 <p>Hello, <?=$this->uppercase($this->firstname)?> <?=$this->lowercase($this->firstname)?>.</p>
 ```
 
-### Single method extension
+### Single method extensions
 
 Alternatively, you may choose to expose the entire extension object to the template using a single method. This can make your methods more legible, and also reduce the chance of conflicts with other extensions.
 
@@ -333,7 +345,7 @@ To use this extension in your template, first call the primary method, then the 
 
 ### Loading extensions
 
-Once you've created an extension, load it into the `Engine` object in your project bootstrap.
+Once you've created an extension, load it into the `Engine` object using the `loadExtension()` method.
 
 ```php
 <?php

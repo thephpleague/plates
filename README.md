@@ -29,6 +29,7 @@ Plates was created by [Jonathan Reinink](https://twitter.com/reinink), and was i
 - [The engine](#the-engine)
 - [File extensions](#file-extensions)
 - [Folders](#folders)
+- [Variables](#variables)
 - [Inserting templates](#inserting-templates)
 - [Template inheritance](#template-inheritance)
 - [Building extensions](#building-extensions)
@@ -160,9 +161,36 @@ If you'd prefer to manually set the template file extension (ie. `$template->ren
 $plates->setFileExtension(null);
 ```
 
+
+## Variables
+
+### Assigning variables
+
+To assign variables to your templates just add them as paramaters to your template objects. This can be done both within the template itself and from your application code (ie. controllers). Variables can be whatever you want (ie. strings, arrays, objects, etc.), Plates does not enforce any rules here.
+
+#### Assign variables within your application
+
+Assigning variables from within your application code, such as a controller, is the most common way to get variables from your business layer to your templates.
+
+```php
+<?php
+
+$template->name = 'Jonathan';
+$template->friends = array('Amy', 'Neil', 'Joey');
+```
+
+#### Assign variables within your templates
+
+Assigning variables within your templates can be very helpful for sharing information with nested and layout templates. A good example is a website's page title. It makes sense to define this within your page template, but it will actually be rendered in your layout template between the `<title></title>` tags.
+
+```php
+<? $this->title = 'Home' ?>
+```
+
+
 ## Folders
 
-Folders make it really easy to organize and access your various template groups. Folders allow to group your templates under different namespaces which each have their own template paths.
+Folders make it really easy to organize and access your templates. Folders allow you to group your templates under different namespaces, each of which having their own file system path.
 
 ### Creating folders
 
@@ -287,7 +315,7 @@ In the following example, the content between the `start()` and `end()` function
 
 ### Content outside of sections
 
-If you prefer to not use sections, but still want to use the layout feature, you need a way to access the rendered page template within your layout template. The `child()` function is a special function only available in the layout template, which will return all outputted content from the child template that hasn't been defined in a section. Here is an example:
+If you prefer to not use sections, but still want to use the layout feature, use the `child()` function to access the rendered page template within your layout template. It will return all outputted content from the child template that hasn't been defined in a section. Here is an example:
 
 #### profile.tpl
 
@@ -313,7 +341,7 @@ If you prefer to not use sections, but still want to use the layout feature, you
 
 ## Building extensions
 
-Creating extensions couldn't be easier, and can really make Plates sing for your specific project. Simply create a class with a public `$methods` parameter indicating which functions in that class are to be available within your templates.
+Creating extensions couldn't be easier, and can really make Plates sing for your specific project. Start by creating a class with a public `$methods` parameter indicating which methods in that class are to be available within your templates a function.
 
 ### Simple extensions example
 
@@ -346,7 +374,7 @@ To use this extension in your template, call the functions you've made available
 
 ### Single method extensions
 
-Alternatively, you may choose to expose the entire extension object to the template using a single method. This can make your template functions more legible, and also reduce the chance of conflicts with other extensions.
+Alternatively, you may choose to expose the entire extension object to the template using a single method. This can make your template functions more legible and also reduce the chance of conflicts with other extensions.
 
 ```php
 <?php
@@ -392,32 +420,6 @@ $plates->loadExtension(new \ChangeCase());
 ```
 
 
-### Syntax example
-
-Here is an example of a template that complies with the above syntax rules.
-
-```php
-<? $this->layout('template') ?>
-
-<? $this->title = 'User Profile' ?>
-
-<h1>Welcome!</h1>
-<p>Welcome, <?=$this->e($this->name)?></p>
-
-<h2>Friends</h2>
-<ul>
-    <? foreach($this->friends as $friend): ?>
-        <li><a href="/profile/<?=$this->e($friend->id)?>"><?=$this->e($friend->name)?></a></li>
-    <? endforeach ?>
-</ul>
-
-<? if ($this->invitations): ?>
-    <h2>Invitations</h2>
-    <p>You have some friend invites!</p>
-<? endif ?>
-```
-
-
 ## Escape extension
 
 The escape extension comes packaged with Plates and is enabled by default. Escaping is a form of [data filtering](http://www.phptherightway.com/#data_filtering) which sanitizes unsafe, user supplied input prior to outputting it as HTML. Plates provides two shortcuts to the `htmlspecialchars($string, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')` function.
@@ -431,7 +433,7 @@ The escape extension comes packaged with Plates and is enabled by default. Escap
 
 Probably the biggest issue with native PHP templates is the inability to auto-escape variables. Template languages like Twig and Smarty can identify "echoed" variables during a parsing stage and then auto-escape them. This cannot be done in native PHP as the language does not offer overloading functionality for it's output functions (ie. `print` and `echo`).
 
-Don't worry, all hope is not lost. Escaping can still be done safely, it just means you are responsible for manually escaping each variable on output. Consider creating a snippet for one of the above, built-in escaping functions to make this process easier.
+Don't worry, escaping can still be done safely, it just means you are responsible for manually escaping each variable on output. Consider creating a snippet for one of the above, built-in escaping functions to make this process easier.
 
 
 ## Batch extension
@@ -612,3 +614,28 @@ While the actual syntax you use in your templates is entirely your choice (it's 
 - Never use the `use` operator. Templates should not be interacting with classes in this way.
 - Never use the `for`, `while` or `switch` control structures. Instead use `if` and `foreach`.
 - Other than templates variables, avoid variable assignment.
+
+### Syntax example
+
+Here is an example of a template that complies with the above syntax rules.
+
+```php
+<? $this->layout('template') ?>
+
+<? $this->title = 'User Profile' ?>
+
+<h1>Welcome!</h1>
+<p>Welcome, <?=$this->e($this->name)?></p>
+
+<h2>Friends</h2>
+<ul>
+    <? foreach($this->friends as $friend): ?>
+        <li><a href="/profile/<?=$this->e($friend->id)?>"><?=$this->e($friend->name)?></a></li>
+    <? endforeach ?>
+</ul>
+
+<? if ($this->invitations): ?>
+    <h2>Invitations</h2>
+    <p>You have some friend invites!</p>
+<? endif ?>
+```

@@ -11,7 +11,6 @@ The native PHP template system that's fast, easy to extend and natural to use.
 - Encourages use of existing PHP functions
 - Folders for super simple template paths
 - Powerful layouts and inheritance tools
-- Escaping built-in
 - Really easy to extend using extensions
 - Decoupled design makes templates easy to test and mock
 - Not framework specific, will work with any project
@@ -421,12 +420,18 @@ Here is an example of a template that complies with the above syntax rules.
 
 ## Escape extension
 
-The escape extension comes packaged with Plates and is enabled by default. It provides two shortcuts to the `htmlentities()` function.
+The escape extension comes packaged with Plates and is enabled by default. Escaping is a form of [data filtering](http://www.phptherightway.com/#data_filtering) which sanitizes unsafe, user supplied input prior to outputting it as HTML. Plates provides two shortcuts to the `htmlspecialchars($string, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')` function.
 
 ```php
 <?=$this->escape($this->var)?>
 <?=$this->e($this->var)?>
 ```
+
+### Warning about escaping variables
+
+Probably the biggest issue with native PHP templates is the inability to auto-escape variables. Template languages like Twig and Smarty can identify "echoed" variables during a parsing stage and then auto-escape them. This cannot be done in native PHP as the language does not offer overloading functionality for it's output functions (ie. `print` and `echo`).
+
+Don't worry, all hope is not lost. Escaping can still be done safely, it just means you are responsible for manually escaping each variable on output. Consider creating a snippet for one of the above, built-in escaping functions to make this process easier.
 
 
 ## Batch extension

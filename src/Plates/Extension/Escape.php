@@ -8,13 +8,13 @@ class Escape
     public $engine;
     public $template;
 
-    public function escape($var)
+    public function escape($string)
     {
-        return htmlentities($var);
+        return htmlspecialchars($string, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
     }
 
-    public function e($var)
+    public function e($string)
     {
-        return $this->escape($var);
+        return $this->escape($string);
     }
 }

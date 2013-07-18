@@ -164,11 +164,9 @@ $plates->setFileExtension(null);
 
 ## Variables
 
-### Assigning variables
-
 To assign variables to your templates just add them as paramaters to your template objects. This can be done both within the template itself and from your application code (ie. controllers). Variables can be whatever you want (ie. strings, arrays, objects, etc.), Plates does not enforce any rules here.
 
-#### Assign variables within your application
+### Assign variables within your application
 
 Assigning variables from within your application code, such as a controller, is the most common way to get variables from your business layer to your templates.
 
@@ -179,7 +177,7 @@ $template->name = 'Jonathan';
 $template->friends = array('Amy', 'Neil', 'Joey');
 ```
 
-#### Assign variables within your templates
+### Assign variables within your templates
 
 Assigning variables within your templates can be very helpful for sharing information with nested and layout templates. A good example is a website's page title. It makes sense to define this within your page template, but it will actually be rendered in your layout template between the `<title></title>` tags.
 

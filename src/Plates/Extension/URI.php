@@ -46,11 +46,11 @@ class URI
         }
 
         if (is_string($var1) and is_null($var2) and is_null($var3) and is_null($var4)) {
-            return preg_match('#^' . $this->uri . '$#', $var1) === 1;
+            return preg_match('#^' . $var1 . '$#', $this->uri) === 1;
         }
 
         if (is_string($var1) and is_string($var2) and is_null($var3) and is_null($var4)) {
-            if (preg_match('#^' . $this->uri . '$#', $var1) === 1) {
+            if (preg_match('#^' . $var1 . '$#', $this->uri) === 1) {
                 return $var2;
             } else {
                 return false;
@@ -58,7 +58,7 @@ class URI
         }
 
         if (is_string($var1) and is_string($var2) and is_string($var3) and is_null($var4)) {
-            if (preg_match('#^' . $this->uri . '$#', $var1) === 1) {
+            if (preg_match('#^' . $var1 . '$#', $this->uri) === 1) {
                 return $var2;
             } else {
                 return $var3;

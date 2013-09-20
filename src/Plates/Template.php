@@ -13,11 +13,10 @@ class Template
 
     public function __call($name, $arguments)
     {
-        $extension = $this->_internal['engine']->getExtension($name);
-        $extension->engine = $this->_internal['engine'];
-        $extension->template = $this;
+        $function = $this->_internal['engine']->getFunction($name);
+        $function[0]->template = $this;
 
-        return call_user_func_array(array($extension, $name), $arguments);
+        return call_user_func_array($function, $arguments);
     }
 
     public function insert($path)
@@ -53,8 +52,14 @@ class Template
         return $this->_internal['child'];
     }
 
-    public function render($path)
+    public function render($path, Array $variables = null)
     {
+        if (!is_null($variables)) {
+            foreach ($variables as $name => $value) {
+                $this->$name = $value;
+            }
+        }
+
         ob_start();
 
         include($this->_internal['engine']->resolvePath($path));

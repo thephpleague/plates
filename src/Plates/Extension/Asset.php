@@ -2,9 +2,8 @@
 
 namespace Plates\Extension;
 
-class Asset
+class Asset implements ExtensionInterface
 {
-    public $methods = array('asset');
     public $engine;
     public $template;
     public $path;
@@ -16,7 +15,14 @@ class Asset
         $this->filenameMethod = $filenameMethod;
     }
 
-    public function asset($url)
+    public function getMethods()
+    {
+        return array(
+            'asset' => 'cachedAssetUrl'
+        );
+    }
+
+    public function cachedAssetUrl($url)
     {
         $filePath = $this->path . '/' .  ltrim($url, '/');
 

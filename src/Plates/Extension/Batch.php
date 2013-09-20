@@ -2,16 +2,22 @@
 
 namespace Plates\Extension;
 
-class Batch
+class Batch implements ExtensionInterface
 {
-    public $methods = array('batch');
     public $engine;
     public $template;
 
-    public function batch($var, $methods)
+    public function getMethods()
+    {
+        return array(
+            'batch' => 'runBatch'
+        );
+    }
+
+    public function runBatch($var, $methods)
     {
         foreach (explode('|', $methods) as $method) {
-            if ($this->engine->methodExists($method)) {
+            if ($this->engine->functionExists($method)) {
                 $var = $this->template->$method($var);
             } else if (is_callable($method)) {
                 $var = call_user_func($method, $var);

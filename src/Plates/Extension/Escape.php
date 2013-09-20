@@ -2,19 +2,25 @@
 
 namespace Plates\Extension;
 
-class Escape
+class Escape implements ExtensionInterface
 {
-    public $methods = array('escape', 'e');
     public $engine;
     public $template;
 
-    public function escape($string)
+    public function getMethods()
+    {
+        return array(
+            'escape' => 'escapeString',
+            'e' => 'escapeString'
+        );
+    }
+
+    public function escapeString($string)
     {
         return htmlspecialchars($string, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
     }
+}
 
-    public function e($string)
-    {
-        return $this->escape($string);
-    }
+if (!defined('ENT_SUBSTITUTE')) {
+    define('ENT_SUBSTITUTE', 8);
 }

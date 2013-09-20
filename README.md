@@ -164,7 +164,7 @@ $plates->setFileExtension(null);
 
 ## Variables
 
-To assign variables to your templates just add them as paramaters to your template objects. This can be done both within the template itself and from your application code (ie. controllers). Variables can be whatever you want (ie. strings, arrays, objects, etc.), Plates does not enforce any rules here.
+To assign variables to your templates just add them as paramaters to your template objects. This can be done both within the template itself and from your application code (ie. controllers). Variables can be whatever you want (strings, arrays, objects, etc.), Plates does not enforce any rules here.
 
 ### Assign variables within your application
 

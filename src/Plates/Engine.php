@@ -7,7 +7,7 @@ class Engine
     protected $directory;
     protected $fileExtension;
     protected $folders;
-    protected $methods;
+    protected $functions;
 
     public function __construct($directory = null, $fileExtension = 'php')
     {
@@ -61,8 +61,11 @@ class Engine
         $this->folders[$namespace] = $directory;
     }
 
-    public function loadExtension($extension)
+    public function loadExtension(Extension\ExtensionInterface $extension)
     {
+        // $this->extensions[] = $extension;
+
+        /*
         if (!isset($extension->methods)) {
             throw new \LogicException('The extension "' . get_class($extension) . '" has no public methods parameter defined.');
         }
@@ -74,9 +77,13 @@ class Engine
         if (count($extension->methods) === 0) {
             throw new \LogicException('The extension must have at least one method defined.');
         }
+        */
 
-        foreach ($extension->methods as $method) {
+        $extension->engine = $this;
 
+        foreach ($extension->getMethods() as $function => $method) {
+
+            /*
             if (!is_string($method)) {
                 throw new \LogicException('The extension methods must be a string, ' . gettype($method) . ' given.');
             }
@@ -85,30 +92,33 @@ class Engine
                 throw new \LogicException('The extension methods cannot be an empty string.');
             }
 
-            if (isset($this->methods[$method])) {
-                throw new \LogicException('Extension conflict detected. The method "' . $method . '" has already been defined in the "' . get_class($this->methods[$method]) . '" extension.');
+            if (isset($this->functions[$method])) {
+                throw new \LogicException('Extension conflict detected. The method "' . $method . '" has already been defined in the "' . get_class($this->functions[$method]) . '" extension.');
             }
+            */
 
-            $this->methods[$method] = $extension;
+
+            $this->functions[$function] = array($extension, $method);
         }
     }
 
-    public function getExtension($method)
+    public function getFunction($name)
     {
-        if (!is_string($method)) {
-            throw new \LogicException('The extension method must be a string, ' . gettype($method) . ' given.');
+        if (!is_string($name)) {
+            throw new \LogicException('The extension function must be a string, ' . gettype($name) . ' given.');
         }
 
-        if (!$this->methodExists($method)) {
-            throw new \LogicException('No extensions with the method "' . $method . '" were found.');
+        if (!$this->functionExists($name)) {
+            throw new \LogicException('No extensions with the function "' . $name . '" were found.');
         }
 
-        return $this->methods[$method];
+        return $this->functions[$name];
+
     }
 
-    public function methodExists($method)
+    public function functionExists($method)
     {
-        return isset($this->methods[$method]);
+        return isset($this->functions[$method]);
     }
 
     public function resolvePath($path)

@@ -2,9 +2,8 @@
 
 namespace Plates\Extension;
 
-class URI
+class URI implements ExtensionInterface
 {
-    public $methods = array('uri');
     public $engine;
     public $template;
     public $uri;
@@ -15,7 +14,14 @@ class URI
         $this->parts = explode('/', $this->uri);
     }
 
-    public function uri($var1 = null, $var2 = null, $var3 = null, $var4 = null)
+    public function getMethods()
+    {
+        return array(
+            'uri' => 'runUri'
+        );
+    }
+
+    public function runUri($var1 = null, $var2 = null, $var3 = null, $var4 = null)
     {
         if (is_null($var1)) {
             return $this->uri;

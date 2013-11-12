@@ -1,6 +1,6 @@
 html
 {
-    background-color: #e6fcd1;
+    background-color: lighten(#dcfbbe, 8%);
     background-image: url(/img/bg.svg);
     background-repeat: repeat-y;
     background-size: 250px 250px;
@@ -8,13 +8,13 @@ html
 
 ::-moz-selection {
     background: #52af8a;
-    color: #e6fcd1;
+    color: lighten(#dcfbbe, 8%);
     text-shadow: none;
 }
 
 ::selection {
     background: #52af8a;
-    color: #e6fcd1;
+    color: lighten(#dcfbbe, 8%);
     text-shadow: none;
 }
 
@@ -104,7 +104,7 @@ article
     overflow: hidden;
 
     font-family: "Museo 300";
-    color: #52af8a;
+    color: darken(#52af8a, 5%);
     font-size: 18px;
     line-height: 160%;
     font-weight: normal;
@@ -125,7 +125,7 @@ article
         margin: 40px 0 15px 0;
         font-family: "Museo 300";
         -webkit-font-smoothing: antialiased;
-        color: #83c89b;
+        color: darken(#83c89b, 6%);
         font-size: 30px;
         line-height: 100%;
         font-weight: normal;
@@ -153,7 +153,7 @@ article
         padding: 0 5px;
         font-family: Consolas, Monaco, 'Andale Mono', monospace;
         font-size: 17px;
-        background: #d7f5ca;
+        background: lighten(#cbeec9, 5%);
         border-radius: 2px;
     }
 }

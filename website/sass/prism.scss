@@ -24,7 +24,7 @@ pre[class*="language-"] {
     hyphens: none;
 
     font-size: 16px;
-    line-height: 150%;
+    line-height: 140%;
 }
 
 /* Code blocks */
@@ -36,7 +36,7 @@ pre[class*="language-"] {
 
 :not(pre) > code[class*="language-"],
 pre[class*="language-"] {
-    background: #cbeec9;
+    background: lighten(#cbeec9, 5%);
     border-radius: 2px;
 }
 
@@ -67,7 +67,7 @@ pre[class*="language-"] {
 .token.class-name,
 .token.function
 {
-    color: #00978c;
+    color: darken(#00978c, 5%);
 }
 
 .token.selector,

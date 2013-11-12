@@ -706,19 +706,19 @@ table {
 |--------------------------------------------------------------------------
 */
 html {
-  background-color: #e6fcd1;
+  background-color: #f1fde4;
   background-image: url(/img/bg.svg);
   background-repeat: repeat-y;
   background-size: 250px 250px; }
 
 ::-moz-selection {
   background: #52af8a;
-  color: #e6fcd1;
+  color: #f1fde4;
   text-shadow: none; }
 
 ::selection {
   background: #52af8a;
-  color: #e6fcd1;
+  color: #f1fde4;
   text-shadow: none; }
 
 header {
@@ -772,7 +772,7 @@ article {
   max-width: 950px;
   overflow: hidden;
   font-family: "Museo 300";
-  color: #52af8a;
+  color: #499e7c;
   font-size: 18px;
   line-height: 160%;
   font-weight: normal; }
@@ -788,7 +788,7 @@ article {
     margin: 40px 0 15px 0;
     font-family: "Museo 300";
     -webkit-font-smoothing: antialiased;
-    color: #83c89b;
+    color: #6ebf8a;
     font-size: 30px;
     line-height: 100%;
     font-weight: normal; }
@@ -804,7 +804,7 @@ article {
     padding: 0 5px;
     font-family: Consolas, Monaco, 'Andale Mono', monospace;
     font-size: 17px;
-    background: #d7f5ca;
+    background: #def4dc;
     border-radius: 2px; }
 
 /**
@@ -829,7 +829,7 @@ pre[class*="language-"] {
   -ms-hyphens: none;
   hyphens: none;
   font-size: 16px;
-  line-height: 150%; }
+  line-height: 140%; }
 
 /* Code blocks */
 pre[class*="language-"] {
@@ -839,7 +839,7 @@ pre[class*="language-"] {
 
 :not(pre) > code[class*="language-"],
 pre[class*="language-"] {
-  background: #cbeec9;
+  background: #def4dc;
   border-radius: 2px; }
 
 /* Inline code */
@@ -865,7 +865,7 @@ pre[class*="language-"] {
 .token.punctuation,
 .token.class-name,
 .token.function {
-  color: #00978c; }
+  color: #007e74; }
 
 .token.selector,
 .token.attr-name,

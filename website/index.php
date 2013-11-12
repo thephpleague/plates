@@ -115,7 +115,13 @@ $router->get(
 
         // Create template
         $template = new \Plates\Template($plates);
+
+        // Set page content
         $template->page = $html;
+
+        // Set page title
+        preg_match('#<h1>([^<]*)</h1>#', $html, $matches);
+        $template->title = $matches[1];
 
         // Return rendered template
         return new \Symfony\Component\HttpFoundation\Response($template->render('template'));

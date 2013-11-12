@@ -17,5 +17,10 @@ Plates is a native PHP template system that’s fast, easy to use and easy to ex
 - Decoupled design makes templates easy to test
 - Composer ready and PSR-2 compliant
 
-## Who is behind Plates?
+## Source code
+
+Find Plates on GitHub at [github.com/reinink/Plates](https://github.com/reinink/Plates).
+
+## Questions?
+
 Plates was created by Jonathan Reinink. Find him on Twitter at [@reinink](https://twitter.com/reinink).

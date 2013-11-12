@@ -1,6 +1,8 @@
 {
     "name": "reinink/plates",
-    "description": "The native PHP template system that's fast, easy to extend and natural to use.",
+    "description": "Plates, the native PHP template system that’s fast, easy to use and easy to extend.",
+    "keywords": ["templating"],
+    "homepage": "http://platesphp.com",
     "authors" : [
         {
             "name": "Jonathan Reinink",

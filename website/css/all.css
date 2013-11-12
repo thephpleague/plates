@@ -857,7 +857,6 @@ pre[class*="language-"] {
   opacity: .7; }
 
 .token.property,
-.token.tag,
 .token.boolean,
 .token.number,
 .token.variable,
@@ -866,6 +865,10 @@ pre[class*="language-"] {
 .token.class-name,
 .token.function {
   color: #007e74; }
+
+.token.markup .tag,
+.token.markup .punctuation {
+  color: #63b796; }
 
 .token.selector,
 .token.attr-name,

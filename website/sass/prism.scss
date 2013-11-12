@@ -58,7 +58,6 @@ pre[class*="language-"] {
 }
 
 .token.property,
-.token.tag,
 .token.boolean,
 .token.number,
 .token.variable,
@@ -68,6 +67,15 @@ pre[class*="language-"] {
 .token.function
 {
     color: darken(#00978c, 5%);
+}
+
+.token.markup
+{
+    .tag,
+    .punctuation
+    {
+        color: lighten(#52af8a, 5%);
+    }
 }
 
 .token.selector,

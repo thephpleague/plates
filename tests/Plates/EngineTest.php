@@ -30,63 +30,55 @@ class EngineTest extends \PHPUnit_Framework_TestCase
 
     public function testSetValidDirectory()
     {
-        $this->assertNull($this->engine->setDirectory(null));
-        $this->assertNull($this->engine->setDirectory(vfsStream::url('templates')));
+        $this->assertInstanceOf('Plates\Engine', $this->engine->setDirectory(null));
+        $this->assertInstanceOf('Plates\Engine', $this->engine->setDirectory(vfsStream::url('templates')));
     }
 
     public function testSetInvalidDirectory()
     {
-        foreach (array(vfsStream::url('does/not/exist'), array(), true, 1, new \StdClass) as $var) {
-            try {
-                $this->engine->setDirectory($var);
-                $this->fail('No exception thrown for invalid variable type "' . gettype($var) . '".');
-            } catch (\LogicException $expected) {
-            }
-        }
+        $this->setExpectedException('LogicException');
+        $this->engine->setDirectory(vfsStream::url('does/not/exist'));
+    }
+
+    public function testSetInvalidDirectoryFileType()
+    {
+        $this->setExpectedException('LogicException');
+        $this->engine->setDirectory(array());
     }
 
     public function testSetValidFileExtension()
     {
-        $this->assertNull($this->engine->setFileExtension('tpl'));
-        $this->assertNull($this->engine->setFileExtension(null));
+        $this->assertInstanceOf('Plates\Engine', $this->engine->setFileExtension('tpl'));
+        $this->assertInstanceOf('Plates\Engine', $this->engine->setFileExtension(null));
     }
 
     public function testSetInvalidFileExtension()
     {
-        foreach (array(array(), true, 1, new \StdClass) as $var) {
-            try {
-                $this->engine->setFileExtension($var);
-                $this->fail('No exception thrown for invalid variable type "' . gettype($var) . '".');
-            } catch (\LogicException $expected) {
-            }
-        }
+        $this->setExpectedException('LogicException');
+        $this->engine->setFileExtension(array());
     }
 
     public function testAddValidFolder()
     {
-        $this->assertNull($this->engine->addFolder('emails', vfsStream::url('templates/emails')));
+        $this->assertInstanceOf('Plates\Engine', $this->engine->addFolder('emails', vfsStream::url('templates/emails')));
     }
 
     public function testAddFolderWithInvalidNamespace()
     {
-        foreach (array(null, array(), true, 1, new \StdClass) as $var) {
-            try {
-                $this->engine->addFolder($var, vfsStream::url('templates'));
-                $this->fail('No exception thrown for invalid variable type "' . gettype($var) . '".');
-            } catch (\LogicException $expected) {
-            }
-        }
+        $this->setExpectedException('LogicException');
+        $this->engine->addFolder(array(), vfsStream::url('templates'));
     }
 
     public function testAddFolderWithInvalidDirectory()
     {
-        foreach (array(vfsStream::url('does/not/exist'), array(), true, 1, new \StdClass) as $var) {
-            try {
-                $this->engine->addFolder('namespace', $var);
-                $this->fail('No exception thrown for invalid variable type "' . gettype($var) . '".');
-            } catch (\LogicException $expected) {
-            }
-        }
+        $this->setExpectedException('LogicException');
+        $this->engine->addFolder('namespace', vfsStream::url('does/not/exist'));
+    }
+
+    public function testAddFolderWithInvalidDirectoryFileType()
+    {
+        $this->setExpectedException('LogicException');
+        $this->engine->addFolder('namespace', array());
     }
 
     public function testAddFolderDirectoryWithNamespaceConflict()
@@ -98,91 +90,109 @@ class EngineTest extends \PHPUnit_Framework_TestCase
 
     public function testLoadValidExtension()
     {
-        $extension = \Mockery::mock('\Plates\Extension\Base');
-        $extension->methods = array('someMethod');
-        $this->assertNull($this->engine->loadExtension($extension));
+        $extension = \Mockery::mock('Plates\Extension\ExtensionInterface')
+            ->shouldReceive('getFunctions')
+            ->andReturn(array('function' => 'method'))
+            ->mock();
+        $this->assertInstanceOf('Plates\Engine', $this->engine->loadExtension($extension));
     }
 
-    public function testLoadExtensionWithoutMethodsParamaterDefined()
+    public function testLoadExtensionWithInvalidFunctionsFileType()
     {
         $this->setExpectedException('LogicException');
-        $extension = \Mockery::mock('\Plates\Extension\Base');
+        $extension = \Mockery::mock('Plates\Extension\ExtensionInterface')
+            ->shouldReceive('getFunctions')
+            ->andReturn(null)
+            ->mock();
         $this->engine->loadExtension($extension);
     }
 
-    public function testLoadExtensionWithInvalidMethodsParamater()
-    {
-        foreach (array(array(), 'string', true, 1, new \StdClass) as $var) {
-            try {
-                $extension = \Mockery::mock('\Plates\Extension\Base');
-                $extension->methods = $var;
-                $this->engine->loadExtension($extension);
-                $this->fail('No exception thrown for invalid variable type "' . gettype($var) . '".');
-            } catch (\LogicException $expected) {
-            }
-        }
-    }
-
-    public function testLoadExtensionWithInvalidMethodsParamaterValues()
-    {
-        foreach (array('', array(), true, 1, new \StdClass) as $var) {
-            try {
-                $extension = \Mockery::mock('\Plates\Extension\Base');
-                $extension->methods = array($var);
-                $this->engine->loadExtension($extension);
-                $this->fail('No exception thrown for invalid variable type "' . gettype($var) . '".');
-            } catch (\LogicException $expected) {
-            }
-        }
-    }
-
-    public function testLoadExtensionsWithMethodsParamaterConflicts()
+    public function testLoadExtensionWithEmptyFunctionsArray()
     {
         $this->setExpectedException('LogicException');
-        $extension = \Mockery::mock('\Plates\Extension\Base');
-        $extension->methods = array('someMethod', 'someMethod');
+        $extension = \Mockery::mock('Plates\Extension\ExtensionInterface')
+            ->shouldReceive('getFunctions')
+            ->andReturn(array())
+            ->mock();
         $this->engine->loadExtension($extension);
     }
 
-    public function testGetExtensionWithValidMethod()
+    public function testLoadExtensionWithInvalidFunctionName()
     {
-        $extension = \Mockery::mock('\Plates\Extension\Base');
-        $extension->methods = array('someMethod');
+        $this->setExpectedException('LogicException');
+        $extension = \Mockery::mock('Plates\Extension\ExtensionInterface')
+            ->shouldReceive('getFunctions')
+            ->andReturn(array(null => 'method'))
+            ->mock();
         $this->engine->loadExtension($extension);
-        $this->assertInstanceOf('\Plates\Extension\Base', $this->engine->getExtension('someMethod'));
     }
 
-    public function testGetExtensionWithInvalidMethod()
+    public function testLoadExtensionWithInvalidMethodName()
     {
-        foreach (array('methodThatDoesNotExist', null, array(), true, 1, new \StdClass) as $var) {
-            try {
-                $this->engine->getExtension($var);
-                $this->fail('No exception thrown for invalid variable type "' . gettype($var) . '".');
-            } catch (\LogicException $expected) {
-            }
-        }
+        $this->setExpectedException('LogicException');
+        $extension = \Mockery::mock('Plates\Extension\ExtensionInterface')
+            ->shouldReceive('getFunctions')
+            ->andReturn(array('function' => null))
+            ->mock();
+        $this->engine->loadExtension($extension);
     }
 
-    public function testMethodExistsReturnsTrue()
+    public function testLoadExtensionsWithFunctionNameConflicts()
     {
-        $extension = \Mockery::mock('\Plates\Extension\Base');
-        $extension->methods = array('someMethod');
+        $this->setExpectedException('LogicException');
+        $extension = \Mockery::mock('Plates\Extension\ExtensionInterface')
+            ->shouldReceive('getFunctions')
+            ->andReturn(array('function' => 'method'))
+            ->mock();
         $this->engine->loadExtension($extension);
-        $this->assertTrue($this->engine->methodExists('someMethod'));
+        $this->engine->loadExtension($extension);
+    }
+
+    public function testGetFunctionWithInvalidFunction()
+    {
+        $this->setExpectedException('LogicException');
+        $this->engine->getFunction(null);
+    }
+
+    public function testGetExtensionWithMissingFunction()
+    {
+        $this->setExpectedException('LogicException');
+        $this->engine->getFunction('function');
+    }
+
+    public function testGetFunctionWithValidFunction()
+    {
+        $extension = \Mockery::mock('Plates\Extension\ExtensionInterface')
+            ->shouldReceive('getFunctions')
+            ->andReturn(array('function' => 'method'))
+            ->mock();
+        $this->engine->loadExtension($extension);
+        $this->assertInternalType('array', $this->engine->getFunction('function'));
+    }
+
+    public function testFunctionExistsReturnsTrue()
+    {
+        $extension = \Mockery::mock('Plates\Extension\ExtensionInterface')
+            ->shouldReceive('getFunctions')
+            ->andReturn(array('function' => 'method'))
+            ->mock();
+        $this->engine->loadExtension($extension);
+        $this->assertTrue($this->engine->functionExists('function'));
     }
 
     public function testMethodExistsReturnsFalse()
     {
-        $this->assertFalse($this->engine->methodExists('someMethod'));
+        $this->assertFalse($this->engine->functionExists('function'));
     }
 
     public function testResolvePathWithInvalidPath()
     {
-        foreach (array('', 'a::b::c', '::b', 'a::', null, array(), true, 1, new \StdClass) as $var) {
+        foreach (array('', 'a::b::c', '::b', 'a::', array()) as $var) {
             try {
                 $this->engine->resolvePath($var);
                 $this->fail('No exception thrown for invalid path "' . gettype($var) . '".');
             } catch (\LogicException $expected) {
+                // Test passed
             }
         }
     }

@@ -1,5 +1,7 @@
-Plates
-======
+Introduction
+============
+
+## About
 
 Plates is a native PHP template system that’s fast, easy to use and easy to extend. It’s inspired by the excellent [Twig](http://twig.sensiolabs.org/) template engine and tries to bring modern template language functionality to native PHP templates. Plates is designed for developers who prefer to use native PHP templates over compiled templates, such as Twig or Smarty.
 
@@ -15,18 +17,5 @@ Plates is a native PHP template system that’s fast, easy to use and easy to ex
 - Decoupled design makes templates easy to test
 - Composer ready and PSR-2 compliant
 
-## Installation
-
-Plates is available via Composer:
-
-```json
-{
-    "require": {
-        "reinink/plates": "1.*"
-    }
-}
-```
-
-## Documentation
-
-Full documentation can be found at [platesphp.com](http://platesphp.com/).
+## Who is behind Plates?
+Plates was created by Jonathan Reinink. Find him on Twitter at [@reinink](https://twitter.com/reinink).

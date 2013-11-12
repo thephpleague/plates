@@ -14,6 +14,7 @@ class Engine
         $this->setDirectory($directory);
         $this->setFileExtension($fileExtension);
 
+        // Load default extensions
         $this->loadExtension(new Extension\Escape);
         $this->loadExtension(new Extension\Batch);
     }
@@ -29,6 +30,8 @@ class Engine
         }
 
         $this->directory = $directory;
+
+        return $this;
     }
 
     public function setFileExtension($fileExtension)
@@ -38,6 +41,8 @@ class Engine
         }
 
         $this->fileExtension = $fileExtension;
+
+        return $this;
     }
 
     public function addFolder($namespace, $directory)
@@ -59,61 +64,57 @@ class Engine
         }
 
         $this->folders[$namespace] = $directory;
+
+        return $this;
     }
 
     public function loadExtension(Extension\ExtensionInterface $extension)
     {
-        // $this->extensions[] = $extension;
-
-        /*
-        if (!isset($extension->methods)) {
-            throw new \LogicException('The extension "' . get_class($extension) . '" has no public methods parameter defined.');
+        if (!is_array($extension->getFunctions())) {
+            throw new \LogicException('The "' . get_class($extension) . '" getFunctions method must return an array, ' . gettype($extension->getFunctions()) . ' given.');
         }
 
-        if (!is_array($extension->methods)) {
-            throw new \LogicException('The "' . get_class($extension) . '" method definition must be an array, ' . gettype($extension->methods) . ' given.');
+        if (count($extension->getFunctions()) === 0) {
+            throw new \LogicException('The extension "' . get_class($extension) . '" has no functions defined.');
         }
-
-        if (count($extension->methods) === 0) {
-            throw new \LogicException('The extension must have at least one method defined.');
-        }
-        */
 
         $extension->engine = $this;
 
-        foreach ($extension->getMethods() as $function => $method) {
+        foreach ($extension->getFunctions() as $function => $method) {
 
-            /*
-            if (!is_string($method)) {
-                throw new \LogicException('The extension methods must be a string, ' . gettype($method) . ' given.');
+            if (!is_string($function) or empty($function) or !is_callable($function, true)) {
+                throw new \LogicException('The function "' . $function . '" is not a valid function name in the "' . get_class($extension) . '" extension.');
             }
 
-            if ($method === '') {
-                throw new \LogicException('The extension methods cannot be an empty string.');
+            if (!is_string($method) or empty($method) or !is_callable($method, true)) {
+                throw new \LogicException('The method "' . $method . '" is not a valid method name in the "' . get_class($extension) . '" extension.');
             }
 
-            if (isset($this->functions[$method])) {
-                throw new \LogicException('Extension conflict detected. The method "' . $method . '" has already been defined in the "' . get_class($this->functions[$method]) . '" extension.');
+            if (isset($this->functions[$function]) or in_array($function, array('layout', 'data', 'start', 'end', 'child', 'insert', 'render'))) {
+                throw new \LogicException('The function "' . $function . '" already exists and cannot be used by the "' . get_class($extension) . '" extension.');
             }
-            */
 
+            if (!is_callable(array($extension, $method))) {
+                throw new \LogicException('The method "' . $method . '" is not callable in the "' . get_class($extension) . '" extension.');
+            }
 
             $this->functions[$function] = array($extension, $method);
         }
+
+        return $this;
     }
 
-    public function getFunction($name)
+    public function getFunction($function)
     {
-        if (!is_string($name)) {
-            throw new \LogicException('The extension function must be a string, ' . gettype($name) . ' given.');
+        if (!is_string($function) or empty($function) or !is_callable($function, true)) {
+            throw new \LogicException('Not a valid extension function name.');
         }
 
-        if (!$this->functionExists($name)) {
-            throw new \LogicException('No extensions with the function "' . $name . '" were found.');
+        if (!$this->functionExists($function)) {
+            throw new \LogicException('No extensions with the function "' . $function . '" were found.');
         }
 
-        return $this->functions[$name];
-
+        return $this->functions[$function];
     }
 
     public function functionExists($method)
@@ -129,10 +130,6 @@ class Engine
 
         $parts = explode('::', $path);
 
-        if (count($parts) < 1 or count($parts) > 2) {
-            throw new \LogicException('The path "' . $path . '" is not a valid path format.');
-        }
-
         if (count($parts) === 1) {
 
             if (is_null($this->directory)) {
@@ -143,7 +140,7 @@ class Engine
                 throw new \LogicException('The path cannot be an empty.');
             }
 
-            $filePath = $this->directory . '/' . $parts[0];
+            $filePath = $this->directory . DIRECTORY_SEPARATOR . $parts[0];
 
         } else if (count($parts) === 2) {
 
@@ -159,7 +156,10 @@ class Engine
                 throw new \LogicException('The folder "' . $parts[0] . '" does not exist.');
             }
 
-            $filePath = $this->folders[$parts[0]] . '/' . $parts[1];
+            $filePath = $this->folders[$parts[0]] . DIRECTORY_SEPARATOR . $parts[1];
+
+        } else {
+            throw new \LogicException('The path "' . $path . '" is not a valid path format.');
         }
 
         if (!is_null($this->fileExtension)) {

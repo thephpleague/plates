@@ -14,7 +14,7 @@ class URI implements ExtensionInterface
         $this->parts = explode('/', $this->uri);
     }
 
-    public function getMethods()
+    public function getFunctions()
     {
         return array(
             'uri' => 'runUri'

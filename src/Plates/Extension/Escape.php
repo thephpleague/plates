@@ -7,7 +7,7 @@ class Escape implements ExtensionInterface
     public $engine;
     public $template;
 
-    public function getMethods()
+    public function getFunctions()
     {
         return array(
             'escape' => 'escapeString',

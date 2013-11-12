@@ -19,14 +19,16 @@ class Template
         return call_user_func_array($function, $arguments);
     }
 
-    public function insert($path)
-    {
-        include $this->_internal['engine']->resolvePath($path);
-    }
-
     public function layout($template)
     {
         $this->_internal['layout'] = $template;
+    }
+
+    public function data(Array $data)
+    {
+        foreach ($data as $name => $value) {
+            $this->$name = $value;
+        }
     }
 
     public function start($name)
@@ -50,6 +52,11 @@ class Template
     public function child()
     {
         return $this->_internal['child'];
+    }
+
+    public function insert($path)
+    {
+        include $this->_internal['engine']->resolvePath($path);
     }
 
     public function render($path, Array $variables = null)

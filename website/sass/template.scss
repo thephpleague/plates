@@ -1,0 +1,159 @@
+html
+{
+    background-color: #e6fcd1;
+    background-image: url(/img/bg.svg);
+    background-repeat: repeat-y;
+    background-size: 250px 250px;
+}
+
+::-moz-selection {
+    background: #52af8a;
+    color: #e6fcd1;
+    text-shadow: none;
+}
+
+::selection {
+    background: #52af8a;
+    color: #e6fcd1;
+    text-shadow: none;
+}
+
+header
+{
+    float: left;
+    width: 250px;
+    background: #00978c;
+
+    @media print {
+        display: none;
+    }
+
+    .logo
+    {
+        display: block;
+        width: 185px;
+        margin: 57px auto 40px auto;
+
+        img
+        {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+    }
+
+    menu
+    {
+        margin: 0;
+        padding: 0 0 50px 0;
+
+        h2
+        {
+            margin: 30px 0 5px 45px;
+            font-family: "Museo 300";
+            color: #83c89b;
+            font-size: 14px;
+            line-height: 100%;
+            font-weight: normal;
+            text-transform: uppercase;
+        }
+
+        ul
+        {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+
+            li
+            {
+                a
+                {
+                    padding: 8px 0 6px 45px;
+                    display: block;
+                    font-family: "Museo 300";
+                    color: #dcfbbe;
+                    font-size: 18px;
+                    line-height: 100%;
+                    font-weight: normal;
+                    text-decoration: none;
+
+                    &:hover
+                    {
+                        color: lighten(#dcfbbe, 10%);
+                    }
+                }
+
+                &.selected
+                {
+                    a
+                    {
+                        background: #00877c;
+                    }
+                }
+            }
+        }
+    }
+}
+
+article
+{
+    width: auto;
+    margin: 0 0 50px 0;
+    padding: 0 50px;
+    max-width: 950px;
+    overflow: hidden;
+
+    font-family: "Museo 300";
+    color: #52af8a;
+    font-size: 18px;
+    line-height: 160%;
+    font-weight: normal;
+
+    h1
+    {
+        margin: 60px 0 30px 0;
+        font-family: "Museo 100";
+        -webkit-font-smoothing: antialiased;
+        color: #52af8a;
+        font-size: 70px;
+        line-height: 100%;
+        font-weight: normal;
+    }
+
+    h2
+    {
+        margin: 40px 0 15px 0;
+        font-family: "Museo 300";
+        -webkit-font-smoothing: antialiased;
+        color: #83c89b;
+        font-size: 30px;
+        line-height: 100%;
+        font-weight: normal;
+    }
+
+    a
+    {
+        color: #00978c;
+        text-decoration: underline;
+
+        &:hover
+        {
+            color: darken(#00978c, 15%);
+        }
+    }
+
+    li
+    {
+        margin: 5px 0;
+    }
+
+    p > code
+    {
+        display: inline-block;
+        padding: 0 5px;
+        font-family: Consolas, Monaco, 'Andale Mono', monospace;
+        font-size: 17px;
+        background: #d7f5ca;
+        border-radius: 2px;
+    }
+}

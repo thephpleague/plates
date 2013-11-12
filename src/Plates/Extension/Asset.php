@@ -15,7 +15,7 @@ class Asset implements ExtensionInterface
         $this->filenameMethod = $filenameMethod;
     }
 
-    public function getMethods()
+    public function getFunctions()
     {
         return array(
             'asset' => 'cachedAssetUrl'

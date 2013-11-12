@@ -10,8 +10,22 @@ The URI extension comes packaged with Plates but is not enabled by default, as i
 ~~~language-php
 <?php
 
-// Load URI extension
+// Load URI extension using global variable
 $plates->loadExtension(new \Plates\Extension\URI($_SERVER['PATH_INFO']));
+
+// Load URI extension using a HttpFoundation's request object
+$plates->loadExtension(new \Plates\Extension\URI($request->getPathInfo()));
+~~~
+
+## URI example
+
+~~~language-php
+<ul>
+    <li <?=$this->uri('/', 'class="selected"')?>><a href="/">Home</a></li>
+    <li <?=$this->uri('/about', 'class="selected"')?>><a href="/about">About</a></li>
+    <li <?=$this->uri('/products', 'class="selected"')?>><a href="/products">Products</a></li>
+    <li <?=$this->uri('/contact', 'class="selected"')?>><a href="/contact">Contact</a></li>
+</ul>
 ~~~
 
 ## Using the URI extension
@@ -62,15 +76,4 @@ Check if a regular expression string (first parameter) matches the current URI. 
 
 ~~~language-php
 <?=$this->uri('/home', 'success', 'fail')?>
-~~~
-
-## URI extension example
-
-~~~language-php
-<ul>
-    <li <?=$this->uri('/', 'class="selected"')?>><a href="/">Home</a></li>
-    <li <?=$this->uri('/about', 'class="selected"')?>><a href="/about">About</a></li>
-    <li <?=$this->uri('/products', 'class="selected"')?>><a href="/products">Products</a></li>
-    <li <?=$this->uri('/contact', 'class="selected"')?>><a href="/contact">Contact</a></li>
-</ul>
 ~~~

@@ -27,7 +27,7 @@ Plates is available via Composer:
 // Include Composer autoloader
 require 'vendor/autoload.php';
 
-// Create new plates engine
+// Create new Plates engine
 $engine = new \Plates\Engine('/path/to/templates');
 
 // Add any any additional folders
@@ -51,6 +51,6 @@ $template->name = 'Jonathan';
 // Render the template
 echo $template->render('home');
 
-// Render folder template
+// Render a folder template
 $email = $template->render('emails::welcome');
 ~~~

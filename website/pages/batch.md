@@ -3,15 +3,17 @@ Batch extension
 
 Sometimes you need to apply more than function to a variable in your templates. This can become somewhat illegible. The batch extension helps by allowing you to apply multiple extension functions AND native PHP functions to a variable at one time.
 
+The batch extension comes packaged with Plates and is enabled by default.
+
 ## Batch example
 
-Example without using batch
+Example without using batch:
 
 ~~~language-php
 <p>Welcome, <?=strtoupper($this->escape(strip_tags($this->name)))?></p>
 ~~~
 
-Example using batch
+Example using batch:
 
 ~~~language-php
 <p>Welcome, <?=$this->batch($this->name, 'strip_tags|e|strtoupper')?></p>

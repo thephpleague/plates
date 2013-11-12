@@ -10,11 +10,11 @@ Assigning variables from within your application code, such as a controller, is 
 ~~~language-php
 <?php
 
-// Assign data as object properties:
+// Assign data as object properties
 $template->name = 'Jonathan';
 $template->friends = array('Amy', 'Neil', 'Joey');
 
-// Or in bulk using the data() method:
+// Or in bulk using the data() method
 $template->data(
     [
         'name' => 'Jonathan',

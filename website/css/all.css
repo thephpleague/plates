@@ -799,7 +799,8 @@ article {
       color: #004b45; }
   article li {
     margin: 5px 0; }
-  article p > code {
+  article p > code,
+  article li > code {
     display: inline-block;
     padding: 0 5px;
     font-family: Consolas, Monaco, 'Andale Mono', monospace;

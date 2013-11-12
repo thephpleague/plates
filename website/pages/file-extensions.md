@@ -8,7 +8,7 @@ Plates does not enforce a specific template file extension. By default it assume
 ~~~.language-php
 <?php
 
-// Create new plates engine and set the default file extension to ".tpl"
+// Create new Plates engine and set the default file extension to ".tpl"
 $plates = new \Plates\Engine('/path/to/templates', 'tpl');
 ~~~
 

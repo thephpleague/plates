@@ -1,7 +1,11 @@
 Escape extension
 ================
 
-The escape extension comes packaged with Plates and is enabled by default. Escaping is a form of [data filtering](http://www.phptherightway.com/#data_filtering) which sanitizes unsafe, user supplied input prior to outputting it as HTML. Plates provides two shortcuts to the `htmlspecialchars($string, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')` function.
+Escaping is a form of [data filtering](http://www.phptherightway.com/#data_filtering) which sanitizes unsafe, user supplied input prior to outputting it as HTML. Plates provides two shortcuts to the `htmlspecialchars($string, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')` function.
+
+The escape extension comes packaged with Plates and is enabled by default.
+
+## Escape example
 
 ~~~language-php
 <?=$this->escape($this->var)?>

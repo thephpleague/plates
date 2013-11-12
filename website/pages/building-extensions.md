@@ -41,7 +41,7 @@ To use this extension in your template, call the functions you've made available
 
 ## Single method extensions
 
-Alternatively, you may choose to expose the entire extension object to the template using a single method. This can make your template functions more legible and also reduce the chance of conflicts with other extensions.
+Alternatively, you may choose to expose the entire extension object to the template using a single function. This can make your templates more legible and also reduce the chance of conflicts with other extensions.
 
 ~~~language-php
 <?php

@@ -42,4 +42,4 @@ To access the rendered template content within your template, use the `child()` 
 
 ## Rendering order
 
-Your template will be rendered before the layout, which is quite helpful as you can assign variables (ie. `<?php $this->title = 'User Profile' ?>`) that will be available when the layout is rendered.
+Your template will be rendered before the layout, which is quite helpful as you can assign variables (ie. `<?php $this->title = 'User Profile' ?>`) that will then be available when the layout is rendered.

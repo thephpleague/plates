@@ -10,11 +10,11 @@ While the actual syntax you use in your templates is entirely your choice (it's 
 - Always use the short echo syntax (`<?=`) when outputting variables. For all other inline PHP code, use full the `<?php` tag. Do not use [short tags](http://us3.php.net/manual/en/ini.core.php#ini.short-open-tag).
 - Always use the [alternative syntax for control structures](http://php.net/manual/en/control-structures.alternative-syntax.php), which are designed to make templates more legible.
 - Never use PHP curly brackets.
-- Only ever have one statement in a each PHP tag.
+- Only ever have one statement in each PHP tag.
 - Avoid using semicolons. They are not needed when there is only one statement per PHP tag.
 - Never use the `use` operator. Templates should not be interacting with classes in this way.
 - Never use the `for`, `while` or `switch` control structures. Instead use `if` and `foreach`.
-- Other than templates variables, avoid variable assignment.
+- Other than template variables, avoid variable assignment.
 
 ## Syntax example
 

@@ -1,4 +1,4 @@
-Simple Example
+Simple example
 ==============
 
 ## Within your controller

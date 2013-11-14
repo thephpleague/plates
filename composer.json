@@ -26,5 +26,8 @@
         {
             "League\\Plates": "src/"
         }
+    },
+    "replace": {
+        "reinink/plates": "*"
     }
 }

@@ -11,7 +11,7 @@ In the following example, the content between the `start()` and `end()` function
 <?php $this->start('content') ?>
 
     <h1>Welcome!</h1>
-    <p>Welcome, <?=$this->e($this->name)?></p>
+    <p>Hello <?=$this->e($this->name)?></p>
 
 <?php $this->end() ?>
 ~~~

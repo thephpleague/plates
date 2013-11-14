@@ -21,7 +21,7 @@ The best way to understand template inheritance is by an example:
     <?=$this->content?>
 </div>
 
-<?php if ($this->sidebar): ?>
+<?php if (isset($this->sidebar)): ?>
     <div id="sidebar">
         <?=$this->sidebar?>
     </div>
@@ -40,7 +40,7 @@ The best way to understand template inheritance is by an example:
 
 <?php $this->start('content') ?>
     <h1>Welcome!</h1>
-    <p>Welcome, <?=$this->e($this->name)?></p>
+    <p>Hello <?=$this->e($this->name)?></p>
 <?php $this->end() ?>
 
 <?php $this->start('sidebar') ?>

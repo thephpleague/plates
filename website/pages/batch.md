@@ -10,13 +10,13 @@ The batch extension comes packaged with Plates and is enabled by default.
 Example without using batch:
 
 ~~~language-php
-<p>Welcome, <?=strtoupper($this->escape(strip_tags($this->name)))?></p>
+<p>Welcome <?=strtoupper($this->escape(strip_tags($this->name)))?></p>
 ~~~
 
 Example using batch:
 
 ~~~language-php
-<p>Welcome, <?=$this->batch($this->name, 'strip_tags|e|strtoupper')?></p>
+<p>Welcome <?=$this->batch($this->name, 'strip_tags|e|strtoupper')?></p>
 ~~~
 
 ## How the batch extension works

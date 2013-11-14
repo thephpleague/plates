@@ -815,7 +815,7 @@ article {
  */
 code[class*="language-"],
 pre[class*="language-"] {
-  color: #63b796;
+  color: #75bfa2;
   text-shadow: 0 1px #d6f2d5;
   font-family: Consolas, Monaco, 'Andale Mono', monospace;
   direction: ltr;
@@ -848,45 +848,43 @@ pre[class*="language-"] {
   padding: .1em;
   border-radius: .3em; }
 
-.token.comment,
-.token.prolog,
-.token.doctype,
-.token.cdata {
-  color: #9aaca5; }
-
-.namespace {
-  opacity: .7; }
-
-.token.property,
-.token.boolean,
-.token.number,
-.token.variable,
-.token.this,
-.token.punctuation,
-.token.class-name,
-.token.function {
-  color: #007e74; }
-
-.token.markup .tag,
-.token.markup .punctuation {
-  color: #63b796; }
-
-.token.selector,
-.token.attr-name,
-.token.string {
+.language-php .string {
   color: #690; }
-
-.token.atrule,
-.token.attr-value,
-.token.keyword {
+.language-php .this,
+.language-php .keyword {
   color: #07a; }
+.language-php .comment {
+  color: #9aaca5; }
+.language-php .property,
+.language-php .function,
+.language-php .class-name,
+.language-php .variable,
+.language-php .punctuation {
+  color: #007e74; }
+.language-php .php .keyword,
+.language-php .php .string,
+.language-php .php .punctuation {
+  color: #690; }
+.language-php .php .function,
+.language-php .php .property,
+.language-php .php .this,
+.language-php .php .variable,
+.language-php .php .operator {
+  color: #07a; }
+.language-php .markup .token {
+  color: #75bfa2 !important; }
+  .language-php .markup .token .php .keyword,
+  .language-php .markup .token .php .string,
+  .language-php .markup .token .php .punctuation {
+    color: #690 !important; }
+  .language-php .markup .token .php .function,
+  .language-php .markup .token .php .property,
+  .language-php .markup .token .php .this,
+  .language-php .markup .token .php .variable,
+  .language-php .markup .token .php .operator {
+    color: #07a !important; }
 
-.token.regex,
-.token.important {
-  color: #e90; }
-
-.token.important {
-  font-weight: bold; }
-
-.token.entity {
-  cursor: help; }
+.language-javascript .punctuation {
+  color: #007e74; }
+.language-javascript .string {
+  color: #690; }

@@ -26,7 +26,7 @@ Here is an example of a template that complies with the above syntax rules.
 <?php $this->title = 'User Profile' ?>
 
 <h1>Welcome!</h1>
-<p>Welcome, <?=$this->e($this->name)?></p>
+<p>Hello <?=$this->e($this->name)?></p>
 
 <h2>Friends</h2>
 <ul>

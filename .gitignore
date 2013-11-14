@@ -1,4 +1,2 @@
-.DS_Store
-/composer.lock
-/demo
-/vendor
+vendor
+composer.lock

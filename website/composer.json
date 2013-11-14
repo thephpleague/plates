@@ -1,9 +1,0 @@
-{
-    "require":
-    {
-        "michelf/php-markdown": "1.3.*@dev",
-        "filp/whoops": "dev-master",
-        "reinink/roundabout": "1.0.*",
-        "reinink/plates": "1.0.*"
-    }
-}

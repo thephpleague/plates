@@ -1,6 +1,6 @@
 <?php
 
-namespace Plates;
+namespace League\Plates;
 
 use org\bovigo\vfs\vfsStream;
 
@@ -25,13 +25,13 @@ class EngineTest extends \PHPUnit_Framework_TestCase
 
     public function testCanCreateEngine()
     {
-        $this->assertInstanceOf('Plates\Engine', $this->engine);
+        $this->assertInstanceOf('League\Plates\Engine', $this->engine);
     }
 
     public function testSetValidDirectory()
     {
-        $this->assertInstanceOf('Plates\Engine', $this->engine->setDirectory(null));
-        $this->assertInstanceOf('Plates\Engine', $this->engine->setDirectory(vfsStream::url('templates')));
+        $this->assertInstanceOf('League\Plates\Engine', $this->engine->setDirectory(null));
+        $this->assertInstanceOf('League\Plates\Engine', $this->engine->setDirectory(vfsStream::url('templates')));
     }
 
     public function testSetInvalidDirectory()
@@ -48,8 +48,8 @@ class EngineTest extends \PHPUnit_Framework_TestCase
 
     public function testSetValidFileExtension()
     {
-        $this->assertInstanceOf('Plates\Engine', $this->engine->setFileExtension('tpl'));
-        $this->assertInstanceOf('Plates\Engine', $this->engine->setFileExtension(null));
+        $this->assertInstanceOf('League\Plates\Engine', $this->engine->setFileExtension('tpl'));
+        $this->assertInstanceOf('League\Plates\Engine', $this->engine->setFileExtension(null));
     }
 
     public function testSetInvalidFileExtension()
@@ -60,7 +60,7 @@ class EngineTest extends \PHPUnit_Framework_TestCase
 
     public function testAddValidFolder()
     {
-        $this->assertInstanceOf('Plates\Engine', $this->engine->addFolder('emails', vfsStream::url('templates/emails')));
+        $this->assertInstanceOf('League\Plates\Engine', $this->engine->addFolder('emails', vfsStream::url('templates/emails')));
     }
 
     public function testAddFolderWithInvalidNamespace()
@@ -90,17 +90,17 @@ class EngineTest extends \PHPUnit_Framework_TestCase
 
     public function testLoadValidExtension()
     {
-        $extension = \Mockery::mock('Plates\Extension\ExtensionInterface')
+        $extension = \Mockery::mock('League\Plates\Extension\ExtensionInterface')
             ->shouldReceive('getFunctions')
             ->andReturn(array('function' => 'method'))
             ->mock();
-        $this->assertInstanceOf('Plates\Engine', $this->engine->loadExtension($extension));
+        $this->assertInstanceOf('League\Plates\Engine', $this->engine->loadExtension($extension));
     }
 
     public function testLoadExtensionWithInvalidFunctionsFileType()
     {
         $this->setExpectedException('LogicException');
-        $extension = \Mockery::mock('Plates\Extension\ExtensionInterface')
+        $extension = \Mockery::mock('League\Plates\Extension\ExtensionInterface')
             ->shouldReceive('getFunctions')
             ->andReturn(null)
             ->mock();
@@ -110,7 +110,7 @@ class EngineTest extends \PHPUnit_Framework_TestCase
     public function testLoadExtensionWithEmptyFunctionsArray()
     {
         $this->setExpectedException('LogicException');
-        $extension = \Mockery::mock('Plates\Extension\ExtensionInterface')
+        $extension = \Mockery::mock('League\Plates\Extension\ExtensionInterface')
             ->shouldReceive('getFunctions')
             ->andReturn(array())
             ->mock();
@@ -120,7 +120,7 @@ class EngineTest extends \PHPUnit_Framework_TestCase
     public function testLoadExtensionWithInvalidFunctionName()
     {
         $this->setExpectedException('LogicException');
-        $extension = \Mockery::mock('Plates\Extension\ExtensionInterface')
+        $extension = \Mockery::mock('League\Plates\Extension\ExtensionInterface')
             ->shouldReceive('getFunctions')
             ->andReturn(array(null => 'method'))
             ->mock();
@@ -130,7 +130,7 @@ class EngineTest extends \PHPUnit_Framework_TestCase
     public function testLoadExtensionWithInvalidMethodName()
     {
         $this->setExpectedException('LogicException');
-        $extension = \Mockery::mock('Plates\Extension\ExtensionInterface')
+        $extension = \Mockery::mock('League\Plates\Extension\ExtensionInterface')
             ->shouldReceive('getFunctions')
             ->andReturn(array('function' => null))
             ->mock();
@@ -140,7 +140,7 @@ class EngineTest extends \PHPUnit_Framework_TestCase
     public function testLoadExtensionsWithFunctionNameConflicts()
     {
         $this->setExpectedException('LogicException');
-        $extension = \Mockery::mock('Plates\Extension\ExtensionInterface')
+        $extension = \Mockery::mock('League\Plates\Extension\ExtensionInterface')
             ->shouldReceive('getFunctions')
             ->andReturn(array('function' => 'method'))
             ->mock();
@@ -162,7 +162,7 @@ class EngineTest extends \PHPUnit_Framework_TestCase
 
     public function testGetFunctionWithValidFunction()
     {
-        $extension = \Mockery::mock('Plates\Extension\ExtensionInterface')
+        $extension = \Mockery::mock('League\Plates\Extension\ExtensionInterface')
             ->shouldReceive('getFunctions')
             ->andReturn(array('function' => 'method'))
             ->mock();
@@ -172,7 +172,7 @@ class EngineTest extends \PHPUnit_Framework_TestCase
 
     public function testFunctionExistsReturnsTrue()
     {
-        $extension = \Mockery::mock('Plates\Extension\ExtensionInterface')
+        $extension = \Mockery::mock('League\Plates\Extension\ExtensionInterface')
             ->shouldReceive('getFunctions')
             ->andReturn(array('function' => 'method'))
             ->mock();

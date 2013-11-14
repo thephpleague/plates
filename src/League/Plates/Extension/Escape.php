@@ -1,6 +1,6 @@
 <?php
 
-namespace Plates\Extension;
+namespace League\Plates\Extension;
 
 class Escape implements ExtensionInterface
 {

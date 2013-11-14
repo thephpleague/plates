@@ -1,6 +1,6 @@
 <?php
 
-namespace Plates;
+namespace League\Plates;
 
 class Template
 {

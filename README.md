@@ -22,7 +22,7 @@ Plates is available via Composer:
 ```json
 {
     "require": {
-        "reinink/plates": "1.*"
+        "league/plates": "1.*"
     }
 }
 ```

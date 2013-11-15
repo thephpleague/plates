@@ -8,7 +8,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->template = new Template(new Engine());
+        $this->template = new Template(new Engine(realpath('tests/assets'), 'tpl'));
     }
 
     public function testCanCreateTemplate()
@@ -44,5 +44,26 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         echo 'Jonathan';
         $this->template->end();
         $this->assertTrue($this->template->name === 'Jonathan');
+    }
+
+    public function testInsert()
+    {
+        $this->expectOutputString('Jonathan');
+        $this->template->insert('basic-template');
+    }
+
+    public function testRender()
+    {
+        $this->assertTrue($this->template->render('basic-template') === 'Jonathan');
+    }
+
+    public function testRenderWithLayout()
+    {
+        $this->assertTrue($this->template->render('template-with-layout') === 'Hello, Jonathan');
+    }
+
+    public function testRenderWithData()
+    {
+        $this->assertTrue($this->template->render('template-with-data', array('name' => 'Jonathan')) === 'Jonathan');
     }
 }

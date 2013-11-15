@@ -59,10 +59,10 @@ class Template
         include $this->_internal['engine']->resolvePath($path);
     }
 
-    public function render($path, Array $variables = null)
+    public function render($path, Array $data = null)
     {
-        if (!is_null($variables)) {
-            foreach ($variables as $name => $value) {
+        if (!is_null($data)) {
+            foreach ($data as $name => $value) {
                 $this->$name = $value;
             }
         }

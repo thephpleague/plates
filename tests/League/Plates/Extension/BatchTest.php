@@ -34,4 +34,10 @@ class BatchTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->extension->runBatch('Jonathan', 'strtoupper|strtolower') === 'jonathan');
         $this->assertTrue($this->extension->runBatch('Jonathan', 'e|strtolower') === 'jonathan');
     }
+
+    public function testRunBatchException()
+    {
+        $this->setExpectedException('LogicException');
+        $this->assertTrue($this->extension->runBatch('Jonathan', 'somefunctionthatwillneverexist'));
+    }
 }

@@ -2,23 +2,53 @@
 
 namespace League\Plates;
 
+/**
+ * Used to store the environment configuration and extensions.
+ */
 class Engine
 {
+    /**
+     * Path to templates directory.
+     * @var string
+     */
     protected $directory;
+
+    /**
+     * File extension used by templates.
+     * @var string
+     */
     protected $fileExtension;
+
+    /**
+     * Collection of template folders.
+     * @var array
+     */
     protected $folders;
+
+    /**
+     * Collection of available extension functions.
+     * @var array
+     */
     protected $functions;
 
+    /**
+     * Create new Engine instance and load default extensions.
+     * @param string $directory
+     * @param string $fileExtension
+     */
     public function __construct($directory = null, $fileExtension = 'php')
     {
         $this->setDirectory($directory);
         $this->setFileExtension($fileExtension);
-
-        // Load default extensions
         $this->loadExtension(new Extension\Escape);
         $this->loadExtension(new Extension\Batch);
     }
 
+    /**
+     * Set path to templates directory.
+     * @param string|null $directory Pass null to disable the default directory.
+     * @return Engine
+     */
     public function setDirectory($directory)
     {
         if (!is_null($directory) and !is_string($directory)) {
@@ -34,6 +64,11 @@ class Engine
         return $this;
     }
 
+    /**
+     * Set the file extension used by templates.
+     * @param string|null $fileExtension Pass null to manually set it each time.
+     * @return Engine
+     */
     public function setFileExtension($fileExtension)
     {
         if (!is_string($fileExtension) and !is_null($fileExtension)) {
@@ -45,6 +80,12 @@ class Engine
         return $this;
     }
 
+    /**
+     * Add a new template folder for grouping templates under different namespaces.
+     * @param string $namespace
+     * @param string $directory
+     * @return Engine
+     */
     public function addFolder($namespace, $directory)
     {
         if (!is_string($namespace)) {
@@ -68,6 +109,11 @@ class Engine
         return $this;
     }
 
+    /**
+     * Load an extension and make additional functions available within templates.
+     * @param  ExtensionExtensionInterface $extension
+     * @return Engine
+     */
     public function loadExtension(Extension\ExtensionInterface $extension)
     {
         if (!is_array($extension->getFunctions())) {
@@ -104,6 +150,11 @@ class Engine
         return $this;
     }
 
+    /**
+     * Get a loaded extension and method by function name.
+     * @param  string $function
+     * @return array
+     */
     public function getFunction($function)
     {
         if (!is_string($function) or empty($function) or !is_callable($function, true)) {
@@ -117,18 +168,28 @@ class Engine
         return $this->functions[$function];
     }
 
+    /**
+     * Check if an extension function exists.
+     * @param  string $method
+     * @return boolean
+     */
     public function functionExists($method)
     {
         return isset($this->functions[$method]);
     }
 
-    public function resolvePath($path)
+    /**
+     * Determine the file path of a template.
+     * @param  string $name
+     * @return string
+     */
+    public function resolvePath($name)
     {
-        if (!is_string($path)) {
-            throw new \LogicException('The path must be a string, ' . gettype($path) . ' given.');
+        if (!is_string($name)) {
+            throw new \LogicException('The template name must be a string, ' . gettype($name) . ' given.');
         }
 
-        $parts = explode('::', $path);
+        $parts = explode('::', $name);
 
         if (count($parts) === 1) {
 
@@ -137,7 +198,7 @@ class Engine
             }
 
             if ($parts[0] === '') {
-                throw new \LogicException('The path cannot be an empty.');
+                throw new \LogicException('The template name cannot be an empty.');
             }
 
             $filePath = $this->directory . DIRECTORY_SEPARATOR . $parts[0];
@@ -145,11 +206,11 @@ class Engine
         } else if (count($parts) === 2) {
 
             if ($parts[0] === '') {
-                throw new \LogicException('The path "' . $path . '" is not a valid path format.');
+                throw new \LogicException('The template name "' . $name . '" is not valid.');
             }
 
             if ($parts[1] === '') {
-                throw new \LogicException('The path "' . $path . '" is not a valid path format.');
+                throw new \LogicException('The template name "' . $name . '" is not valid.');
             }
 
             if (!isset($this->folders[$parts[0]])) {
@@ -159,7 +220,7 @@ class Engine
             $filePath = $this->folders[$parts[0]] . DIRECTORY_SEPARATOR . $parts[1];
 
         } else {
-            throw new \LogicException('The path "' . $path . '" is not a valid path format.');
+            throw new \LogicException('The template name "' . $name . '" is not valid.');
         }
 
         if (!is_null($this->fileExtension)) {
@@ -167,7 +228,7 @@ class Engine
         }
 
         if (!is_file($filePath)) {
-            throw new \LogicException('The specified template "' . $path . '" could not be found at "' . $filePath . '".');
+            throw new \LogicException('The specified template "' . $name . '" could not be found at "' . $filePath . '".');
         }
 
         return $filePath;

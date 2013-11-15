@@ -1,6 +1,7 @@
 Plates
 ======
 
+[![Build Status](https://travis-ci.org/php-loep/Plates.png?branch=master)](https://travis-ci.org/php-loep/Plates)
 [![Total Downloads](https://poser.pugx.org/league/Plates/downloads.png)](https://packagist.org/packages/league/Plates)
 [![Latest Stable Version](https://poser.pugx.org/league/Plates/v/stable.png)](https://packagist.org/packages/league/Plates)
 

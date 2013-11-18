@@ -19,6 +19,15 @@ class Template
         return call_user_func_array($function, $arguments);
     }
 
+    private function assignData(Array $data = null)
+    {
+        if (!is_null($data)) {
+            foreach ($data as $name => $value) {
+                $this->$name = $value;
+            }
+        }
+    }
+
     public function layout($template)
     {
         $this->_internal['layout'] = $template;
@@ -54,18 +63,16 @@ class Template
         return $this->_internal['child'];
     }
 
-    public function insert($path)
+    public function insert($path, Array $data = null)
     {
+        $this->assignData($data);
+
         include $this->_internal['engine']->resolvePath($path);
     }
 
     public function render($path, Array $data = null)
     {
-        if (!is_null($data)) {
-            foreach ($data as $name => $value) {
-                $this->$name = $value;
-            }
-        }
+        $this->assignData($data);
 
         ob_start();
 

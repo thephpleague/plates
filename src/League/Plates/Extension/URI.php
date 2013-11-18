@@ -47,7 +47,7 @@ class URI implements ExtensionInterface
             if ($this->parts[$var1] === $var2) {
                 return $var3;
             } else {
-                return $var3;
+                return $var4;
             }
         }
 

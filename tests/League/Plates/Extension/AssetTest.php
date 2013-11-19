@@ -28,13 +28,13 @@ class AssetTest extends \PHPUnit_Framework_TestCase
 
     public function testCachedAssetUrl()
     {
-        $this->assertTrue($this->extension->cachedAssetUrl('styles.css') === 'styles.css?v=1384813172');
+        $this->assertTrue($this->extension->cachedAssetUrl('styles.css') === 'styles.css?v=' . filemtime(realpath('tests/assets/styles.css')));
     }
 
     public function testCachedAssetUrlUsingFilenameMethod()
     {
         $this->extension = new Asset(realpath('tests/assets'), true);
-        $this->assertTrue($this->extension->cachedAssetUrl('styles.css') === 'styles.1384813172.css');
+        $this->assertTrue($this->extension->cachedAssetUrl('styles.css') === 'styles.' . filemtime(realpath('tests/assets/styles.css')) . '.css');
     }
 
     public function testFileNotFoundException()

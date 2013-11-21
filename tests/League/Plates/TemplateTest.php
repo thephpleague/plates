@@ -26,6 +26,12 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($this->template->layout('test'));
     }
 
+    public function testSetLayoutWithData()
+    {
+        $this->template->layout('test', array('name' => 'Jonathan'));
+        $this->assertTrue($this->template->name === 'Jonathan');
+    }
+
     public function testSetData()
     {
         $this->template->data(array('name' => 'Jonathan'));
@@ -53,7 +59,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     }
 
     public function testInsertWithData()
-    {   
+    {
         $this->expectOutputString('Jonathan');
         $this->template->insert('template-with-data', array('name' => 'Jonathan'));
     }

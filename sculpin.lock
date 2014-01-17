@@ -1,0 +1,47 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
+    ],
+    "hash": "356c4c08f9952ec09925dcc6451804eb",
+    "packages": [
+        {
+            "name": "php-loep/php-loep.github.com",
+            "version": "dev-project-website-theme",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-loep/php-loep.github.com.git",
+                "reference": "3f0eeae7e5fdc9cd042e8f0a01c1371339935477"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-loep/php-loep.github.com/zipball/3f0eeae7e5fdc9cd042e8f0a01c1371339935477",
+                "reference": "3f0eeae7e5fdc9cd042e8f0a01c1371339935477",
+                "shasum": ""
+            },
+            "type": "sculpin-theme",
+            "description": "A Sculpin based theme for the proejct websites of The League of Extraordinary Packages.",
+            "support": {
+                "source": "https://github.com/php-loep/php-loep.github.com/tree/project-website-theme",
+                "issues": "https://github.com/php-loep/php-loep.github.com/issues"
+            },
+            "time": "2014-01-17 20:03:23"
+        }
+    ],
+    "packages-dev": [
+
+    ],
+    "aliases": [
+
+    ],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "php-loep/php-loep.github.com": 20
+    },
+    "platform": [
+
+    ],
+    "platform-dev": [
+
+    ]
+}

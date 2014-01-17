@@ -1,0 +1,25 @@
+title: Plates
+tagline: Native PHP Templates
+description: 'Plates is a Twig inspired, native PHP template system that brings modern template language functionality to native PHP templates.'
+google_analytics_tracking_id: UA-27307991-9
+menu:
+    Getting Started:
+        Introduction: '/'
+        Simple example: '/simple-example/'
+    The Engine:
+        Getting started: '/getting-started/'
+        File extensions: '/file-extensions/'
+        Folders: '/folders/'
+    Templates:
+        Variables: '/variables/'
+        Nesting: '/nesting/'
+        Layouts: '/layouts/'
+        Sections: '/sections/'
+        Inheritance: '/inheritance/'
+        Syntax: '/syntax/'
+    Extensions:
+        How to build: '/building-extensions/'
+        Escape: '/escape/'
+        Batch: '/batch/'
+        URI: '/uri/'
+        Asset: '/asset/'

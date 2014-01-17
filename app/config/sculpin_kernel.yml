@@ -1,0 +1,5 @@
+sculpin:
+    exclude:
+        - sass/
+sculpin_theme:
+    theme: php-loep/php-loep.github.com

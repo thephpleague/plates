@@ -1,0 +1,11 @@
+{
+    "require": {
+        "php-loep/php-loep.github.com": "dev-project-website-theme"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:php-loep/php-loep.github.com.git"
+        }
+    ]
+}

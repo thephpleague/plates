@@ -11,12 +11,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-loep/php-loep.github.com.git",
-                "reference": "3f0eeae7e5fdc9cd042e8f0a01c1371339935477"
+                "reference": "72a32bac443f2fcc24bab88fc30fe48d8ddf3cb8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-loep/php-loep.github.com/zipball/3f0eeae7e5fdc9cd042e8f0a01c1371339935477",
-                "reference": "3f0eeae7e5fdc9cd042e8f0a01c1371339935477",
+                "url": "https://api.github.com/repos/php-loep/php-loep.github.com/zipball/72a32bac443f2fcc24bab88fc30fe48d8ddf3cb8",
+                "reference": "72a32bac443f2fcc24bab88fc30fe48d8ddf3cb8",
                 "shasum": ""
             },
             "type": "sculpin-theme",
@@ -25,7 +25,7 @@
                 "source": "https://github.com/php-loep/php-loep.github.com/tree/project-website-theme",
                 "issues": "https://github.com/php-loep/php-loep.github.com/issues"
             },
-            "time": "2014-01-17 20:03:23"
+            "time": "2014-01-20 01:58:52"
         }
     ],
     "packages-dev": [

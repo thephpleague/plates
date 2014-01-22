@@ -1,9 +1,9 @@
 Plates
 ======
 
-[![Build Status](https://travis-ci.org/php-loep/Plates.png?branch=master)](https://travis-ci.org/php-loep/Plates)
-[![Total Downloads](https://poser.pugx.org/league/Plates/downloads.png)](https://packagist.org/packages/league/Plates)
-[![Latest Stable Version](https://poser.pugx.org/league/Plates/v/stable.png)](https://packagist.org/packages/league/Plates)
+[![Build Status](https://travis-ci.org/thephpleague/plates.png?branch=master)](https://travis-ci.org/thephpleague/plates)
+[![Total Downloads](https://poser.pugx.org/league/plates/downloads.png)](https://packagist.org/packages/league/plates)
+[![Latest Stable Version](https://poser.pugx.org/league/plates/v/stable.png)](https://packagist.org/packages/league/plates)
 
 Plates is a native PHP template system that’s fast, easy to use and easy to extend. It’s inspired by the excellent [Twig](http://twig.sensiolabs.org/) template engine and tries to bring modern template language functionality to native PHP templates. Plates is designed for developers who prefer to use native PHP templates over compiled templates, such as Twig or Smarty.
 
@@ -37,19 +37,19 @@ Full documentation can be found at [platesphp.com](http://platesphp.com/).
 
 ## Testing
 
-``` bash
+```bash
 $ phpunit
 ```
 
 ## Contributing
 
-Please see [CONTRIBUTING](https://github.com/php-loep/Plates/blob/master/CONTRIBUTING.md) for details.
+Please see [CONTRIBUTING](https://github.com/thephpleague/plates/blob/master/CONTRIBUTING.md) for details.
 
 ## Credits
 
 - [Jonathan Reinink](https://github.com/reinink)
-- [All Contributors](https://github.com/php-loep/Plates/contributors)
+- [All Contributors](https://github.com/thephpleague/plates/contributors)
 
 ## License
 
-The MIT License (MIT). Please see [License File](https://github.com/php-loep/Plates/blob/master/LICENSE) for more information.
+The MIT License (MIT). Please see [License File](https://github.com/thephpleague/plates/blob/master/LICENSE) for more information.

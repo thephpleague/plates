@@ -23,7 +23,7 @@ Plates is a native PHP template system that’s fast, easy to use and easy to ex
 
 ## Source code
 
-Plates is now part of [The League of Extraordinary Packages](http://www.thephpleague.com/). View the source at [github.com/php-loep/Plates](https://github.com/php-loep/Plates).
+Plates is now part of [The League of Extraordinary Packages](http://www.thephpleague.com/). View the source at [github.com/thephpleague/plates](https://github.com/thephpleague/plates).
 
 ## Questions?
 

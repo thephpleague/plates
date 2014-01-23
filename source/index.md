@@ -5,6 +5,11 @@ layout: layout
 Introduction
 ============
 
+<ul class="quick_links">
+    <li><a class="github" href="https://github.com/thephpleague/plates">View Source</a></li>
+    <li><a class="twitter" href="https://twitter.com/reinink">Follow Author</a></li>
+</ul>
+
 ## About
 
 Plates is a native PHP template system that’s fast, easy to use and easy to extend. It’s inspired by the excellent [Twig](http://twig.sensiolabs.org/) template engine and tries to bring modern template language functionality to native PHP templates. Plates is designed for developers who prefer to use native PHP templates over compiled templates, such as Twig or Smarty.
@@ -20,10 +25,6 @@ Plates is a native PHP template system that’s fast, easy to use and easy to ex
 - Framework-agnostic, will work with any project
 - Decoupled design makes templates easy to test
 - Composer ready and PSR-2 compliant
-
-## Source code
-
-Plates is part of [The League of Extraordinary Packages](http://thephpleague.com). View the source at [github.com/thephpleague/plates](https://github.com/thephpleague/plates).
 
 ## Questions?
 

@@ -12,25 +12,10 @@ Plates uses a central object called the `Engine`, which is used to store the env
 
 Templates themselves are very simple objects. The only dependency they require is an instance of the engine object. This design makes it easy to use dependency injection to inject your templates into other objects, which in return makes them easier to test and mock.
 
-## Installation
-
-Plates is available via Composer:
-
-~~~.language-javascript
-{
-    "require": {
-        "league/plates": "1.0.*"
-    }
-}
-~~~
-
 ## Setup
 
 ~~~.language-php
 <?php
-
-// Include Composer autoloader
-require 'vendor/autoload.php';
 
 // Create new Plates engine
 $engine = new \League\Plates\Engine('/path/to/templates');

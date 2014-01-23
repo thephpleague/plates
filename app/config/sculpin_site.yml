@@ -6,6 +6,7 @@ menu:
     Getting Started:
         Introduction: '/'
         Simple example: '/simple-example/'
+        Installation: '/installation/'
     The Engine:
         Getting started: '/getting-started/'
         File extensions: '/file-extensions/'

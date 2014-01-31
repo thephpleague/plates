@@ -11,7 +11,7 @@ Plates is available on [Packagist](https://packagist.org/packages/league/plates)
 ~~~.language-javascript
 {
     "require": {
-        "league/plates": "1.0.*"
+        "league/plates": "1.1.*"
     }
 }
 ~~~

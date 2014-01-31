@@ -10,7 +10,7 @@
             <directory>vendor</directory>
         </blacklist>
         <whitelist>
-            <directory suffix=".php">src/League</directory>
+            <directory suffix=".php">src</directory>
         </whitelist>
     </filter>
 </phpunit>

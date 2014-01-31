@@ -22,12 +22,8 @@
     },
     "autoload":
     {
-        "psr-0":
-        {
-            "League\\Plates": "src/"
+        "psr-4": {
+            "League\\Plates\\": "src"
         }
-    },
-    "replace": {
-        "reinink/plates": "*"
     }
 }

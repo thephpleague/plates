@@ -13,7 +13,7 @@ Creating extensions couldn't be easier, and can really make Plates sing for your
 ~~~language-php
 <?php
 
-class ChangeCase implements \Plates\Extension\ExtensionInterface
+class ChangeCase implements \League\Plates\Extension\ExtensionInterface
 {
     public $engine;
     public $template;
@@ -51,7 +51,7 @@ Alternatively, you may choose to expose the entire extension object to the templ
 ~~~language-php
 <?php
 
-class ChangeCase implements \Plates\Extension\ExtensionInterface
+class ChangeCase implements \League\Plates\Extension\ExtensionInterface
 {
     public $engine;
     public $template;

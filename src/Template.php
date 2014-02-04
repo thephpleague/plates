@@ -19,6 +19,11 @@ class Template
         return call_user_func_array($function, $arguments);
     }
 
+    public function __get($key)
+    {
+        return null;
+    }
+
     public function data(Array $data = null)
     {
         if (!is_null($data)) {

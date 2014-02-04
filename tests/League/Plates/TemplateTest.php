@@ -38,6 +38,11 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(isset($this->template->name));
     }
 
+    public function testNonExistData()
+    {
+        $this->assertNull($this->template->name);
+    }
+
     public function testSetVariable()
     {
         $this->template->name = 'Jonathan';

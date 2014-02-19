@@ -179,6 +179,21 @@ class Engine
     }
 
     /**
+     * Determine if a template file path exists.
+     * @param  string $name
+     * @return boolean
+     */
+    public function pathExists($name)
+    {
+        try {
+            $this->resolvePath($name);
+            return true;
+        } catch (\LogicException $e) {
+            return false;
+        }
+    }
+
+    /**
      * Determine the file path of a template.
      * @param  string $name
      * @return string
@@ -232,5 +247,14 @@ class Engine
         }
 
         return $filePath;
+    }
+
+    /**
+     * Creates a new template using the current engine.
+     * @return Template
+     */
+    public function makeTemplate()
+    {
+        return new Template($this);
     }
 }

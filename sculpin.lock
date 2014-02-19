@@ -11,12 +11,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/thephpleague.github.com.git",
-                "reference": "cf6f2e8d28df19c6d107d090f17a5d0e7fa4c333"
+                "reference": "8920a15e237c4f98a768173c6fcbbaf3893ae060"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/thephpleague.github.com/zipball/cf6f2e8d28df19c6d107d090f17a5d0e7fa4c333",
-                "reference": "cf6f2e8d28df19c6d107d090f17a5d0e7fa4c333",
+                "url": "https://api.github.com/repos/thephpleague/thephpleague.github.com/zipball/8920a15e237c4f98a768173c6fcbbaf3893ae060",
+                "reference": "8920a15e237c4f98a768173c6fcbbaf3893ae060",
                 "shasum": ""
             },
             "type": "sculpin-theme",
@@ -25,7 +25,7 @@
                 "source": "https://github.com/thephpleague/thephpleague.github.com/tree/project-website-theme",
                 "issues": "https://github.com/thephpleague/thephpleague.github.com/issues"
             },
-            "time": "2014-01-23 15:52:44"
+            "time": "2014-02-19 02:21:06"
         }
     ],
     "packages-dev": [

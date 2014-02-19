@@ -6,10 +6,23 @@ title: Simple example
 Simple example
 ==============
 
+Here is a simple example of how to use Plates. We will assume the following directory stucture:
+
+~~~
+`-- path
+    `-- to
+        `-- templates
+            |-- template.php
+            |-- profile.php
+~~~
+
 ## Within your controller
 
 ~~~.language-php
 <?php
+
+// Create new Plates engine
+$engine = new \League\Plates\Engine('/path/to/templates');
 
 // Create a new template
 $template = new \League\Plates\Template($engine);
@@ -24,6 +37,8 @@ echo $template->render('profile');
 ## The page template
 
 ~~~.language-php
+<!-- profile.php -->
+
 <?php $this->layout('template') ?>
 
 <?php $this->title = 'User Profile' ?>
@@ -35,6 +50,8 @@ echo $template->render('profile');
 ## The layout template
 
 ~~~.language-php
+<!-- template.php -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

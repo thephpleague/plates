@@ -5,6 +5,10 @@ layout: layout
 Introduction
 ============
 
+[![Build Status](https://travis-ci.org/thephpleague/plates.png?branch=master)](https://travis-ci.org/thephpleague/plates)
+[![Total Downloads](https://poser.pugx.org/league/plates/downloads.png)](https://packagist.org/packages/league/plates)
+[![Latest Stable Version](https://poser.pugx.org/league/plates/v/stable.png)](https://packagist.org/packages/league/plates)
+
 <ul class="quick_links">
     <li><a class="github" href="https://github.com/thephpleague/plates">View Source</a></li>
     <li><a class="twitter" href="https://twitter.com/reinink">Follow Author</a></li>

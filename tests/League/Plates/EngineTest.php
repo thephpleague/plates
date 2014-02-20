@@ -185,6 +185,18 @@ class EngineTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->engine->functionExists('function'));
     }
 
+    public function testPathExistsWithValidPath()
+    {
+        $this->engine->setDirectory(vfsStream::url('templates'));
+        $this->assertTrue($this->engine->pathExists('home'));
+    }
+
+    public function testPathExistsWithInvalidPath()
+    {
+        $this->engine->setDirectory(vfsStream::url('templates'));
+        $this->assertFalse($this->engine->pathExists('non-existent-template'));
+    }
+
     public function testResolvePathWithInvalidPath()
     {
         foreach (array('', 'a::b::c', '::b', 'a::', array()) as $var) {
@@ -226,5 +238,10 @@ class EngineTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('LogicException');
         $this->engine->addFolder('emails', vfsStream::url('templates/emails'));
         $this->engine->resolvePath('emails::template_that_does_not_exist');
+    }
+
+    public function testMakeTemplate()
+    {
+        $this->assertInstanceOf('League\Plates\Template', $this->engine->makeTemplate());
     }
 }

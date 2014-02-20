@@ -10,13 +10,13 @@ Folders make it really easy to organize and access your templates. Folders allow
 
 ## Creating folders
 
-To create folders, use the engine's `addFolder()` function:
+To create folders, use the engine’s `addFolder()` function:
 
 ~~~.language-php
 <?php
 
-$plates->addFolder('admin', '/path/to/admin/templates');
-$plates->addFolder('emails', '/path/to/email/templates');
+$engine->addFolder('admin', '/path/to/admin/templates');
+$engine->addFolder('emails', '/path/to/email/templates');
 ~~~
 
 ## Using folders

@@ -6,7 +6,7 @@ title: URI extension
 URI extension
 =============
 
-The URI extension is designed to make URI checks within templates easier. The most common use is marking the current page in a menu as "selected". It only has one function, `uri()`, but can do a number of helpful tasks depending on the parameters passed to it.
+The URI extension is designed to make URI checks within templates easier. The most common use is marking the current page in a menu as “selected”. It only has one function, `uri()`, but can do a number of helpful tasks depending on the parameters passed to it.
 
 ## Installing the URI extension
 
@@ -16,10 +16,10 @@ The URI extension comes packaged with Plates but is not enabled by default, as i
 <?php
 
 // Load URI extension using global variable
-$plates->loadExtension(new \League\Plates\Extension\URI($_SERVER['PATH_INFO']));
+$engine->loadExtension(new \League\Plates\Extension\URI($_SERVER['PATH_INFO']));
 
-// Load URI extension using a HttpFoundation's request object
-$plates->loadExtension(new \League\Plates\Extension\URI($request->getPathInfo()));
+// Load URI extension using a HttpFoundation’s request object
+$engine->loadExtension(new \League\Plates\Extension\URI($request->getPathInfo()));
 ~~~
 
 ## URI example

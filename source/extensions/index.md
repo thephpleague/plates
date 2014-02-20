@@ -1,12 +1,12 @@
 ---
 layout: layout
-title: Building extensions
+title: Extensions
 ---
 
-Building extensions
-===================
+Extensions
+==========
 
-Creating extensions couldn't be easier, and can really make Plates sing for your specific project. Start by creating a class with a `getFunctions()` method indicating which methods in that class are to be available within your templates as functions.
+Creating extensions couldn’t be easier, and can really make Plates sing for your specific project. Start by creating a class with a `getFunctions()` method indicating which methods in that class are to be available within your templates as functions.
 
 ## Simple extensions example
 
@@ -38,7 +38,7 @@ class ChangeCase implements \League\Plates\Extension\ExtensionInterface
 }
 ~~~
 
-To use this extension in your template, call the functions you've made available:
+To use this extension in your template, call the functions you’ve made available:
 
 ~~~language-php
 <p>Hello, <?=$this->uppercase($this->firstname)?> <?=$this->lowercase($this->firstname)?>.</p>
@@ -88,11 +88,11 @@ To use this extension in your template, first call the primary function, then th
 
 ## Loading extensions
 
-Once you've created an extension, load it into the `Engine` object using the `loadExtension()` function.
+Once you’ve created an extension, load it into the [engine](/engine/) object using the `loadExtension()` method.
 
 ~~~language-php
 <?php
 
 // Load custom extension
-$plates->loadExtension(new \ChangeCase());
+$engine->loadExtension(new \ChangeCase());
 ~~~

@@ -26,7 +26,7 @@ Example using batch:
 
 ## How the batch extension works
 
-The batch extension works well for "pipe" functions that accept one parameter, modify it, and then return it. It's important to note that it executes functions left to right. It will also favour extension functions over native PHP functions if there are conflicts.
+The batch extension works well for “pipe” functions that accept one parameter, modify it, and then return it. It’s important to note that it executes functions left to right. It will also favour extension functions over native PHP functions if there are conflicts.
 
 ~~~language-php
 <!-- Will output: JONATHAN -->

@@ -6,7 +6,7 @@ title: Inheritance
 Inheritance
 ===========
 
-Template inheritance is a really powerful part of Plates. By using [layouts](/layouts) and [sections](/sections), you to can create a base layout that contains all the common sections of your site. Then, when you build your page template, simply define the layout you want to use and your page will automatically be rendered "into it".
+Template inheritance is a really powerful part of Plates. By using [layouts](/templates/layouts/) and [sections](/templates/sections/), you to can create a base layout that contains all the common sections of your site. Then, when you build your page template, simply define the layout you want to use and your page will automatically be rendered “into it”.
 
 The best way to understand template inheritance is by an example:
 

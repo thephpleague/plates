@@ -19,7 +19,7 @@ The `layout()` function allows you to define a layout template that the current 
 <p>Hello, <?=$this->e($this->name)?></p>
 ~~~
 
-This function works with [folders](/folders) as well:
+This function works with [folders](/engine/folders/) as well:
 
 ~~~language-php
 <?php $this->insert('shared::template') ?>
@@ -27,7 +27,7 @@ This function works with [folders](/folders) as well:
 
 ## The layout template
 
-To access the rendered template content within your template, use the `child()` function. This will return all outputted content from the child template that hasn't been defined in a section. For more on sections, [see here](/sections).
+To access the rendered template content within your template, use the `child()` function. This will return all outputted content from the child template that hasn’t been defined in a [section](/templates/sections/).
 
 ~~~.language-php
 <!DOCTYPE html>

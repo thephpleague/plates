@@ -24,7 +24,7 @@ The `insert()` function also works with folders:
 
 ## Assigning variables
 
-You can also assign [variables](variables) as an array when nesting templates. Be aware that these variables will be available to the entire template object, not just the inserted template.
+You can also assign [variables](/templates/variables/) as an array when nesting templates. Be aware that these variables will be available to the entire template object, not just the inserted template.
 
 ~~~language-php
 <?php $this->insert('header', array('name' => 'Jonathan')) ?>

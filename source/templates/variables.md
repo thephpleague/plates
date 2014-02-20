@@ -38,8 +38,12 @@ echo $template->render('profile',
 
 ## Assign variables within your templates
 
-Assigning variables within your templates can be very helpful for sharing information with nested and layout templates. A good example is a website's page title. It makes sense to define this within your page template, but it will actually be rendered in your layout template between the `<title></title>` tags.
+Assigning variables within your templates can be very helpful for sharing information with nested and layout templates. A good example is a website’s page title. It makes sense to define this within your page template, but it will actually be rendered in your layout template between the `<title></title>` tags.
 
 ~~~language-php
 <?php $this->title = 'Home' ?>
 ~~~
+
+## Variable visibility
+
+It’s important to note that template variables are visible to [layout](/templates/layouts/) and [nested](/templates/nesting/) templates as well. This can be very helpful, as seen in the previous page title example.

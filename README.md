@@ -26,7 +26,7 @@ Plates is available via Composer:
 ```json
 {
     "require": {
-        "league/plates": "1.1.*"
+        "league/plates": "1.*"
     }
 }
 ```

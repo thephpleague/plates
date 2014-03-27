@@ -1,1 +1,1 @@
-<?php $this->layout('layout') ?>Jonathan
+<?php $this->layout('layout') ?>Jonathan<?php echo $this->child(); ?>

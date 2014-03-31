@@ -1,1 +1,1 @@
-Hello, <?php echo $this->child(); ?>
+Hello, <?=$this->content()?>

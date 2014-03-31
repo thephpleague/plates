@@ -32,7 +32,7 @@ class Template
     {
         $this->data($data);
 
-        $this->_internal['layout'][] = $name;
+        $this->_internal['layout_name'] = $name;
     }
 
     public function start($name)
@@ -53,34 +53,42 @@ class Template
         array_pop($this->_internal['sections']);
     }
 
+    public function content()
+    {
+        if (!isset($this->_internal['layout_content'])) {
+            throw new \LogicException('No layout content found.');
+        }
+
+        return $this->_internal['layout_content'];
+    }
+
     public function child()
     {
-        return isset($this->_internal['child']) ? $this->_internal['child'] : '';
+        return $this->content();
     }
 
     public function insert($name, Array $data = null)
     {
-        $this->data($data);
-
-        include $this->_internal['engine']->resolvePath($name);
+        echo $this->_internal['engine']->makeTemplate()->render($name, $data);
     }
 
     public function render($name, Array $data = null)
     {
-        $this->data($data);
-
         ob_start();
+
+        $this->data($data);
 
         include($this->_internal['engine']->resolvePath($name));
 
-        if (isset($this->_internal['layout'])) {
-            for ($i = 0; $i < count($this->_internal['layout']); $i++) {
-                $layout = $this->_internal['layout'][$i];
-                $this->_internal['child'] = ob_get_clean();
+        while (isset($this->_internal['layout_name'])) {
 
-                ob_start();
-                include($this->_internal['engine']->resolvePath($layout));
-            }
+            $this->_internal['layout_content'] = ob_get_contents();
+            $this->_internal['layout_path'] = $this->_internal['engine']->resolvePath($this->_internal['layout_name']);
+            $this->_internal['layout_name'] = null;
+
+            ob_clean();
+
+            include($this->_internal['layout_path']);
         }
 
         return ob_get_clean();

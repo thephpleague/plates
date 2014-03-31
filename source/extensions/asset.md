@@ -45,7 +45,7 @@ location ~* (.+)\.(?:\d+)\.(js|css|png|jpg|jpeg|gif)$ {
 ## Using the asset extension
 
 ~~~language-php
-<!DOCTYPE html>
+<html>
 <head>
     <title>Asset Extension Example</title>
     <link rel="stylesheet" href="<?=$this->asset('/css/all.css')?>" />

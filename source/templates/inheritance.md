@@ -13,10 +13,8 @@ The best way to understand template inheritance is by an example:
 ## The layout template
 
 ~~~language-php
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="utf-8">
     <title><?=$this->title?></title>
 </head>
 

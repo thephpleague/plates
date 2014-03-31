@@ -13,7 +13,7 @@ Plates is available on [Packagist](https://packagist.org/packages/league/plates)
 ~~~.language-javascript
 {
     "require": {
-        "league/plates": "1.*"
+        "league/plates": "2.*"
     }
 }
 ~~~

@@ -52,16 +52,14 @@ echo $template->render('profile');
 ~~~.language-php
 <!-- template.php -->
 
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="utf-8">
     <title><?=$this->title?></title>
 </head>
 
 <body>
 
-<?=$this->child()?>
+<?=$this->content()?>
 
 </body>
 </html>

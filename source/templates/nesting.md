@@ -6,7 +6,7 @@ title: Nesting
 Nesting
 =======
 
-Nesting (or including) another template into the current template is done using the `insert()` function:
+Including another template into the current template is done using the `insert()` function:
 
 ~~~language-php
 <?php $this->insert('header') ?>
@@ -16,7 +16,7 @@ Nesting (or including) another template into the current template is done using 
 <?php $this->insert('footer') ?>
 ~~~
 
-The `insert()` function also works with folders: 
+The `insert()` function also works with [folders](/engine/folders/): 
 
 ~~~language-php
 <?php $this->insert('partials::header') ?>
@@ -24,7 +24,7 @@ The `insert()` function also works with folders:
 
 ## Assigning variables
 
-You can also assign [variables](/templates/variables/) as an array when nesting templates. Be aware that these variables will be available to the entire template object, not just the inserted template.
+As of version 2.x, nested templates are self-contained objects, meaning they do not share variables with their parent template. To assign variables to a nested template, pass them as an array:
 
 ~~~language-php
 <?php $this->insert('header', array('name' => 'Jonathan')) ?>
@@ -33,3 +33,5 @@ You can also assign [variables](/templates/variables/) as an array when nesting 
 
 <?php $this->insert('footer') ?>
 ~~~
+
+These variables will then be available within the nested template from the `$this` pseudo-variable (ie. `<?=$this->name?>`).

@@ -1,1 +1,1 @@
-Hello, <?=$this->content()?>
+Hello, <?php echo $this->content() ?>

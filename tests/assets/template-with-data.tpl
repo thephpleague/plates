@@ -1,1 +1,1 @@
-<?=$this->name?>
+<?php echo $this->name ?>

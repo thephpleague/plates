@@ -1,1 +1,1 @@
-<?php $this->layout('layout') ?>Jonathan <?=$this->content()?>
+<?php $this->layout('layout') ?>Jonathan <?php echo $this->content() ?>

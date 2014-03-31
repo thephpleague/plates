@@ -32,7 +32,7 @@ class Template
     {
         $this->data($data);
 
-        $this->_internal['layout'] = $name;
+        $this->_internal['layout'][] = $name;
     }
 
     public function start($name)
@@ -55,7 +55,7 @@ class Template
 
     public function child()
     {
-        return $this->_internal['child'];
+        return isset($this->_internal['child']) ? $this->_internal['child'] : '';
     }
 
     public function insert($name, Array $data = null)
@@ -74,12 +74,13 @@ class Template
         include($this->_internal['engine']->resolvePath($name));
 
         if (isset($this->_internal['layout'])) {
+            for ($i = 0; $i < count($this->_internal['layout']); $i++) {
+                $layout = $this->_internal['layout'][$i];
+                $this->_internal['child'] = ob_get_clean();
 
-            $this->_internal['child'] = ob_get_contents();
-
-            ob_clean();
-
-            include($this->_internal['engine']->resolvePath($this->_internal['layout']));
+                ob_start();
+                include($this->_internal['engine']->resolvePath($layout));
+            }
         }
 
         return ob_get_clean();

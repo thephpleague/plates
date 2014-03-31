@@ -74,6 +74,11 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->template->render('template-with-layout') === 'Hello, Jonathan');
     }
 
+    public function testRenderWithNestedLayout()
+    {
+        $this->assertTrue($this->template->render('template-with-nested-layout') == 'Hello, Jonathan Reinink');
+    }
+
     public function testRenderWithData()
     {
         $this->assertTrue($this->template->render('template-with-data', array('name' => 'Jonathan')) === 'Jonathan');

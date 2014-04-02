@@ -52,18 +52,6 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->template->name === 'Jonathan');
     }
 
-    public function testInsert()
-    {
-        $this->expectOutputString('Jonathan');
-        $this->template->insert('basic-template');
-    }
-
-    public function testInsertWithData()
-    {
-        $this->expectOutputString('Jonathan');
-        $this->template->insert('template-with-data', array('name' => 'Jonathan'));
-    }
-
     public function testRender()
     {
         $this->assertTrue($this->template->render('basic-template') === 'Jonathan');

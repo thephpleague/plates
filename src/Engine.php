@@ -40,8 +40,9 @@ class Engine
     {
         $this->setDirectory($directory);
         $this->setFileExtension($fileExtension);
-        $this->loadExtension(new Extension\Escape);
         $this->loadExtension(new Extension\Batch);
+        $this->loadExtension(new Extension\Escape);
+        $this->loadExtension(new Extension\Insert);
     }
 
     /**
@@ -111,7 +112,7 @@ class Engine
 
     /**
      * Load an extension and make additional functions available within templates.
-     * @param  ExtensionExtensionInterface $extension
+     * @param ExtensionExtensionInterface $extension
      * @return Engine
      */
     public function loadExtension(Extension\ExtensionInterface $extension)
@@ -136,7 +137,7 @@ class Engine
                 throw new \LogicException('The method "' . $method . '" is not a valid method name in the "' . get_class($extension) . '" extension.');
             }
 
-            if (isset($this->functions[$function]) or in_array($function, array('layout', 'data', 'start', 'end', 'child', 'insert', 'render'))) {
+            if (isset($this->functions[$function]) or in_array($function, get_class_methods('League\Plates\Template'))) {
                 throw new \LogicException('The function "' . $function . '" already exists and cannot be used by the "' . get_class($extension) . '" extension.');
             }
 
@@ -152,7 +153,7 @@ class Engine
 
     /**
      * Get a loaded extension and method by function name.
-     * @param  string $function
+     * @param string $function
      * @return array
      */
     public function getFunction($function)
@@ -170,7 +171,7 @@ class Engine
 
     /**
      * Check if an extension function exists.
-     * @param  string $method
+     * @param string $method
      * @return boolean
      */
     public function functionExists($method)
@@ -180,7 +181,7 @@ class Engine
 
     /**
      * Determine if a template file path exists.
-     * @param  string $name
+     * @param string $name
      * @return boolean
      */
     public function pathExists($name)
@@ -195,7 +196,7 @@ class Engine
 
     /**
      * Determine the file path of a template.
-     * @param  string $name
+     * @param string $name
      * @return string
      */
     public function resolvePath($name)

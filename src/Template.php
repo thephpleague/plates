@@ -120,7 +120,13 @@ class Template
      */
     public function render($name, Array $data = null)
     {
+        if (isset($this->_internal['rendering']) and $this->_internal['rendering']) {
+            throw new \LogicException('You cannot render a template from within a template.');
+        }
+
         ob_start();
+
+        $this->_internal['rendering'] = true;
 
         $this->data($data);
 
@@ -136,6 +142,8 @@ class Template
 
             include($this->_internal['layout_path']);
         }
+
+        $this->_internal['rendering'] = false;
 
         return ob_get_clean();
     }

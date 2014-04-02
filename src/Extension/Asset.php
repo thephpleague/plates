@@ -2,19 +2,50 @@
 
 namespace League\Plates\Extension;
 
+/**
+ * Extension that adds the ability to create "cache busted" asset URLs.
+ */
 class Asset implements ExtensionInterface
 {
+    /**
+     * Instance of the parent engine.
+     * @var Engine
+     */
     public $engine;
+
+    /**
+     * Instance of the current template.
+     * @var Template
+     */
     public $template;
+
+    /**
+     * Path to asset directory.
+     * @var string
+     */
     public $path;
+
+    /**
+     * Toggles the filename method.
+     * @var boolean
+     */
     public $filenameMethod;
 
+    /**
+     * Create new Asset instance.
+     * @param string $path
+     * @param boolean $filenameMethod
+     */
     public function __construct($path, $filenameMethod = false)
     {
         $this->path = rtrim($path, '/');
         $this->filenameMethod = $filenameMethod;
     }
 
+    /**
+     * Get the defined extension functions.
+     * @return array
+     */
     public function getFunctions()
     {
         return array(
@@ -22,6 +53,11 @@ class Asset implements ExtensionInterface
         );
     }
 
+    /**
+     * Create "cache busted" asset URL.
+     * @param string $url
+     * @return string
+     */
     public function cachedAssetUrl($url)
     {
         $filePath = $this->path . '/' .  ltrim($url, '/');

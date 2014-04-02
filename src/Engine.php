@@ -42,7 +42,7 @@ class Engine
         $this->setFileExtension($fileExtension);
         $this->loadExtension(new Extension\Batch);
         $this->loadExtension(new Extension\Escape);
-        $this->loadExtension(new Extension\Insert);
+        $this->loadExtension(new Extension\Nest);
     }
 
     /**

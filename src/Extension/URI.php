@@ -2,18 +2,49 @@
 
 namespace League\Plates\Extension;
 
+/**
+ * Extension that adds a number of URI checks.
+ */
 class URI implements ExtensionInterface
 {
+    /**
+     * Instance of the parent engine.
+     * @var Engine
+     */
     public $engine;
+
+    /**
+     * Instance of the current template.
+     * @var Template
+     */
     public $template;
+
+    /**
+     * The request URI.
+     * @var string
+     */
     public $uri;
 
+    /**
+     * The request URI as an array.
+     * @var array
+     */
+    private $parts;
+
+    /**
+     * Create new URI instance.
+     * @param string $uri
+     */
     public function __construct($uri)
     {
         $this->uri = $uri;
         $this->parts = explode('/', $this->uri);
     }
 
+    /**
+     * Get the defined extension functions.
+     * @return array
+     */
     public function getFunctions()
     {
         return array(
@@ -21,6 +52,14 @@ class URI implements ExtensionInterface
         );
     }
 
+    /**
+     * Perform URI check.
+     * @param integer|string $var1
+     * @param string $var2
+     * @param string $var3
+     * @param string $var4
+     * @return boolean|string
+     */
     public function runUri($var1 = null, $var2 = null, $var3 = null, $var4 = null)
     {
         if (is_null($var1)) {
@@ -71,6 +110,6 @@ class URI implements ExtensionInterface
             }
         }
 
-        throw new \LogicException('Invalid use of the uri() method.');
+        throw new \LogicException('Invalid use of the uri function.');
     }
 }

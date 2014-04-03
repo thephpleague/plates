@@ -39,7 +39,7 @@ class AssetTest extends \PHPUnit_Framework_TestCase
 
     public function testFileNotFoundException()
     {
-        $this->setExpectedException('LogicException');
+        $this->setExpectedException('LogicException', 'Unable to locate the asset "404.css" in the "' . realpath('tests/assets') . '" directory.');
         $this->extension->cachedAssetUrl('404.css');
     }
 }

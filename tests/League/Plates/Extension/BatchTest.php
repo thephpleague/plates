@@ -37,7 +37,7 @@ class BatchTest extends \PHPUnit_Framework_TestCase
 
     public function testRunBatchException()
     {
-        $this->setExpectedException('LogicException');
+        $this->setExpectedException('LogicException', 'The batch function could not find the "somefunctionthatwillneverexist" function.');
         $this->assertTrue($this->extension->runBatch('Jonathan', 'somefunctionthatwillneverexist'));
     }
 }

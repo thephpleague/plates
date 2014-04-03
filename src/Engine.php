@@ -102,7 +102,7 @@ class Engine
         }
 
         if (isset($this->folders[$namespace])) {
-            throw new \LogicException('Folder conflict detected. The namespace "' . $namespace . '" is already being used.');
+            throw new \LogicException('The folder namespace "' . $namespace . '" is already being used.');
         }
 
         $this->folders[$namespace] = $directory;
@@ -152,6 +152,44 @@ class Engine
     }
 
     /**
+     * Unload an extension.
+     * @param string $class
+     * @return Engine
+     */
+    public function unloadExtension($class)
+    {
+        $functionCount = count($this->functions);
+
+        foreach ($this->functions as $key => $function) {
+            if (get_class($function[0]) === $class) {
+                unset($this->functions[$key]);
+            }
+        }
+
+        if ($functionCount === count($this->functions)) {
+            throw new \LogicException('Unable to unload extension "' . $class . '", class name not found.');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Unload an extension function.
+     * @param string $function
+     * @return Engine
+     */
+    public function unloadExtensionFunction($function)
+    {
+        if (!$this->functionExists($function)) {
+            throw new \LogicException('Unable to unload extension function, no extensions with the function "' . $function . '" were found.');
+        }
+
+        unset($this->functions[$function]);
+
+        return $this;
+    }
+
+    /**
      * Get a loaded extension and method by function name.
      * @param string $function
      * @return array
@@ -171,12 +209,12 @@ class Engine
 
     /**
      * Check if an extension function exists.
-     * @param string $method
+     * @param string $function
      * @return boolean
      */
-    public function functionExists($method)
+    public function functionExists($function)
     {
-        return isset($this->functions[$method]);
+        return isset($this->functions[$function]);
     }
 
     /**

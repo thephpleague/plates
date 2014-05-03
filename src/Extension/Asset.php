@@ -33,7 +33,7 @@ class Asset implements ExtensionInterface
 
     /**
      * Create new Asset instance.
-     * @param string $path
+     * @param string  $path
      * @param boolean $filenameMethod
      */
     public function __construct($path, $filenameMethod = false)
@@ -55,7 +55,7 @@ class Asset implements ExtensionInterface
 
     /**
      * Create "cache busted" asset URL.
-     * @param string $url
+     * @param  string $url
      * @return string
      */
     public function cachedAssetUrl($url)
@@ -63,7 +63,9 @@ class Asset implements ExtensionInterface
         $filePath = $this->path . '/' .  ltrim($url, '/');
 
         if (!file_exists($filePath)) {
-            throw new \LogicException('Unable to locate the asset "' . $url . '" in the "' . $this->path . '" directory.');
+            throw new \LogicException(
+                'Unable to locate the asset "' . $url . '" in the "' . $this->path . '" directory.'
+            );
         }
 
         $lastUpdated = filemtime($filePath);

@@ -30,11 +30,10 @@ class Batch implements ExtensionInterface
         );
     }
 
-
     /**
      * Apply multiple functions to variable.
-     * @param mixed $var
-     * @param string $functions
+     * @param  mixed  $var
+     * @param  string $functions
      * @return mixed
      */
     public function runBatch($var, $functions)
@@ -42,7 +41,7 @@ class Batch implements ExtensionInterface
         foreach (explode('|', $functions) as $function) {
             if ($this->engine->functionExists($function)) {
                 $var = $this->template->$function($var);
-            } else if (is_callable($function)) {
+            } elseif (is_callable($function)) {
                 $var = call_user_func($function, $var);
             } else {
                 throw new \LogicException('The batch function could not find the "' . $function . '" function.');

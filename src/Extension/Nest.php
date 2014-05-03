@@ -33,8 +33,8 @@ class Nest implements ExtensionInterface
 
     /**
      * Get a rendered template.
-     * @param string $name
-     * @param array $data
+     * @param  string $name
+     * @param  array  $data
      * @return string
      */
     public function getRenderedTemplate($name, Array $data = null)
@@ -44,8 +44,8 @@ class Nest implements ExtensionInterface
 
     /**
      * Output a rendered template.
-     * @param string $name
-     * @param array $data
+     * @param  string $name
+     * @param  array  $data
      * @return null
      */
     public function insertRenderedTemplate($name, Array $data = null)

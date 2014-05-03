@@ -47,7 +47,7 @@ class Engine
 
     /**
      * Set path to templates directory.
-     * @param string|null $directory Pass null to disable the default directory.
+     * @param  string|null $directory Pass null to disable the default directory.
      * @return Engine
      */
     public function setDirectory($directory)
@@ -67,7 +67,7 @@ class Engine
 
     /**
      * Set the file extension used by templates.
-     * @param string|null $fileExtension Pass null to manually set it each time.
+     * @param  string|null $fileExtension Pass null to manually set it each time.
      * @return Engine
      */
     public function setFileExtension($fileExtension)
@@ -83,8 +83,8 @@ class Engine
 
     /**
      * Add a new template folder for grouping templates under different namespaces.
-     * @param string $namespace
-     * @param string $directory
+     * @param  string $namespace
+     * @param  string $directory
      * @return Engine
      */
     public function addFolder($namespace, $directory)
@@ -112,7 +112,7 @@ class Engine
 
     /**
      * Load an extension and make additional functions available within templates.
-     * @param ExtensionExtensionInterface $extension
+     * @param  ExtensionExtensionInterface $extension
      * @return Engine
      */
     public function loadExtension(Extension\ExtensionInterface $extension)
@@ -153,7 +153,7 @@ class Engine
 
     /**
      * Unload an extension.
-     * @param string $class
+     * @param  string $class
      * @return Engine
      */
     public function unloadExtension($class)
@@ -175,7 +175,7 @@ class Engine
 
     /**
      * Unload an extension function.
-     * @param string $function
+     * @param  string $function
      * @return Engine
      */
     public function unloadExtensionFunction($function)
@@ -191,7 +191,7 @@ class Engine
 
     /**
      * Get a loaded extension and method by function name.
-     * @param string $function
+     * @param  string $function
      * @return array
      */
     public function getFunction($function)
@@ -209,7 +209,7 @@ class Engine
 
     /**
      * Check if an extension function exists.
-     * @param string $function
+     * @param  string  $function
      * @return boolean
      */
     public function functionExists($function)
@@ -219,13 +219,14 @@ class Engine
 
     /**
      * Determine if a template file path exists.
-     * @param string $name
+     * @param  string  $name
      * @return boolean
      */
     public function pathExists($name)
     {
         try {
             $this->resolvePath($name);
+
             return true;
         } catch (\LogicException $e) {
             return false;
@@ -234,7 +235,7 @@ class Engine
 
     /**
      * Determine the file path of a template.
-     * @param string $name
+     * @param  string $name
      * @return string
      */
     public function resolvePath($name)
@@ -257,7 +258,7 @@ class Engine
 
             $filePath = $this->directory . DIRECTORY_SEPARATOR . $parts[0];
 
-        } else if (count($parts) === 2) {
+        } elseif (count($parts) === 2) {
 
             if ($parts[0] === '') {
                 throw new \LogicException('The template name "' . $name . '" is not valid.');

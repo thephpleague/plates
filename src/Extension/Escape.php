@@ -33,7 +33,7 @@ class Escape implements ExtensionInterface
 
     /**
      * Escape string.
-     * @param string $string
+     * @param  string $string
      * @return string
      */
     public function escapeString($string)

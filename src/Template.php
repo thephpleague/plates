@@ -11,7 +11,7 @@ class Template
      * Reserved for internal purposes.
      * @var string
      */
-    private $_internal = array();
+    protected $internal = array();
 
     /**
      * Create new Template instance.
@@ -19,18 +19,18 @@ class Template
      */
     public function __construct(Engine $engine)
     {
-        $this->_internal['engine'] = $engine;
+        $this->internal['engine'] = $engine;
     }
 
     /**
      * Magic method used to call extension functions.
-     * @param string $name
-     * @param array $arguments
+     * @param  string $name
+     * @param  array  $arguments
      * @return mixed
      */
     public function __call($name, $arguments)
     {
-        $function = $this->_internal['engine']->getFunction($name);
+        $function = $this->internal['engine']->getFunction($name);
         $function[0]->template = $this;
 
         return call_user_func_array($function, $arguments);
@@ -38,7 +38,7 @@ class Template
 
     /**
      * Bulk assign variables to template object.
-     * @param array $data
+     * @param  array $data
      * @return null
      */
     public function data(Array $data = null)
@@ -52,15 +52,15 @@ class Template
 
     /**
      * Set the template's layout.
-     * @param string $name
-     * @param array $data
+     * @param  string $name
+     * @param  array  $data
      * @return null
      */
     public function layout($name, Array $data = null)
     {
         $this->data($data);
 
-        $this->_internal['layout_name'] = $name;
+        $this->internal['layout_name'] = $name;
     }
 
     /**
@@ -69,11 +69,11 @@ class Template
      */
     public function content()
     {
-        if (!isset($this->_internal['layout_content'])) {
+        if (!isset($this->internal['layout_content'])) {
             throw new \LogicException('Content is only available in layout templates.');
         }
 
-        return $this->_internal['layout_content'];
+        return $this->internal['layout_content'];
     }
 
     /**
@@ -87,12 +87,12 @@ class Template
 
     /**
      * Start a new section block.
-     * @param string $name
+     * @param  string $name
      * @return null
      */
     public function start($name)
     {
-        $this->_internal['sections'][] = $name;
+        $this->internal['sections'][] = $name;
 
         ob_start();
     }
@@ -103,47 +103,47 @@ class Template
      */
     public function end()
     {
-        if (!isset($this->_internal['sections']) or !count($this->_internal['sections'])) {
+        if (!isset($this->internal['sections']) or !count($this->internal['sections'])) {
             throw new \LogicException('You must start a section before you can end it.');
         }
 
-        $this->{end($this->_internal['sections'])} = ob_get_clean();
+        $this->{end($this->internal['sections'])} = ob_get_clean();
 
-        array_pop($this->_internal['sections']);
+        array_pop($this->internal['sections']);
     }
 
     /**
      * Render the template and any layouts.
-     * @param string $name
-     * @param array $data
+     * @param  string $name
+     * @param  array  $data
      * @return string
      */
     public function render($name, Array $data = null)
     {
-        if (isset($this->_internal['rendering']) and $this->_internal['rendering']) {
+        if (isset($this->internal['rendering']) and $this->internal['rendering']) {
             throw new \LogicException('You cannot render a template from within a template.');
         }
 
         ob_start();
 
-        $this->_internal['rendering'] = true;
+        $this->internal['rendering'] = true;
 
         $this->data($data);
 
-        include($this->_internal['engine']->resolvePath($name));
+        include($this->internal['engine']->resolvePath($name));
 
-        while (isset($this->_internal['layout_name'])) {
+        while (isset($this->internal['layout_name'])) {
 
-            $this->_internal['layout_content'] = ob_get_contents();
-            $this->_internal['layout_path'] = $this->_internal['engine']->resolvePath($this->_internal['layout_name']);
-            $this->_internal['layout_name'] = null;
+            $this->internal['layout_content'] = ob_get_contents();
+            $this->internal['layout_path'] = $this->internal['engine']->resolvePath($this->internal['layout_name']);
+            $this->internal['layout_name'] = null;
 
             ob_clean();
 
-            include($this->_internal['layout_path']);
+            include($this->internal['layout_path']);
         }
 
-        $this->_internal['rendering'] = false;
+        $this->internal['rendering'] = false;
 
         return ob_get_clean();
     }

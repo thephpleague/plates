@@ -2,6 +2,8 @@
 
 namespace League\Plates;
 
+use LogicException;
+
 /**
  * Used to store the environment configuration and extensions.
  */
@@ -53,11 +55,13 @@ class Engine
     public function setDirectory($directory)
     {
         if (!is_null($directory) and !is_string($directory)) {
-            throw new \LogicException('The directory must be a string or null, ' . gettype($directory) . ' given.');
+            throw new LogicException(
+                'The directory must be a string or null, ' . gettype($directory) . ' given.'
+            );
         }
 
         if (is_string($directory) and !is_dir($directory)) {
-            throw new \LogicException('The specified directory "' . $directory . '" does not exist.');
+            throw new LogicException('The specified directory "' . $directory . '" does not exist.');
         }
 
         $this->directory = $directory;
@@ -73,7 +77,9 @@ class Engine
     public function setFileExtension($fileExtension)
     {
         if (!is_string($fileExtension) and !is_null($fileExtension)) {
-            throw new \LogicException('The file extension must be a string or null, ' . gettype($fileExtension) . ' given.');
+            throw new LogicException(
+                'The file extension must be a string or null, ' . gettype($fileExtension) . ' given.'
+            );
         }
 
         $this->fileExtension = $fileExtension;
@@ -90,19 +96,19 @@ class Engine
     public function addFolder($namespace, $directory)
     {
         if (!is_string($namespace)) {
-            throw new \LogicException('The namespace must be a string, ' . gettype($namespace) . ' given.');
+            throw new LogicException('The namespace must be a string, ' . gettype($namespace) . ' given.');
         }
 
         if (!is_string($directory)) {
-            throw new \LogicException('The directory must be a string, ' . gettype($directory) . ' given.');
+            throw new LogicException('The directory must be a string, ' . gettype($directory) . ' given.');
         }
 
         if (!is_dir($directory)) {
-            throw new \LogicException('The specified directory "' . $directory . '" does not exist.');
+            throw new LogicException('The specified directory "' . $directory . '" does not exist.');
         }
 
         if (isset($this->folders[$namespace])) {
-            throw new \LogicException('The folder namespace "' . $namespace . '" is already being used.');
+            throw new LogicException('The folder namespace "' . $namespace . '" is already being used.');
         }
 
         $this->folders[$namespace] = $directory;
@@ -118,11 +124,16 @@ class Engine
     public function loadExtension(Extension\ExtensionInterface $extension)
     {
         if (!is_array($extension->getFunctions())) {
-            throw new \LogicException('The "' . get_class($extension) . '" getFunctions method must return an array, ' . gettype($extension->getFunctions()) . ' given.');
+            throw new LogicException(
+                'The "' . get_class($extension) . '" getFunctions method must return an array, '
+                . gettype($extension->getFunctions()) . ' given.'
+            );
         }
 
         if (count($extension->getFunctions()) === 0) {
-            throw new \LogicException('The extension "' . get_class($extension) . '" has no functions defined.');
+            throw new LogicException(
+                'The extension "' . get_class($extension) . '" has no functions defined.'
+            );
         }
 
         $extension->engine = $this;
@@ -130,19 +141,34 @@ class Engine
         foreach ($extension->getFunctions() as $function => $method) {
 
             if (!is_string($function) or empty($function) or !is_callable($function, true)) {
-                throw new \LogicException('The function "' . $function . '" is not a valid function name in the "' . get_class($extension) . '" extension.');
+                throw new LogicException(
+                    'The function "' . $function . '" is not a valid function name in the "'
+                    . get_class($extension) . '" extension.'
+                );
             }
 
             if (!is_string($method) or empty($method) or !is_callable($method, true)) {
-                throw new \LogicException('The method "' . $method . '" is not a valid method name in the "' . get_class($extension) . '" extension.');
+                throw new LogicException(
+                    'The method "' . $method . '" is not a valid method name in the "'
+                    . get_class($extension) . '" extension.'
+                );
             }
 
-            if (isset($this->functions[$function]) or in_array($function, get_class_methods('League\Plates\Template'))) {
-                throw new \LogicException('The function "' . $function . '" already exists and cannot be used by the "' . get_class($extension) . '" extension.');
+            if (
+                isset($this->functions[$function])
+                or in_array($function, get_class_methods('League\Plates\Template'))
+            ) {
+                throw new LogicException(
+                    'The function "' . $function . '" already exists and cannot be used by the "'
+                    . get_class($extension) . '" extension.'
+                );
             }
 
             if (!is_callable(array($extension, $method))) {
-                throw new \LogicException('The method "' . $method . '" is not callable in the "' . get_class($extension) . '" extension.');
+                throw new LogicException(
+                    'The method "' . $method . '" is not callable in the "'
+                    . get_class($extension) . '" extension.'
+                );
             }
 
             $this->functions[$function] = array($extension, $method);
@@ -167,7 +193,7 @@ class Engine
         }
 
         if ($functionCount === count($this->functions)) {
-            throw new \LogicException('Unable to unload extension "' . $class . '", class name not found.');
+            throw new LogicException('Unable to unload extension "' . $class . '", class name not found.');
         }
 
         return $this;
@@ -181,7 +207,9 @@ class Engine
     public function unloadExtensionFunction($function)
     {
         if (!$this->functionExists($function)) {
-            throw new \LogicException('Unable to unload extension function, no extensions with the function "' . $function . '" were found.');
+            throw new LogicException(
+                'Unable to unload extension function, no extensions with the function "' . $function . '" were found.'
+            );
         }
 
         unset($this->functions[$function]);
@@ -197,11 +225,11 @@ class Engine
     public function getFunction($function)
     {
         if (!is_string($function) or empty($function) or !is_callable($function, true)) {
-            throw new \LogicException('Not a valid extension function name.');
+            throw new LogicException('Not a valid extension function name.');
         }
 
         if (!$this->functionExists($function)) {
-            throw new \LogicException('No extensions with the function "' . $function . '" were found.');
+            throw new LogicException('No extensions with the function "' . $function . '" were found.');
         }
 
         return $this->functions[$function];
@@ -228,7 +256,7 @@ class Engine
             $this->resolvePath($name);
 
             return true;
-        } catch (\LogicException $e) {
+        } catch (LogicException $e) {
             return false;
         }
     }
@@ -241,7 +269,7 @@ class Engine
     public function resolvePath($name)
     {
         if (!is_string($name)) {
-            throw new \LogicException('The template name must be a string, ' . gettype($name) . ' given.');
+            throw new LogicException('The template name must be a string, ' . gettype($name) . ' given.');
         }
 
         $parts = explode('::', $name);
@@ -249,11 +277,11 @@ class Engine
         if (count($parts) === 1) {
 
             if (is_null($this->directory)) {
-                throw new \LogicException('The default directory has not been defined.');
+                throw new LogicException('The default directory has not been defined.');
             }
 
             if ($parts[0] === '') {
-                throw new \LogicException('The template name cannot be an empty.');
+                throw new LogicException('The template name cannot be an empty.');
             }
 
             $filePath = $this->directory . DIRECTORY_SEPARATOR . $parts[0];
@@ -261,21 +289,21 @@ class Engine
         } elseif (count($parts) === 2) {
 
             if ($parts[0] === '') {
-                throw new \LogicException('The template name "' . $name . '" is not valid.');
+                throw new LogicException('The template name "' . $name . '" is not valid.');
             }
 
             if ($parts[1] === '') {
-                throw new \LogicException('The template name "' . $name . '" is not valid.');
+                throw new LogicException('The template name "' . $name . '" is not valid.');
             }
 
             if (!isset($this->folders[$parts[0]])) {
-                throw new \LogicException('The folder "' . $parts[0] . '" does not exist.');
+                throw new LogicException('The folder "' . $parts[0] . '" does not exist.');
             }
 
             $filePath = $this->folders[$parts[0]] . DIRECTORY_SEPARATOR . $parts[1];
 
         } else {
-            throw new \LogicException('The template name "' . $name . '" is not valid.');
+            throw new LogicException('The template name "' . $name . '" is not valid.');
         }
 
         if (!is_null($this->fileExtension)) {
@@ -283,7 +311,9 @@ class Engine
         }
 
         if (!is_file($filePath)) {
-            throw new \LogicException('The specified template "' . $name . '" could not be found at "' . $filePath . '".');
+            throw new LogicException(
+                'The specified template "' . $name . '" could not be found at "' . $filePath . '".'
+            );
         }
 
         return $filePath;

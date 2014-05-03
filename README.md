@@ -2,6 +2,7 @@ Plates
 ======
 
 [![Build Status](https://travis-ci.org/thephpleague/plates.png?branch=master)](https://travis-ci.org/thephpleague/plates)
+[![Coverage Status](https://coveralls.io/repos/thephpleague/plates/badge.png)](https://coveralls.io/r/thephpleague/plates)
 [![Total Downloads](https://poser.pugx.org/league/plates/downloads.png)](https://packagist.org/packages/league/plates)
 [![Latest Stable Version](https://poser.pugx.org/league/plates/v/stable.png)](https://packagist.org/packages/league/plates)
 

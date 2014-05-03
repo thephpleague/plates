@@ -18,10 +18,10 @@
     "require-dev": {
         "phpunit/phpunit": "3.7.*",
         "mikey179/vfsStream": "v1.2.0",
-        "mockery/mockery": "dev-master@dev"
+        "mockery/mockery": "dev-master@dev",
+        "squizlabs/php_codesniffer": "~1.5"
     },
-    "autoload":
-    {
+    "autoload": {
         "psr-4": {
             "League\\Plates\\": "src"
         }

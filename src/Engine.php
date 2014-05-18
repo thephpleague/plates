@@ -117,6 +117,20 @@ class Engine
     }
 
     /**
+     *
+     * Add directories where templates can be found.
+     *
+     * @param array $directories
+     *
+     */
+    public function addFolders(array $directories = array())
+    {
+        foreach ($directories as $namespace => $directory) {
+            $this->addFolder($namespace, $directory);
+        }
+    }
+
+    /**
      * Load an extension and make additional functions available within templates.
      * @param  ExtensionExtensionInterface $extension
      * @return Engine
@@ -175,6 +189,20 @@ class Engine
         }
 
         return $this;
+    }
+
+    /**
+     *
+     * Load an array of extensions all at once.
+     *
+     * @param array $extensions Array of extensions of type ExtensionExtensionInterface
+     *
+     */
+    public function loadExtensions(array $extensions = array())
+    {
+        foreach ($extensions as $extension) {
+            $this->loadExtension($extension);
+        }
     }
 
     /**

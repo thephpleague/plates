@@ -18,6 +18,9 @@ class EngineTest extends \PHPUnit_Framework_TestCase
                 'home.php' => '',
                 'emails' => array(
                     'welcome.php' => ''
+                ),
+                'hello' => array(
+                    'world.php' => 'Hello world'
                 )
             )
         );
@@ -283,5 +286,28 @@ class EngineTest extends \PHPUnit_Framework_TestCase
     public function testMakeTemplate()
     {
         $this->assertInstanceOf('League\Plates\Template', $this->engine->makeTemplate());
+    }
+
+    public function testAddFolders()
+    {
+        $this->engine->addFolders(array(
+            'emails' => vfsStream::url('templates/emails'),
+            'hello' => vfsStream::url('templates/hello')
+        ));
+        $this->assertInternalType('string', $this->engine->resolvePath('emails::welcome'));
+        $this->assertInternalType('string', $this->engine->resolvePath('hello::world'));
+    }
+
+    public function testLoadExtensions()
+    {
+        $extension = \Mockery::mock('League\Plates\Extension\ExtensionInterface')
+            ->shouldReceive('getFunctions')
+            ->andReturn(array('function' => 'method'))
+            ->mock();
+        $this->engine->loadExtensions(array(
+            $extension
+        ));
+        $function = $this->engine->getFunction('function');
+        $this->assertEquals($extension, $function[0]);
     }
 }

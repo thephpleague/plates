@@ -147,4 +147,9 @@ class Template
 
         return ob_get_clean();
     }
+
+    public function getEngine()
+    {
+        return $this->internal['engine'];
+    }
 }

@@ -71,4 +71,9 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertTrue($this->template->render('template-with-data', array('name' => 'Jonathan')) === 'Jonathan');
     }
+
+    public function testGetEngine()
+    {
+        $this->assertInstanceOf('League\Plates\Engine', $this->template->getEngine());
+    }
 }

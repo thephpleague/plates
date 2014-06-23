@@ -16,14 +16,19 @@
         }
     ],
     "require-dev": {
-        "phpunit/phpunit": "3.7.*",
-        "mikey179/vfsStream": "v1.2.0",
-        "mockery/mockery": "dev-master@dev",
+        "phpunit/phpunit": "~4.0",
+        "mockery/mockery": "~0.9",
+        "mikey179/vfsStream": "~1.2.0",
         "squizlabs/php_codesniffer": "~1.5"
     },
     "autoload": {
         "psr-4": {
             "League\\Plates\\": "src"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.1-dev"
         }
     }
 }

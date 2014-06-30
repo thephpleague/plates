@@ -42,9 +42,12 @@ class Engine
     {
         $this->setDirectory($directory);
         $this->setFileExtension($fileExtension);
-        $this->loadExtension(new Extension\Batch);
-        $this->loadExtension(new Extension\Escape);
-        $this->loadExtension(new Extension\Nest);
+        $this->loadExtensions(array(
+            new Extension\Batch,
+            new Extension\Escape,
+            new Extension\Nest,
+            new Extension\Section
+        ));
     }
 
     /**
@@ -128,6 +131,8 @@ class Engine
         foreach ($directories as $namespace => $directory) {
             $this->addFolder($namespace, $directory);
         }
+
+        return $this;
     }
 
     /**
@@ -203,6 +208,8 @@ class Engine
         foreach ($extensions as $extension) {
             $this->loadExtension($extension);
         }
+
+        return $this;
     }
 
     /**
@@ -354,5 +361,34 @@ class Engine
     public function makeTemplate()
     {
         return new Template($this);
+    }
+
+    /**
+     * Shortcut alias to the makeTemplate() method.
+     * @return string
+     */
+    public function make()
+    {
+        return $this->makeTemplate();
+    }
+
+    /**
+     * Creates a new template and then renders it.
+     * @param  string $name
+     * @param  array  $data
+     * @return string
+     */
+    public function renderTemplate($name, array $data = null)
+    {
+        return $this->makeTemplate()->render($name, $data);
+    }
+
+    /**
+     * Shortcut alias to the renderTemplate() method.
+     * @return string
+     */
+    public function render($name, array $data = null)
+    {
+        return $this->renderTemplate($name, $data);
     }
 }

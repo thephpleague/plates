@@ -15,7 +15,7 @@ class EngineTest extends \PHPUnit_Framework_TestCase
         vfsStream::setup('templates');
         vfsStream::create(
             array(
-                'home.php' => '',
+                'home.php' => 'Home',
                 'emails' => array(
                     'welcome.php' => ''
                 ),
@@ -91,6 +91,16 @@ class EngineTest extends \PHPUnit_Framework_TestCase
         $this->engine->addFolder('namespace', vfsStream::url('templates'));
     }
 
+    public function testAddFolders()
+    {
+        $this->engine->addFolders(array(
+            'emails' => vfsStream::url('templates/emails'),
+            'hello' => vfsStream::url('templates/hello')
+        ));
+        $this->assertInternalType('string', $this->engine->resolvePath('emails::welcome'));
+        $this->assertInternalType('string', $this->engine->resolvePath('hello::world'));
+    }
+
     public function testLoadValidExtension()
     {
         $extension = \Mockery::mock('League\Plates\Extension\ExtensionInterface')
@@ -98,6 +108,19 @@ class EngineTest extends \PHPUnit_Framework_TestCase
             ->andReturn(array('function' => 'method'))
             ->mock();
         $this->assertInstanceOf('League\Plates\Engine', $this->engine->loadExtension($extension));
+        $function = $this->engine->getFunction('function');
+        $this->assertEquals($extension, $function[0]);
+    }
+
+    public function testLoadExtensions()
+    {
+        $extension = \Mockery::mock('League\Plates\Extension\ExtensionInterface')
+            ->shouldReceive('getFunctions')
+            ->andReturn(array('function' => 'method'))
+            ->mock();
+        $this->assertInstanceOf('League\Plates\Engine', $this->engine->loadExtensions(array($extension)));
+        $function = $this->engine->getFunction('function');
+        $this->assertEquals($extension, $function[0]);
     }
 
     public function testLoadExtensionWithInvalidFunctionsFileType()
@@ -286,28 +309,13 @@ class EngineTest extends \PHPUnit_Framework_TestCase
     public function testMakeTemplate()
     {
         $this->assertInstanceOf('League\Plates\Template', $this->engine->makeTemplate());
+        $this->assertInstanceOf('League\Plates\Template', $this->engine->make());
     }
 
-    public function testAddFolders()
+    public function testRenderTemplate()
     {
-        $this->engine->addFolders(array(
-            'emails' => vfsStream::url('templates/emails'),
-            'hello' => vfsStream::url('templates/hello')
-        ));
-        $this->assertInternalType('string', $this->engine->resolvePath('emails::welcome'));
-        $this->assertInternalType('string', $this->engine->resolvePath('hello::world'));
-    }
-
-    public function testLoadExtensions()
-    {
-        $extension = \Mockery::mock('League\Plates\Extension\ExtensionInterface')
-            ->shouldReceive('getFunctions')
-            ->andReturn(array('function' => 'method'))
-            ->mock();
-        $this->engine->loadExtensions(array(
-            $extension
-        ));
-        $function = $this->engine->getFunction('function');
-        $this->assertEquals($extension, $function[0]);
+        $this->engine->setDirectory(vfsStream::url('templates'));
+        $this->assertEquals('Home', $this->engine->renderTemplate('home'));
+        $this->assertEquals('Home', $this->engine->render('home'));
     }
 }

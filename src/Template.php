@@ -8,46 +8,10 @@ namespace League\Plates;
 class Template
 {
     /**
-     * The variables available on the template.
-     * @var array
-     */
-    protected $variables = array();
-
-    /**
-     * The view engine.
-     * @var Engine
-     */
-    protected $engine;
-
-    /**
-     * The name of the layout.
+     * Reserved for internal purposes.
      * @var string
      */
-    protected $layoutName;
-
-    /**
-     * The contents of the layout.
-     * @var string
-     */
-    protected $layoutContent;
-
-    /**
-     * The path to the layout.
-     * @var string
-     */
-    protected $layoutPath;
-
-    /**
-     * The stack of layout blocks.
-     * @var array
-     */
-    protected $sections = array();
-
-    /**
-     * Whether or not the template is currently rendering.
-     * @var bool
-     */
-    protected $rendering = false;
+    protected $internal = array();
 
     /**
      * Create new Template instance.
@@ -55,7 +19,8 @@ class Template
      */
     public function __construct(Engine $engine)
     {
-        $this->engine = $engine;
+        $this->internal['engine'] = $engine;
+        $this->internal['rendering'] = false;
     }
 
     /**
@@ -66,54 +31,10 @@ class Template
      */
     public function __call($name, $arguments)
     {
-        $function = $this->engine->getFunction($name);
+        $function = $this->internal['engine']->getFunction($name);
         $function[0]->template = $this;
 
         return call_user_func_array($function, $arguments);
-    }
-
-    /**
-     * Magic method used to get template variables.
-     * @param  string $key
-     * @return mixed
-     */
-    public function __get($key)
-    {
-        if (!isset($this->variables[$key])) {
-            throw new \OutOfBoundsException('Variable not set on template: '.$key);
-        }
-
-        return $this->variables[$key];
-    }
-
-    /**
-     * Magic method used to set template variables.
-     *
-     * @param string $key
-     * @param mixed  $value
-     */
-    public function __set($key, $value)
-    {
-        $this->variables[$key] = $value;
-    }
-
-    /**
-     * Magic method to allow isset() on template variables.
-     * @param  string  $key
-     * @return boolean
-     */
-    public function __isset($key)
-    {
-        return isset($this->variables[$key]);
-    }
-
-    /**
-     * Magic method to allow unset() on template variables.
-     * @param string $key
-     */
-    public function __unset($key)
-    {
-        unset($this->variables[$key]);
     }
 
     /**
@@ -121,11 +42,16 @@ class Template
      * @param  array $data
      * @return null
      */
-    public function data(Array $data = null)
+    public function data(array $data = null)
     {
         if (!is_null($data)) {
             foreach ($data as $name => $value) {
-                $this->variables[$name] = $value;
+
+                if ($name === 'internal') {
+                    throw new \LogicException('Invalid template variable: "internal" is a reserved variable.');
+                }
+
+                $this->$name = $value;
             }
         }
     }
@@ -136,11 +62,11 @@ class Template
      * @param  array  $data
      * @return null
      */
-    public function layout($name, Array $data = null)
+    public function layout($name, array $data = null)
     {
         $this->data($data);
 
-        $this->layoutName = $name;
+        $this->internal['layoutName'] = $name;
     }
 
     /**
@@ -149,11 +75,11 @@ class Template
      */
     public function content()
     {
-        if (!isset($this->layoutContent)) {
+        if (!isset($this->internal['layoutContent'])) {
             throw new \LogicException('Content is only available in layout templates.');
         }
 
-        return $this->layoutContent;
+        return $this->internal['layoutContent'];
     }
 
     /**
@@ -166,70 +92,50 @@ class Template
     }
 
     /**
-     * Start a new section block.
-     * @param  string $name
-     * @return null
-     */
-    public function start($name)
-    {
-        $this->sections[] = $name;
-
-        ob_start();
-    }
-
-    /**
-     * End the current section block.
-     * @return null
-     */
-    public function end()
-    {
-        if (!isset($this->sections) or !count($this->sections)) {
-            throw new \LogicException('You must start a section before you can end it.');
-        }
-
-        $this->{end($this->sections)} = ob_get_clean();
-
-        array_pop($this->sections);
-    }
-
-    /**
      * Render the template and any layouts.
      * @param  string $name
      * @param  array  $data
      * @return string
      */
-    public function render($name, Array $data = null)
+    public function render($name, array $data = null)
     {
-        if ($this->rendering) {
+        if ($this->internal['rendering'] !== false) {
             throw new \LogicException('You cannot render a template from within a template.');
         }
 
         ob_start();
 
-        $this->rendering = true;
+        $this->internal['rendering'] = $name;
+
+        unset($name);
 
         $this->data($data);
 
-        include($this->engine->resolvePath($name));
+        unset($data);
 
-        while (isset($this->layoutName)) {
+        extract(get_object_vars($this));
 
-            $this->layoutContent = ob_get_contents();
-            $this->layoutPath = $this->engine->resolvePath($this->layoutName);
-            $this->layoutName = null;
+        unset($internal);
+
+        include($this->internal['engine']->resolvePath($this->internal['rendering']));
+
+        while (isset($this->internal['layoutName'])) {
+
+            $this->internal['layoutContent'] = ob_get_contents();
+            $this->internal['layoutPath'] = $this->internal['engine']->resolvePath($this->internal['layoutName']);
+            $this->internal['layoutName'] = null;
 
             ob_clean();
 
-            include($this->layoutPath);
+            extract(get_object_vars($this));
+
+            unset($internal);
+
+            include($this->internal['layoutPath']);
         }
 
-        $this->rendering = false;
+        $this->internal['rendering'] = false;
 
         return ob_get_clean();
-    }
-
-    public function getEngine()
-    {
-        return $this->engine;
     }
 }

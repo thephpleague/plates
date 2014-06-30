@@ -45,14 +45,6 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->template->name === 'Jonathan');
     }
 
-    public function testSection()
-    {
-        $this->template->start('name');
-        echo 'Jonathan';
-        $this->template->end();
-        $this->assertTrue($this->template->name === 'Jonathan');
-    }
-
     public function testRender()
     {
         $this->assertTrue($this->template->render('basic-template') === 'Jonathan');
@@ -71,10 +63,5 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     public function testRenderWithData()
     {
         $this->assertTrue($this->template->render('template-with-data', array('name' => 'Jonathan')) === 'Jonathan');
-    }
-
-    public function testGetEngine()
-    {
-        $this->assertInstanceOf('League\Plates\Engine', $this->template->getEngine());
     }
 }

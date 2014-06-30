@@ -41,6 +41,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     public function testSetVariable()
     {
         $this->template->name = 'Jonathan';
+        $this->assertTrue(isset($this->template->name));
         $this->assertTrue($this->template->name === 'Jonathan');
     }
 

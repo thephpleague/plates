@@ -8,19 +8,56 @@ namespace League\Plates;
 class Template
 {
     /**
-     * Reserved for internal purposes.
+     * The name of the template.
      * @var string
      */
-    protected $internal = array();
+    protected $name;
+
+    /**
+     * Instance of the template engine.
+     * @var Engine
+     */
+    protected $engine;
+
+    /**
+     * The variables assigned to the template.
+     * @var array
+     */
+    protected $variables = array();
+
+    /**
+     * An array of section content.
+     * @var array
+     */
+    protected $sections = array();
+
+    /**
+     * The name of the template's layout.
+     * @var string
+     */
+    protected $layoutName;
+
+    /**
+     * The variables assigned to the template's layout.
+     * @var array
+     */
+    protected $layoutData;
+
+    /**
+     * Whether or not the template is currently rendering.
+     * @var bool
+     */
+    protected $rendering = false;
 
     /**
      * Create new Template instance.
      * @param Engine $engine
+     * @param string $name
      */
-    public function __construct(Engine $engine)
+    public function __construct(Engine $engine, $name)
     {
-        $this->internal['engine'] = $engine;
-        $this->internal['rendering'] = false;
+        $this->engine = $engine;
+        $this->name = $name;
     }
 
     /**
@@ -31,29 +68,99 @@ class Template
      */
     public function __call($name, $arguments)
     {
-        $function = $this->internal['engine']->getFunction($name);
-        $function[0]->template = $this;
+        if (!$this->rendering) {
+            throw new \LogicException('Calling functions is only possible within templates.');
+        }
 
-        return call_user_func_array($function, $arguments);
+        return $this->engine->getFunction($name)->call($this, $arguments);
     }
 
     /**
-     * Bulk assign variables to template object.
+     * Magic method used to set template variables.
+     *
+     * @param string $key
+     * @param mixed  $value
+     */
+    public function __set($key, $value)
+    {
+        throw new \LogicException('Variable assignment to template object is not permitted.');
+    }
+
+    /**
+     * Assign variables to template object.
      * @param  array $data
      * @return null
      */
-    public function data(array $data = null)
+    public function data(array $data = array())
     {
-        if (!is_null($data)) {
-            foreach ($data as $name => $value) {
-
-                if ($name === 'internal') {
-                    throw new \LogicException('Invalid template variable: "internal" is a reserved variable.');
-                }
-
-                $this->$name = $value;
-            }
+        if ($this->rendering) {
+            throw new \LogicException('Calling the data() method is not possible within templates.');
         }
+
+        $this->variables = array_merge($this->variables, $data);
+    }
+
+    /**
+     * Render the template and layout.
+     * @param  string $name
+     * @param  array  $data
+     * @return string
+     */
+    public function render(array $data = array())
+    {
+        // Check if this template is already being rendered. If it is, that means this
+        // method has been called from within a template, which will not work. In this
+        // case, throw an exception.
+        if ($this->rendering) {
+            throw new \LogicException('Calling the render() method is not possible within templates.');
+        }
+
+        // Assign both shared data and the data passed to this method to the template.
+        // Data passed to this method is assigned second, meaning it takes priority
+        // over shared template data in the event of a conflict.
+        $this->data($this->engine->getSharedData($this->name));
+        $this->data($data);
+
+        // Once the data passed to this method has been assigned to the template, we must
+        // clear the variable from the local scope. This is done before we extract the
+        // template variables, allowing "data" to be used as a template variable.
+        unset($data);
+
+        // Extract the templates variables so that they are available as locally scoped
+        // variables within the template.
+        extract($this->variables);
+
+        // With the template variables in place, rendering can begin. We start by setting
+        // the rendering boolean to true. This is a flag used to verify template method
+        // calls. The rendering flag must be set after assigning the data, as the
+        // data() method isn't available while rendering.
+        $this->rendering = true;
+
+        // Start the output buffering to "catch" all content outputted in the template.
+        ob_start();
+
+        // Include the template file. If the optional compiler is enabled, the engine
+        // will automatically compile the template and return the cached template
+        // path. Otherwise, it will simply return the original template path.
+        include($this->engine->getTemplateRenderPath($this->name));
+
+        // Stop the output buffering and put all the outputted content in a variable.
+        $content = ob_get_clean();
+
+        // Check to see if a layout was set during the execution of the template. If yes,
+        // create a new template and assign the layout data and sections. A reserved
+        // section named "content" will be set with the content from the previously
+        // rendered template.
+        if (isset($this->layoutName)) {
+            $layout = new Template($this->engine, $this->layoutName);
+            $layout->sections = array_merge($this->sections, array('content' => $content));
+            $content = $layout->render($this->layoutData);
+        }
+
+        // Rendering is complete, set the rendering flag back to false.
+        $this->rendering = false;
+
+        return $content;
     }
 
     /**
@@ -62,80 +169,54 @@ class Template
      * @param  array  $data
      * @return null
      */
-    public function layout($name, array $data = null)
+    protected function layout($name, array $data = array())
     {
-        $this->data($data);
-
-        $this->internal['layoutName'] = $name;
+        $this->layoutName = $name;
+        $this->layoutData = $data;
     }
 
     /**
-     * Get the template content from within a layout.
-     * @return string
-     */
-    public function content()
-    {
-        if (!isset($this->internal['layoutContent'])) {
-            throw new \LogicException('Content is only available in layout templates.');
-        }
-
-        return $this->internal['layoutContent'];
-    }
-
-    /**
-     * Alias to the content() method.
-     * @return string
-     */
-    public function child()
-    {
-        return $this->content();
-    }
-
-    /**
-     * Render the template and any layouts.
+     * Start a new section block.
      * @param  string $name
-     * @param  array  $data
-     * @return string
+     * @return null
      */
-    public function render($name, array $data = null)
+    protected function start($name)
     {
-        if ($this->internal['rendering'] !== false) {
-            throw new \LogicException('You cannot render a template from within a template.');
+        if ($name === 'content') {
+            throw new \LogicException('The section name "content" is reserved.');
         }
+
+        $this->sections[$name] = '';
 
         ob_start();
+    }
 
-        $this->internal['rendering'] = $name;
-
-        unset($name);
-
-        $this->data($data);
-
-        unset($data);
-
-        extract(get_object_vars($this));
-
-        unset($internal);
-
-        include($this->internal['engine']->resolvePath($this->internal['rendering']));
-
-        while (isset($this->internal['layoutName'])) {
-
-            $this->internal['layoutContent'] = ob_get_contents();
-            $this->internal['layoutPath'] = $this->internal['engine']->resolvePath($this->internal['layoutName']);
-            $this->internal['layoutName'] = null;
-
-            ob_clean();
-
-            extract(get_object_vars($this));
-
-            unset($internal);
-
-            include($this->internal['layoutPath']);
+    /**
+     * Stop the current section block.
+     * @return null
+     */
+    protected function stop()
+    {
+        if (empty($this->sections)) {
+            throw new \LogicException('You must start a section before you can stop it.');
         }
 
-        $this->internal['rendering'] = false;
+        end($this->sections);
 
-        return ob_get_clean();
+        $this->sections[key($this->sections)] = ob_get_clean();
+    }
+
+    /**
+     * Returns the content for a section block.
+     * @param  string $name
+     * @return null
+     */
+    protected function section($name)
+    {
+        if (!isset($this->sections[$name])) {
+            return null;
+        }
+
+        return $this->sections[$name];
     }
 }

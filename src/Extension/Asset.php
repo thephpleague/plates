@@ -8,12 +8,6 @@ namespace League\Plates\Extension;
 class Asset implements ExtensionInterface
 {
     /**
-     * Instance of the parent engine.
-     * @var Engine
-     */
-    public $engine;
-
-    /**
      * Instance of the current template.
      * @var Template
      */
@@ -26,7 +20,7 @@ class Asset implements ExtensionInterface
     public $path;
 
     /**
-     * Toggles the filename method.
+     * Enables the filename method.
      * @var boolean
      */
     public $filenameMethod;
@@ -43,14 +37,12 @@ class Asset implements ExtensionInterface
     }
 
     /**
-     * Get the defined extension functions.
-     * @return array
+     * Register extension functions.
+     * @return null
      */
-    public function getFunctions()
+    public function register($engine)
     {
-        return array(
-            'asset' => 'cachedAssetUrl'
-        );
+        $engine->registerEscapedFunction('asset', [$this, 'cachedAssetUrl']);
     }
 
     /**

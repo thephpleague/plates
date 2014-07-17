@@ -8,8 +8,8 @@ namespace League\Plates\Extension;
 class Nest implements ExtensionInterface
 {
     /**
-     * Instance of the parent engine.
-     * @var Engine
+     * Instance of the engine.
+     * @var Template
      */
     public $engine;
 
@@ -20,15 +20,15 @@ class Nest implements ExtensionInterface
     public $template;
 
     /**
-     * Get the defined extension functions.
-     * @return array
+     * Register extension functions.
+     * @return null
      */
-    public function getFunctions()
+    public function register($engine)
     {
-        return array(
-            'get' => 'getRenderedTemplate',
-            'insert' => 'insertRenderedTemplate'
-        );
+        $engine->registerRawFunction('get', [$this, 'get']);
+        $engine->registerRawFunction('insert', [$this, 'insert']);
+
+        $this->engine = $engine;
     }
 
     /**
@@ -37,9 +37,9 @@ class Nest implements ExtensionInterface
      * @param  array  $data
      * @return string
      */
-    public function getRenderedTemplate($name, Array $data = null)
+    public function get($name, array $data = array())
     {
-        return $this->engine->makeTemplate()->render($name, $data);
+        return $this->engine->render($name, $data);
     }
 
     /**
@@ -48,8 +48,8 @@ class Nest implements ExtensionInterface
      * @param  array  $data
      * @return null
      */
-    public function insertRenderedTemplate($name, Array $data = null)
+    public function insert($name, array $data = array())
     {
-        echo $this->getRenderedTemplate($name, $data);
+        echo $this->engine->render($name, $data);
     }
 }

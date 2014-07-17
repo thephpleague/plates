@@ -7,5 +7,5 @@ namespace League\Plates\Extension;
  */
 interface ExtensionInterface
 {
-    public function getFunctions();
+    public function register($engine);
 }

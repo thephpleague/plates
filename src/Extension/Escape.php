@@ -8,27 +8,19 @@ namespace League\Plates\Extension;
 class Escape implements ExtensionInterface
 {
     /**
-     * Instance of the parent engine.
-     * @var Engine
-     */
-    public $engine;
-
-    /**
      * Instance of the current template.
      * @var Template
      */
     public $template;
 
     /**
-     * Get the defined extension functions.
-     * @return array
+     * Register extension functions.
+     * @return null
      */
-    public function getFunctions()
+    public function register($engine)
     {
-        return array(
-            'escape' => 'escapeString',
-            'e' => 'escapeString'
-        );
+        $engine->registerRawFunction('escape', [$this, 'escape']);
+        $engine->registerRawFunction('e', [$this, 'escape']);
     }
 
     /**
@@ -36,7 +28,7 @@ class Escape implements ExtensionInterface
      * @param  string $string
      * @return string
      */
-    public function escapeString($string)
+    public function escape($string)
     {
         return htmlspecialchars($string, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
     }

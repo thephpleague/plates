@@ -8,12 +8,6 @@ namespace League\Plates\Extension;
 class URI implements ExtensionInterface
 {
     /**
-     * Instance of the parent engine.
-     * @var Engine
-     */
-    public $engine;
-
-    /**
      * Instance of the current template.
      * @var Template
      */
@@ -42,14 +36,12 @@ class URI implements ExtensionInterface
     }
 
     /**
-     * Get the defined extension functions.
-     * @return array
+     * Register extension functions.
+     * @return null
      */
-    public function getFunctions()
+    public function register($engine)
     {
-        return array(
-            'uri' => 'runUri'
-        );
+        $engine->registerEscapedFunction('uri', [$this, 'runUri']);
     }
 
     /**

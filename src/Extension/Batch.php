@@ -8,8 +8,8 @@ namespace League\Plates\Extension;
 class Batch implements ExtensionInterface
 {
     /**
-     * Instance of the parent engine.
-     * @var Engine
+     * Instance of the engine.
+     * @var Template
      */
     public $engine;
 
@@ -20,14 +20,14 @@ class Batch implements ExtensionInterface
     public $template;
 
     /**
-     * Get the defined extension functions.
-     * @return array
+     * Register extension functions.
+     * @return null
      */
-    public function getFunctions()
+    public function register($engine)
     {
-        return array(
-            'batch' => 'runBatch'
-        );
+        $engine->registerEscapedFunction('batch', [$this, 'batch']);
+
+        $this->engine = $engine;
     }
 
     /**
@@ -36,11 +36,11 @@ class Batch implements ExtensionInterface
      * @param  string $functions
      * @return mixed
      */
-    public function runBatch($var, $functions)
+    public function batch($var, $functions)
     {
         foreach (explode('|', $functions) as $function) {
-            if ($this->engine->functionExists($function)) {
-                $var = $this->template->$function($var);
+            if (method_exists($this, $function) or $this->engine->doesFunctionExist($function)) {
+                $var = call_user_func(array($this, $function), $var);
             } elseif (is_callable($function)) {
                 $var = call_user_func($function, $var);
             } else {

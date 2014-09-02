@@ -12,9 +12,9 @@ matrix:
     - php: hhvm
 
 before_script:
-  - composer self-update
-  - composer require satooshi/php-coveralls:dev-master --no-update --dev
-  - composer install
+  - travis_retry composer self-update
+  - travis_retry composer require satooshi/php-coveralls:dev-master --no-update --dev
+  - travis_retry composer install --no-interaction --prefer-source --dev
 
 script:
   - mkdir -p build/logs

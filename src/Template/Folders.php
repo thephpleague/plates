@@ -34,6 +34,22 @@ class Folders
     }
 
     /**
+     * Remove a template folder.
+     * @param  string $name
+     * @return Folders
+     */
+    public function remove($name)
+    {
+        if (!$this->exists($name)) {
+            throw new LogicException('The template folder "' . $name . '" was not found.');
+        }
+
+        unset($this->folders[$name]);
+
+        return $this;
+    }
+
+    /**
      * Get a template folder.
      * @param  string $name
      * @return Folder

@@ -87,6 +87,22 @@ class EngineTest extends \PHPUnit_Framework_TestCase
         $this->engine->addFolder('namespace', vfsStream::url('does/not/exist'));
     }
 
+    public function testRemoveFolder()
+    {
+        vfsStream::create(
+            array(
+                'folder' => array(
+                    'template.php' => ''
+                )
+            )
+        );
+
+        $this->engine->addFolder('folder', vfsStream::url('templates/folder'));
+        $this->assertEquals($this->engine->getFolders()->exists('folder'), true);
+        $this->assertInstanceOf('League\Plates\Engine', $this->engine->removeFolder('folder'));
+        $this->assertEquals($this->engine->getFolders()->exists('folder'), false);
+    }
+
     public function testGetFolders()
     {
         $this->assertInstanceOf('League\Plates\Template\Folders', $this->engine->getFolders());

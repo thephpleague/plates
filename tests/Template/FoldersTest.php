@@ -22,16 +22,8 @@ class FoldersTest extends \PHPUnit_Framework_TestCase
 
     public function testAddFolder()
     {
-        vfsStream::create(
-            array(
-                'folder' => array(
-                    'template.php' => ''
-                )
-            )
-        );
-
-        $this->assertInstanceOf('League\Plates\Template\Folders', $this->folders->add('name', vfsStream::url('templates/folder')));
-        $this->assertEquals($this->folders->get('name')->getPath(), 'vfs://templates/folder');
+        $this->assertInstanceOf('League\Plates\Template\Folders', $this->folders->add('name', vfsStream::url('templates')));
+        $this->assertEquals($this->folders->get('name')->getPath(), 'vfs://templates');
     }
 
     public function testAddFolderWithNamespaceConflict()
@@ -45,6 +37,14 @@ class FoldersTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('LogicException', 'The specified directory path "vfs://does/not/exist" does not exist.');
         $this->folders->add('name', vfsStream::url('does/not/exist'));
+    }
+
+    public function testRemoveFolder()
+    {
+        $this->folders->add('folder', vfsStream::url('templates'));
+        $this->assertEquals($this->folders->exists('folder'), true);
+        $this->assertInstanceOf('League\Plates\Template\Folders', $this->folders->remove('folder'));
+        $this->assertEquals($this->folders->exists('folder'), false);
     }
 
     public function testGetFolder()

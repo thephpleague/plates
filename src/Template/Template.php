@@ -117,7 +117,9 @@ class Template
         if ($this->exists()) {
             include($this->path());
         } else {
-            throw new LogicException('The template "' . $this->name . '" could not be found at "' . $this->path() . '".');
+            throw new LogicException(
+                'The template "' . $this->name . '" could not be found at "' . $this->path() . '".'
+            );
         }
 
         $content = ob_get_clean();
@@ -224,7 +226,9 @@ class Template
             } elseif (is_callable($function)) {
                 $var = call_user_func($function, $var);
             } else {
-                throw new LogicException('The batch function could not find the "' . $function . '" function.');
+                throw new LogicException(
+                    'The batch function could not find the "' . $function . '" function.'
+                );
             }
         }
 

@@ -18,7 +18,7 @@ class Template
 
     /**
      * The name of the template.
-     * @var string
+     * @var Name
      */
     protected $name;
 
@@ -222,7 +222,7 @@ class Template
     {
         foreach (explode('|', $functions) as $function) {
             if ($this->engine->doesFunctionExist($function)) {
-                $var = call_user_func(array($this->template, $function), $var);
+                $var = call_user_func(array($this, $function), $var);
             } elseif (is_callable($function)) {
                 $var = call_user_func($function, $var);
             } else {

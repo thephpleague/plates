@@ -1,5 +1,6 @@
 ---
-layout: layout
+layout: default
+permalink: installation/
 title: Installation
 ---
 
@@ -10,21 +11,19 @@ Installation
 
 Plates is available on [Packagist](https://packagist.org/packages/league/plates) and can be installed using [Composer](https://getcomposer.org/):
 
-~~~.language-javascript
+~~~ javascript
 {
     "require": {
-        "league/plates": "2.*"
+        "league/plates": "3.*"
     }
 }
 ~~~
 
-~~~.language-php
-<?php
-
+~~~ php
 // Include the Composer autoloader
 require 'vendor/autoload.php';
 ~~~
 
 ## Downloading .zip file
 
-This project is also available for download as a `.zip` file on GitHub. Visit the [releases page](https://github.com/thephpleague/plates/releases), select the version you want, and click the “Source code (zip)” download button.
+This project is also available for download as a `.zip` file on GitHub. Visit the [releases page](https://github.com/thephpleague/plates/releases), select the version you want, and click the "Source code (zip)" download button.

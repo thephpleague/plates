@@ -44,7 +44,7 @@ class Asset implements ExtensionInterface
      */
     public function register($engine)
     {
-        $engine->registerFunction('asset', [$this, 'cachedAssetUrl']);
+        $engine->registerFunction('asset', array($this, 'cachedAssetUrl'));
     }
 
     /**

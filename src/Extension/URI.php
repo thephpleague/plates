@@ -43,7 +43,7 @@ class URI implements ExtensionInterface
      */
     public function register($engine)
     {
-        $engine->registerFunction('uri', [$this, 'runUri']);
+        $engine->registerFunction('uri', array($this, 'runUri'));
     }
 
     /**

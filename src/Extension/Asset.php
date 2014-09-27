@@ -2,6 +2,8 @@
 
 namespace League\Plates\Extension;
 
+use LogicException;
+
 /**
  * Extension that adds the ability to create "cache busted" asset URLs.
  */
@@ -37,12 +39,12 @@ class Asset implements ExtensionInterface
     }
 
     /**
-     * Register extension functions.
+     * Register extension function.
      * @return null
      */
     public function register($engine)
     {
-        $engine->registerEscapedFunction('asset', [$this, 'cachedAssetUrl']);
+        $engine->registerFunction('asset', [$this, 'cachedAssetUrl']);
     }
 
     /**
@@ -55,7 +57,7 @@ class Asset implements ExtensionInterface
         $filePath = $this->path . '/' .  ltrim($url, '/');
 
         if (!file_exists($filePath)) {
-            throw new \LogicException(
+            throw new LogicException(
                 'Unable to locate the asset "' . $url . '" in the "' . $this->path . '" directory.'
             );
         }

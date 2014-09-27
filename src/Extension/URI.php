@@ -2,6 +2,8 @@
 
 namespace League\Plates\Extension;
 
+use LogicException;
+
 /**
  * Extension that adds a number of URI checks.
  */
@@ -17,13 +19,13 @@ class URI implements ExtensionInterface
      * The request URI.
      * @var string
      */
-    public $uri;
+    protected $uri;
 
     /**
      * The request URI as an array.
      * @var array
      */
-    private $parts;
+    protected $parts;
 
     /**
      * Create new URI instance.
@@ -41,7 +43,7 @@ class URI implements ExtensionInterface
      */
     public function register($engine)
     {
-        $engine->registerEscapedFunction('uri', [$this, 'runUri']);
+        $engine->registerFunction('uri', [$this, 'runUri']);
     }
 
     /**
@@ -83,11 +85,11 @@ class URI implements ExtensionInterface
         }
 
         if (is_string($var1) and is_null($var2) and is_null($var3) and is_null($var4)) {
-            return preg_match('#^' . $var1 . '$#', $this->uri) === 1;
+            return $this->match($var1, $this->uri) === 1;
         }
 
         if (is_string($var1) and is_string($var2) and is_null($var3) and is_null($var4)) {
-            if (preg_match('#^' . $var1 . '$#', $this->uri) === 1) {
+            if ($this->match($var1, $this->uri) === 1) {
                 return $var2;
             } else {
                 return false;
@@ -95,13 +97,24 @@ class URI implements ExtensionInterface
         }
 
         if (is_string($var1) and is_string($var2) and is_string($var3) and is_null($var4)) {
-            if (preg_match('#^' . $var1 . '$#', $this->uri) === 1) {
+            if ($this->match($var1, $this->uri) === 1) {
                 return $var2;
             } else {
                 return $var3;
             }
         }
 
-        throw new \LogicException('Invalid use of the uri function.');
+        throw new LogicException('Invalid use of the uri function.');
+    }
+
+    /**
+     * Perform a regular express match.
+     * @param  string  $variable
+     * @param  string  $uri
+     * @return boolean
+     */
+    protected function match($variable, $uri)
+    {
+        return preg_match('#^' . $variable . '$#', $uri);
     }
 }

@@ -1,6 +1,6 @@
 {
     "name": "league/plates",
-    "description": "Plates, the native PHP template system that’s fast, easy to use and easy to extend.",
+    "description": "Plates, the native PHP template system that's fast, easy to use and easy to extend.",
     "keywords": [
         "league",
         "package",
@@ -15,12 +15,8 @@
             "role": "Developer"
         }
     ],
-    "require": {
-        "nikic/php-parser": "1.0.0-beta1"
-    },
     "require-dev": {
         "phpunit/phpunit": "~4.0",
-        "mockery/mockery": "~0.9",
         "mikey179/vfsStream": "~1.2.0",
         "squizlabs/php_codesniffer": "~1.5"
     },
@@ -31,7 +27,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "2.1-dev"
+            "dev-master": "3.0-dev"
         }
     }
 }

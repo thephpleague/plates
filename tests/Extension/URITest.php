@@ -11,19 +11,9 @@ class URITest extends \PHPUnit_Framework_TestCase
         $this->extension = new URI('/green/red/blue');
     }
 
-    public function testCanCreateExtension()
+    public function testCanCreateInstance()
     {
         $this->assertInstanceOf('League\Plates\Extension\URI', $this->extension);
-    }
-
-    public function testGetFunctionsReturnsAnArray()
-    {
-        $this->assertInternalType('array', $this->extension->getFunctions());
-    }
-
-    public function testGetFunctionsReturnsAtLeastOneRecord()
-    {
-        $this->assertTrue(count($this->extension->getFunctions()) > 0);
     }
 
     public function testGetUrl()

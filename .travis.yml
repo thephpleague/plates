@@ -7,19 +7,13 @@ php:
   - 5.6
   - hhvm
 
-matrix:
-  allow_failures:
-    - php: hhvm
-
 before_script:
   - travis_retry composer self-update
-  - travis_retry composer require satooshi/php-coveralls:dev-master --no-update --dev
   - travis_retry composer install --no-interaction --prefer-source --dev
 
 script:
-  - mkdir -p build/logs
-  - phpunit --coverage-text
-  - ./vendor/bin/phpcs src --standard=psr2
+  - phpunit --coverage-text --coverage-clover=coverage.clover
 
 after_script:
-  - php vendor/bin/coveralls
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover

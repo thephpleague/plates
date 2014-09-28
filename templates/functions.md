@@ -20,7 +20,7 @@ In addition to the functions included with Plates, it's also possible to add [on
 
 ## Batch
 
-Sometimes you need to apply more than function to a variable in your templates. This can become somewhat illegible. The batch extension helps by allowing you to apply multiple extension functions AND native PHP functions to a variable at one time.
+Sometimes you need to apply more than function to a variable in your templates. This can become somewhat illegible. The batch function helps by allowing you to apply multiple functions, including native PHP functions, to a variable at one time.
 
 ~~~ php
 <!-- Example without using batch -->
@@ -30,9 +30,7 @@ Sometimes you need to apply more than function to a variable in your templates. 
 <p>Welcome <?=$this->batch($name, 'strip_tags|escape|strtoupper')?></p>
 ~~~
 
-### How the batch extension works
-
-The batch extension works well for "piped" functions that accept one parameter, modify it, and then return it. It's important to note that it executes functions left to right. It will also favour extension functions over native PHP functions if there are conflicts.
+The batch function works well for "piped" functions that accept one parameter, modify it, and then return it. It's important to note that it executes functions left to right. It will also favour extension functions over native PHP functions if there are conflicts.
 
 ~~~ php
 <!-- Will output: JONATHAN -->

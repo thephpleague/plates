@@ -40,8 +40,6 @@ class Data
                 'The templates variable must be null, an array or a string, ' . gettype($templates) . ' given.'
             );
         }
-
-        return $this;
     }
 
     /**

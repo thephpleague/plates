@@ -2,6 +2,8 @@
 
 namespace League\Plates\Extension;
 
+use League\Plates\Engine;
+
 class URITest extends \PHPUnit_Framework_TestCase
 {
     private $extension;
@@ -14,6 +16,14 @@ class URITest extends \PHPUnit_Framework_TestCase
     public function testCanCreateInstance()
     {
         $this->assertInstanceOf('League\Plates\Extension\URI', $this->extension);
+    }
+
+    public function testRegister()
+    {
+        $engine = new Engine();
+        $extension = new URI('/green/red/blue');
+        $extension->register($engine);
+        $this->assertEquals($engine->doesFunctionExist('uri'), true);
     }
 
     public function testGetUrl()

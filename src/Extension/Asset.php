@@ -2,6 +2,7 @@
 
 namespace League\Plates\Extension;
 
+use League\Plates\Engine;
 use LogicException;
 
 /**
@@ -42,7 +43,7 @@ class Asset implements ExtensionInterface
      * Register extension function.
      * @return null
      */
-    public function register($engine)
+    public function register(Engine $engine)
     {
         $engine->registerFunction('asset', array($this, 'cachedAssetUrl'));
     }

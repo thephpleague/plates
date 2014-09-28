@@ -2,6 +2,7 @@
 
 namespace League\Plates\Extension;
 
+use League\Plates\Engine;
 use LogicException;
 
 /**
@@ -41,7 +42,7 @@ class URI implements ExtensionInterface
      * Register extension functions.
      * @return null
      */
-    public function register($engine)
+    public function register(Engine $engine)
     {
         $engine->registerFunction('uri', array($this, 'runUri'));
     }

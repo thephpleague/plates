@@ -2,6 +2,7 @@
 
 namespace League\Plates\Extension;
 
+use League\Plates\Engine;
 use org\bovigo\vfs\vfsStream;
 
 class AssetTest extends \PHPUnit_Framework_TestCase
@@ -20,7 +21,7 @@ class AssetTest extends \PHPUnit_Framework_TestCase
 
     public function testRegister()
     {
-        $engine = new \League\Plates\Engine();
+        $engine = new Engine();
         $extension = new Asset(vfsStream::url('assets'));
         $extension->register($engine);
         $this->assertEquals($engine->doesFunctionExist('asset'), true);

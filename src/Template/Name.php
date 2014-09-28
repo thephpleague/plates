@@ -80,7 +80,7 @@ class Name
      */
     public function exists()
     {
-        return is_file($this->path($this->name));
+        return is_file($this->path());
     }
 
     /**

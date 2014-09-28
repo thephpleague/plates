@@ -7,7 +7,7 @@ title: Functions
 Functions
 =========
 
-While [extensions](/engine/extensions/) are awesome for adding additional functionality to Plates, sometimes it's easier to just create a one-off function for a specific use case. Plates makes this easy to do.
+While [extensions](/engine/extensions/) are awesome for adding additional reusable functionality to Plates, sometimes it's easier to just create a one-off function for a specific use case. Plates makes this easy to do.
 
 ## Registering functions
 

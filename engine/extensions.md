@@ -14,7 +14,7 @@ Creating extensions couldn't be easier, and can really make Plates sing for your
 ~~~ php
 class ChangeCase implements \League\Plates\Extension\ExtensionInterface
 {
-    public function register($engine)
+    public function register(\League\Plates\Engine $engine)
     {
         $engine->registerFunction('uppercase', [$this, 'uppercaseString']);
         $engine->registerFunction('lowercase', [$this, 'lowercaseString']);
@@ -45,7 +45,7 @@ Alternatively, you may choose to expose the entire extension object to the templ
 ~~~ php
 class ChangeCase implements \League\Plates\Extension\ExtensionInterface
 {
-    public function register($engine)
+    public function register(\League\Plates\Engine $engine)
     {
         $engine->registerFunction('case', [$this, 'getObject']);
     }
@@ -91,7 +91,7 @@ class MyExtension implements \League\Plates\Extension\ExtensionInterface
     protected $engine;
     public $template; // must be public
 
-    public function register($engine)
+    public function register(\League\Plates\Engine $engine)
     {
         $this->engine = $engine;
 

@@ -40,7 +40,7 @@ class Func
      */
     public function setName($name)
     {
-        if (empty($name)) {
+        if (preg_match('/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/', $name) !== 1) {
             throw new LogicException(
                 'Not a valid function name.'
             );

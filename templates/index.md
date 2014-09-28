@@ -36,7 +36,7 @@ echo template->render(['name' => 'Jonathan']);
 
 ## Check if a template exists
 
-When dynamically loading templates, you may need to check they exist. This can be done using the engine's `exists()` method:
+When dynamically loading templates, you may need to check if they exist. This can be done using the engine's `exists()` method:
 
 ~~~ php
 if ($templates->exists('articles::beginners_guide')) {
@@ -60,7 +60,7 @@ To get a template path from its name, use the engine's `path()` method:
 $path = $templates->path('articles::beginners_guide');
 ~~~
 
-You can also get the path of an existing template:
+You can also get the path from an existing template:
 
 ~~~ php
 $path = $template->path();

@@ -25,7 +25,7 @@ Plates is a native PHP template system that's fast, easy to use and easy to exte
 - Native PHP templates, no new [syntax](/templates/syntax/) to learn
 - Plates is a template system, not a template language
 - Plates encourages the use of existing PHP functions
-- Increase code reuse with template [layouts](/templates/layouts/) and [inheritancee](/templates/inheritance/)
+- Increase code reuse with template [layouts](/templates/layouts/) and [inheritance](/templates/inheritance/)
 - Template [folders](/engine/folders/) for grouping templates into namespaces
 - [Data](/templates/data/#preassigned-and-shared-data) sharing across templates
 - Preassign [data](/templates/data/#preassigned-and-shared-data) to specific templates

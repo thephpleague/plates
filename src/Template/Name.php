@@ -67,10 +67,6 @@ class Name
             }
         }
 
-        if (!is_null($this->engine->getFileExtension())) {
-            $path .= '.' . $this->engine->getFileExtension();
-        }
-
         return $path;
     }
 
@@ -121,6 +117,10 @@ class Name
 
         } else {
             $this->throwParseException('Do not use the folder namespace seperator "::" more than once.');
+        }
+
+        if (!is_null($this->engine->getFileExtension())) {
+            $this->file .= '.' . $this->engine->getFileExtension();
         }
     }
 

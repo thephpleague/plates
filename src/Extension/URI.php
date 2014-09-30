@@ -61,31 +61,15 @@ class URI implements ExtensionInterface
             return $this->getUri();
         }
 
-        if (is_numeric($var1) and is_null($var2) and is_null($var3) and is_null($var4)) {
+        if (is_numeric($var1) and is_null($var2)) {
             return $this->getUriSegment($var1);
         }
 
-        if (is_numeric($var1) and is_string($var2) and is_null($var3) and is_null($var4)) {
-            return $this->checkUriSegmentMatch($var1, $var2);
-        }
-
-        if (is_numeric($var1) and is_string($var2) and is_string($var3) and is_null($var4)) {
-            return $this->checkUriSegmentMatch($var1, $var2, $var3);
-        }
-
-        if (is_numeric($var1) and is_string($var2) and is_string($var3) and is_string($var4)) {
+        if (is_numeric($var1) and is_string($var2)) {
             return $this->checkUriSegmentMatch($var1, $var2, $var3, $var4);
         }
 
-        if (is_string($var1) and is_null($var2) and is_null($var3) and is_null($var4)) {
-            return $this->checkUriRegexMatch($var1);
-        }
-
-        if (is_string($var1) and is_string($var2) and is_null($var3) and is_null($var4)) {
-            return $this->checkUriRegexMatch($var1, $var2);
-        }
-
-        if (is_string($var1) and is_string($var2) and is_string($var3) and is_null($var4)) {
+        if (is_string($var1)) {
             return $this->checkUriRegexMatch($var1, $var2, $var3);
         }
 
@@ -119,12 +103,12 @@ class URI implements ExtensionInterface
      * @param  mixed $returnOnFalse
      * @return mixed
      */
-    protected function checkUriSegmentMatch($key, $string, $returnOnTrue = true, $returnOnFalse = false)
+    protected function checkUriSegmentMatch($key, $string, $returnOnTrue = null, $returnOnFalse = null)
     {
         if ($this->parts[$key] === $string) {
-            return $returnOnTrue;
+            return is_null($returnOnTrue) ? true : $returnOnTrue;
         } else {
-            return $returnOnFalse;
+            return is_null($returnOnFalse) ? false : $returnOnFalse;
         }
     }
 
@@ -135,12 +119,12 @@ class URI implements ExtensionInterface
      * @param  mixed $returnOnFalse
      * @return mixed
      */
-    protected function checkUriRegexMatch($regex, $returnOnTrue = true, $returnOnFalse = false)
+    protected function checkUriRegexMatch($regex, $returnOnTrue = null, $returnOnFalse = null)
     {
         if (preg_match('#^' . $regex . '$#', $this->uri) === 1) {
-            return $returnOnTrue;
+            return is_null($returnOnTrue) ? true : $returnOnTrue;
         } else {
-            return $returnOnFalse;
+            return is_null($returnOnFalse) ? false : $returnOnFalse;
         }
     }
 }

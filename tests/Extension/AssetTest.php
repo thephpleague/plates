@@ -37,6 +37,21 @@ class AssetTest extends \PHPUnit_Framework_TestCase
 
         $extension = new Asset(vfsStream::url('assets'));
         $this->assertTrue($extension->cachedAssetUrl('styles.css') === 'styles.css?v=' . filemtime(vfsStream::url('assets/styles.css')));
+        $this->assertTrue($extension->cachedAssetUrl('/styles.css') === '/styles.css?v=' . filemtime(vfsStream::url('assets/styles.css')));
+    }
+
+    public function testCachedAssetUrlInFolder()
+    {
+        vfsStream::create(
+            array(
+                'folder' => array(
+                    'styles.css' => ''
+                )
+            )
+        );
+
+        $extension = new Asset(vfsStream::url('assets'));
+        $this->assertTrue($extension->cachedAssetUrl('/folder/styles.css') === '/folder/styles.css?v=' . filemtime(vfsStream::url('assets/folder/styles.css')));
     }
 
     public function testCachedAssetUrlUsingFilenameMethod()

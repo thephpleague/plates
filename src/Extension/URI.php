@@ -58,11 +58,11 @@ class URI implements ExtensionInterface
     public function runUri($var1 = null, $var2 = null, $var3 = null, $var4 = null)
     {
         if (is_null($var1)) {
-            return $this->getUri();
+            return $this->uri;
         }
 
         if (is_numeric($var1) and is_null($var2)) {
-            return $this->getUriSegment($var1);
+            return $this->parts[$var1];
         }
 
         if (is_numeric($var1) and is_string($var2)) {
@@ -74,25 +74,6 @@ class URI implements ExtensionInterface
         }
 
         throw new LogicException('Invalid use of the uri function.');
-    }
-
-    /**
-     * Get the URI.
-     * @return string
-     */
-    protected function getUri()
-    {
-        return $this->uri;
-    }
-
-    /**
-     * Get a URI segment.
-     * @param  integer $key
-     * @return string
-     */
-    protected function getUriSegment($key)
-    {
-        return $this->parts[$key];
     }
 
     /**

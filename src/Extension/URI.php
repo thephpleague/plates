@@ -58,64 +58,89 @@ class URI implements ExtensionInterface
     public function runUri($var1 = null, $var2 = null, $var3 = null, $var4 = null)
     {
         if (is_null($var1)) {
-            return $this->uri;
+            return $this->getUri();
         }
 
         if (is_numeric($var1) and is_null($var2) and is_null($var3) and is_null($var4)) {
-            return $this->parts[$var1];
+            return $this->getUriSegment($var1);
         }
 
         if (is_numeric($var1) and is_string($var2) and is_null($var3) and is_null($var4)) {
-            return $this->parts[$var1] === $var2;
+            return $this->checkUriSegmentMatch($var1, $var2);
         }
 
         if (is_numeric($var1) and is_string($var2) and is_string($var3) and is_null($var4)) {
-            if ($this->parts[$var1] === $var2) {
-                return $var3;
-            } else {
-                return false;
-            }
+            return $this->checkUriSegmentMatch($var1, $var2, $var3);
         }
 
         if (is_numeric($var1) and is_string($var2) and is_string($var3) and is_string($var4)) {
-            if ($this->parts[$var1] === $var2) {
-                return $var3;
-            } else {
-                return $var4;
-            }
+            return $this->checkUriSegmentMatch($var1, $var2, $var3, $var4);
         }
 
         if (is_string($var1) and is_null($var2) and is_null($var3) and is_null($var4)) {
-            return $this->match($var1, $this->uri) === 1;
+            return $this->checkUriRegexMatch($var1);
         }
 
         if (is_string($var1) and is_string($var2) and is_null($var3) and is_null($var4)) {
-            if ($this->match($var1, $this->uri) === 1) {
-                return $var2;
-            } else {
-                return false;
-            }
+            return $this->checkUriRegexMatch($var1, $var2);
         }
 
         if (is_string($var1) and is_string($var2) and is_string($var3) and is_null($var4)) {
-            if ($this->match($var1, $this->uri) === 1) {
-                return $var2;
-            } else {
-                return $var3;
-            }
+            return $this->checkUriRegexMatch($var1, $var2, $var3);
         }
 
         throw new LogicException('Invalid use of the uri function.');
     }
 
     /**
-     * Perform a regular express match.
-     * @param  string  $variable
-     * @param  string  $uri
-     * @return boolean
+     * Get the URI.
+     * @return string
      */
-    protected function match($variable, $uri)
+    protected function getUri()
     {
-        return preg_match('#^' . $variable . '$#', $uri);
+        return $this->uri;
+    }
+
+    /**
+     * Get a URI segment.
+     * @param  integer $key
+     * @return string
+     */
+    protected function getUriSegment($key)
+    {
+        return $this->parts[$key];
+    }
+
+    /**
+     * Perform a URI segment match.
+     * @param  integer  $key
+     * @param  string  $string
+     * @param  mixed  $returnOnTrue
+     * @param  mixed $returnOnFalse
+     * @return mixed
+     */
+    protected function checkUriSegmentMatch($key, $string, $returnOnTrue = true, $returnOnFalse = false)
+    {
+        if ($this->parts[$key] === $string) {
+            return $returnOnTrue;
+        } else {
+            return $returnOnFalse;
+        }
+    }
+
+    /**
+     * Perform a regular express match.
+     * @param  string  $regex
+     * @param  mixed $returnOnTrue
+     * @param  mixed $returnOnFalse
+     * @return mixed
+     */
+    protected function checkUriRegexMatch($regex, $returnOnTrue = true, $returnOnFalse = false)
+    {
+        if (preg_match('#^' . $regex . '$#', $this->uri) === 1) {
+            return $returnOnTrue;
+        } else {
+            return $returnOnFalse;
+        }
     }
 }

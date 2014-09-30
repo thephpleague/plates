@@ -51,6 +51,11 @@ class URITest extends \PHPUnit_Framework_TestCase
 
     public function testSegmentMatchFailureResponse()
     {
+        $this->assertFalse($this->extension->runUri(1, 'red', 'success'));
+    }
+
+    public function testSegmentMatchFailureCustomResponse()
+    {
         $this->assertTrue($this->extension->runUri(1, 'red', 'success', 'fail') === 'fail');
     }
 
@@ -66,6 +71,18 @@ class URITest extends \PHPUnit_Framework_TestCase
 
     public function testRegexMatchFailureResponse()
     {
+        $this->assertFalse($this->extension->runUri('/[0-9]+/red/blue', 'success'));
+    }
+
+    public function testRegexMatchFailureCustomResponse()
+    {
         $this->assertTrue($this->extension->runUri('/[0-9]+/red/blue', 'success', 'fail') === 'fail');
+    }
+
+    public function testInvalidCall()
+    {
+        $this->setExpectedException('LogicException', 'Invalid use of the uri function.');
+
+        $this->extension->runUri(array());
     }
 }

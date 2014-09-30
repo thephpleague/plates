@@ -10,7 +10,7 @@ Functions
 Template functions in Plates are accessed using the `$this` pseudo-variable.
 
 ~~~ php
-<p>Hello, <?=$this->escape(name)?></p>
+<p>Hello, <?=$this->escape($name)?></p>
 ~~~
 
 

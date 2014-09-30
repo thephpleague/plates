@@ -20,7 +20,7 @@ Escaping is a form of [data filtering](http://www.phptherightway.com/#data_filte
 
 ## Escaping HTML attributes
 
-<p class="message-warning">It's VERY important to always double quote HTML attributes that contain escaped variables, otherwise your template will still be open to injection attacks.</p>
+<p class="message-notice">It's VERY important to always double quote HTML attributes that contain escaped variables, otherwise your template will still be open to injection attacks.</p>
 
 Some [libraries](http://framework.zend.com/manual/2.1/en/modules/zend.escaper.escaping-html-attributes.html) go as far as having a special function for escaping HTML attributes. However, this is somewhat redundant considering that if a developer forgets to properly quote an HTML attribute, they will likely also forget to use this special function. Here is how you properly escape HTML attributes:
 

@@ -1,7 +1,7 @@
 ---
 layout: default
 permalink: templates/layouts/
-title: Variables
+title: Layouts
 ---
 
 Layouts

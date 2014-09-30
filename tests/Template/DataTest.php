@@ -16,21 +16,29 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('League\Plates\Template\Data', $this->template_data);
     }
 
-    public function testAddData()
+    public function testAddDataToAllTemplates()
     {
         $this->template_data->add(array('name' => 'Jonathan'));
         $data = $this->template_data->get();
         $this->assertEquals($data['name'], 'Jonathan');
     }
 
-    public function testAddDataWithTemplate()
+    public function testAddDataToOneTemplate()
     {
         $this->template_data->add(array('name' => 'Jonathan'), 'template');
         $data = $this->template_data->get('template');
         $this->assertEquals($data['name'], 'Jonathan');
     }
 
-    public function testAddDataWithTemplates()
+    public function testAddDataToOneTemplateAgain()
+    {
+        $this->template_data->add(array('firstname' => 'Jonathan'), 'template');
+        $this->template_data->add(array('lastname' => 'Reinink'), 'template');
+        $data = $this->template_data->get('template');
+        $this->assertEquals($data['lastname'], 'Reinink');
+    }
+
+    public function testAddDataToSomeTemplates()
     {
         $this->template_data->add(array('name' => 'Jonathan'), array('template1', 'template2'));
         $data = $this->template_data->get('template1');

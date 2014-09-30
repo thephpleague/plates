@@ -95,7 +95,7 @@ class Template
      */
     public function path()
     {
-        return $this->name->path();
+        return $this->name->getPath();
     }
 
     /**

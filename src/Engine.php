@@ -240,7 +240,7 @@ class Engine
     {
         $name = new Name($this, $name);
 
-        return $name->path();
+        return $name->getPath();
     }
 
     /**

@@ -49,11 +49,11 @@ class URI implements ExtensionInterface
 
     /**
      * Perform URI check.
-     * @param  integer|string $var1
-     * @param  string         $var2
-     * @param  string         $var3
-     * @param  string         $var4
-     * @return boolean|string
+     * @param  null|integer|string $var1
+     * @param  mixed               $var2
+     * @param  mixed               $var3
+     * @param  mixed               $var4
+     * @return mixed
      */
     public function runUri($var1 = null, $var2 = null, $var3 = null, $var4 = null)
     {

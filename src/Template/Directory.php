@@ -50,13 +50,4 @@ class Directory
     {
         return $this->path;
     }
-
-    /**
-     * Get path to templates directory.
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->path;
-    }
 }

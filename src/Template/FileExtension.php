@@ -44,13 +44,4 @@ class FileExtension
     {
         return $this->fileExtension;
     }
-
-    /**
-     * Get the template file extension.
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->fileExtension;
-    }
 }

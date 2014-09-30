@@ -47,6 +47,12 @@ class FoldersTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->folders->exists('folder'), false);
     }
 
+    public function testRemoveFolderWithInvalidDirectory()
+    {
+        $this->setExpectedException('LogicException', 'The template folder "name" was not found.');
+        $this->folders->remove('name');
+    }
+
     public function testGetFolder()
     {
         $this->folders->add('name', vfsStream::url('templates'));

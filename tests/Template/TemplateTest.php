@@ -27,7 +27,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     {
         vfsStream::create(
             array(
-                'template.php' => '<?=$this->uppercase("jonathan")?>',
+                'template.php' => '<?php echo $this->uppercase("jonathan") ?>',
             )
         );
 
@@ -38,7 +38,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     {
         vfsStream::create(
             array(
-                'template.php' => '<?=$name?>',
+                'template.php' => '<?php echo $name ?>',
             )
         );
 
@@ -82,7 +82,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     {
         vfsStream::create(
             array(
-                'template.php' => '<?=$name?>',
+                'template.php' => '<?php echo $name ?>',
             )
         );
 
@@ -99,7 +99,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     {
         vfsStream::create(
             array(
-                'template.php' => '<?=$this->layout("layout")?>',
+                'template.php' => '<?php $this->layout("layout") ?>',
                 'layout.php' => 'Hello World',
             )
         );
@@ -111,8 +111,8 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     {
         vfsStream::create(
             array(
-                'template.php' => '<?=$this->layout("layout")?><?php $this->start("test") ?>Hello World<?php $this->stop() ?>',
-                'layout.php' => '<?=$this->section("test")?>',
+                'template.php' => '<?php $this->layout("layout")?><?php $this->start("test") ?>Hello World<?php $this->stop() ?>',
+                'layout.php' => '<?php echo $this->section("test") ?>',
             )
         );
 
@@ -125,7 +125,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
 
         vfsStream::create(
             array(
-                'template.php' => '<?=$this->start("content")?>'
+                'template.php' => '<?php $this->start("content") ?>'
             )
         );
 
@@ -138,7 +138,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
 
         vfsStream::create(
             array(
-                'template.php' => '<?=$this->stop()?>'
+                'template.php' => '<?php $this->stop() ?>'
             )
         );
 
@@ -149,7 +149,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     {
         vfsStream::create(
             array(
-                'template.php' => '<?=$this->layout("layout")?>',
+                'template.php' => '<?php $this->layout("layout") ?>',
                 'layout.php' => '<?php if (is_null($this->section("test"))) echo "NULL" ?>',
             )
         );
@@ -161,7 +161,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     {
         vfsStream::create(
             array(
-                'template.php' => '<?=$this->fetch("fetched")?>',
+                'template.php' => '<?php echo $this->fetch("fetched") ?>',
                 'fetched.php' => 'Hello World',
             )
         );
@@ -173,7 +173,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     {
         vfsStream::create(
             array(
-                'template.php' => '<?php $this->insert("inserted")?>',
+                'template.php' => '<?php $this->insert("inserted") ?>',
                 'inserted.php' => 'Hello World',
             )
         );
@@ -185,7 +185,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     {
         vfsStream::create(
             array(
-                'template.php' => '<?=$this->batch("Jonathan", "uppercase|strtolower")?>'
+                'template.php' => '<?php echo $this->batch("Jonathan", "uppercase|strtolower") ?>'
             )
         );
 
@@ -198,7 +198,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
 
         vfsStream::create(
             array(
-                'template.php' => '<?=$this->batch("Jonathan", "function_that_does_not_exist")?>'
+                'template.php' => '<?php echo $this->batch("Jonathan", "function_that_does_not_exist") ?>'
             )
         );
 
@@ -209,7 +209,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     {
         vfsStream::create(
             array(
-                'template.php' => '<?=$this->escape("<strong>Jonathan</strong>")?>'
+                'template.php' => '<?php echo $this->escape("<strong>Jonathan</strong>") ?>'
             )
         );
 
@@ -220,7 +220,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     {
         vfsStream::create(
             array(
-                'template.php' => '<?=$this->e("<strong>Jonathan</strong>")?>'
+                'template.php' => '<?php echo $this->e("<strong>Jonathan</strong>") ?>'
             )
         );
 

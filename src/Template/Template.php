@@ -75,7 +75,7 @@ class Template
      * @param  array $data
      * @return null
      */
-    public function data(array $data = array())
+    public function data(array $data)
     {
         $this->data = array_merge($this->data, $data);
     }
@@ -117,9 +117,7 @@ class Template
         if ($this->exists()) {
             include($this->path());
         } else {
-            throw new LogicException(
-                'The template "' . $this->name . '" could not be found at "' . $this->path() . '".'
-            );
+            $this->error('The template "' . $this->name->getName() . '" could not be found at "' . $this->path() . '".');
         }
 
         $content = ob_get_clean();
@@ -153,7 +151,7 @@ class Template
     protected function start($name)
     {
         if ($name === 'content') {
-            throw new LogicException('The section name "content" is reserved.');
+            $this->error('The section name "content" is reserved.');
         }
 
         $this->sections[$name] = '';
@@ -168,7 +166,7 @@ class Template
     protected function stop()
     {
         if (empty($this->sections)) {
-            throw new LogicException('You must start a section before you can stop it.');
+            $this->error('You must start a section before you can stop it.');
         }
 
         end($this->sections);
@@ -226,9 +224,7 @@ class Template
             } elseif (is_callable($function)) {
                 $var = call_user_func($function, $var);
             } else {
-                throw new LogicException(
-                    'The batch function could not find the "' . $function . '" function.'
-                );
+                $this->error('The batch function could not find the "' . $function . '" function.');
             }
         }
 
@@ -253,6 +249,17 @@ class Template
     protected function e($string)
     {
         return $this->escape($string);
+    }
+
+    /**
+     * Handle a template error
+     * @param  string $message
+     */
+    protected function error($message)
+    {
+        ob_end_clean();
+
+        throw new LogicException($message);
     }
 }
 

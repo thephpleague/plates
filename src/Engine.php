@@ -7,6 +7,7 @@ use League\Plates\Template\Data;
 use League\Plates\Template\Directory;
 use League\Plates\Template\FileExtension;
 use League\Plates\Template\Folders;
+use League\Plates\Template\Func;
 use League\Plates\Template\Functions;
 use League\Plates\Template\Name;
 use League\Plates\Template\Template;

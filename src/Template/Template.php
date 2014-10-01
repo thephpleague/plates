@@ -106,29 +106,44 @@ class Template
      */
     public function render(array $data = array())
     {
-        $this->data($data);
+        try {
 
-        unset($data);
+            $this->data($data);
 
-        extract($this->data);
+            unset($data);
 
-        ob_start();
+            extract($this->data);
 
-        if ($this->exists()) {
-            include($this->path());
-        } else {
-            $this->error('The template "' . $this->name->getName() . '" could not be found at "' . $this->path() . '".');
+            ob_start();
+
+            if ($this->exists()) {
+
+                include($this->path());
+
+            } else {
+
+                throw new LogicException(
+                    'The template "' . $this->name->getName() . '" could not be found at "' . $this->path() . '".'
+                );
+            }
+
+            $content = ob_get_clean();
+
+            if (isset($this->layoutName)) {
+
+                $layout = $this->engine->make($this->layoutName);
+                $layout->sections = array_merge($this->sections, array('content' => $content));
+                $content = $layout->render($this->layoutData);
+            }
+
+            return $content;
+
+        } catch (LogicException $e) {
+
+            ob_end_clean();
+
+            throw new LogicException($e->getMessage());
         }
-
-        $content = ob_get_clean();
-
-        if (isset($this->layoutName)) {
-            $layout = $this->engine->make($this->layoutName);
-            $layout->sections = array_merge($this->sections, array('content' => $content));
-            $content = $layout->render($this->layoutData);
-        }
-
-        return $content;
     }
 
     /**
@@ -151,7 +166,10 @@ class Template
     protected function start($name)
     {
         if ($name === 'content') {
-            $this->error('The section name "content" is reserved.');
+
+            throw new LogicException(
+                'The section name "content" is reserved.'
+            );
         }
 
         $this->sections[$name] = '';
@@ -166,7 +184,10 @@ class Template
     protected function stop()
     {
         if (empty($this->sections)) {
-            $this->error('You must start a section before you can stop it.');
+
+            throw new LogicException(
+                'You must start a section before you can stop it.'
+            );
         }
 
         end($this->sections);
@@ -182,6 +203,7 @@ class Template
     protected function section($name)
     {
         if (!isset($this->sections[$name])) {
+
             return null;
         }
 
@@ -219,12 +241,20 @@ class Template
     protected function batch($var, $functions)
     {
         foreach (explode('|', $functions) as $function) {
+
             if ($this->engine->doesFunctionExist($function)) {
+
                 $var = call_user_func(array($this, $function), $var);
+
             } elseif (is_callable($function)) {
+
                 $var = call_user_func($function, $var);
+
             } else {
-                $this->error('The batch function could not find the "' . $function . '" function.');
+
+                throw new LogicException(
+                    'The batch function could not find the "' . $function . '" function.'
+                );
             }
         }
 
@@ -249,17 +279,6 @@ class Template
     protected function e($string)
     {
         return $this->escape($string);
-    }
-
-    /**
-     * Handle a template error
-     * @param  string $message
-     */
-    protected function error($message)
-    {
-        ob_end_clean();
-
-        throw new LogicException($message);
     }
 }
 

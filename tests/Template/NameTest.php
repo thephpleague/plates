@@ -30,6 +30,13 @@ class NameTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('League\Plates\Template\Name', new Name($this->engine, 'template'));
     }
 
+    public function testGetEngine()
+    {
+        $name = new Name($this->engine, 'template');
+
+        $this->assertInstanceOf('League\Plates\Engine', $name->getEngine());
+    }
+
     public function testGetName()
     {
         $name = new Name($this->engine, 'template');

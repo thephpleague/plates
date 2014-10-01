@@ -4,7 +4,9 @@
     "keywords": [
         "league",
         "package",
-        "templating"
+        "templating",
+        "templates",
+        "views",
     ],
     "homepage": "http://platesphp.com",
     "license": "MIT",

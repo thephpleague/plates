@@ -6,7 +6,7 @@
         "package",
         "templating",
         "templates",
-        "views",
+        "views"
     ],
     "homepage": "http://platesphp.com",
     "license": "MIT",

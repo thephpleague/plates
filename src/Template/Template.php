@@ -86,7 +86,7 @@ class Template
      */
     public function exists()
     {
-        return $this->name->exists();
+        return $this->name->doesPathExist();
     }
 
     /**

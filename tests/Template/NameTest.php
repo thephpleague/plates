@@ -11,7 +11,6 @@ class NameTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         vfsStream::setup('templates');
-
         vfsStream::create(
             array(
                 'template.php' => '',
@@ -79,14 +78,14 @@ class NameTest extends \PHPUnit_Framework_TestCase
     {
         $name = new Name($this->engine, 'template');
 
-        $this->assertEquals($name->exists(), true);
+        $this->assertEquals($name->doesPathExist(), true);
     }
 
     public function testTemplateDoesNotExist()
     {
         $name = new Name($this->engine, 'missing');
 
-        $this->assertEquals($name->exists(), false);
+        $this->assertEquals($name->doesPathExist(), false);
     }
 
     public function testParse()
@@ -104,6 +103,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
 
         $this->engine->setDirectory(null);
         $name = new Name($this->engine, 'template');
+        $name->getPath();
     }
 
     public function testParseWithEmptyTemplateName()
@@ -122,25 +122,11 @@ class NameTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($name->getFile(), 'template.php');
     }
 
-    public function testParseWithEmptyFolderName()
-    {
-        $this->setExpectedException('LogicException', 'The folder name cannot be empty.');
-
-        $name = new Name($this->engine, '::template');
-    }
-
     public function testParseWithFolderAndEmptyTemplateName()
     {
         $this->setExpectedException('LogicException', 'The template name cannot be empty.');
 
         $name = new Name($this->engine, 'folder::');
-    }
-
-    public function testParseWithInvalidFolder()
-    {
-        $this->setExpectedException('LogicException', 'The folder "missing" does not exist.');
-
-        $name = new Name($this->engine, 'missing::template');
     }
 
     public function testParseWithInvalidName()
@@ -159,13 +145,5 @@ class NameTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($name->getName(), 'template.php');
         $this->assertEquals($name->getFolder(), null);
         $this->assertEquals($name->getFile(), 'template.php');
-    }
-
-    public function testParseError()
-    {
-        $this->setExpectedException('LogicException', 'The template name "template" is not valid. Test.');
-
-        $name = new Name($this->engine, 'template');
-        $name->parseError('Test.');
     }
 }

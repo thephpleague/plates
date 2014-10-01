@@ -41,10 +41,60 @@ class Name
      */
     public function __construct(Engine $engine, $name)
     {
+        $this->setEngine($engine);
+        $this->setName($name);
+    }
+
+    /**
+     * Set the engine.
+     * @param Engine $engine
+     * @return Name
+     */
+    public function setEngine(Engine $engine)
+    {
         $this->engine = $engine;
+
+        return $this;
+    }
+
+    /**
+     * Get the engine.
+     * @return Engine
+     */
+    public function getEngine()
+    {
+        return $this->engine;
+    }
+
+    /**
+     * Set the original name and parse it.
+     * @param string $name
+     * @return Name
+     */
+    public function setName($name)
+    {
         $this->name = $name;
 
-        $this->parseName();
+        $parts = explode('::', $this->name);
+
+        if (count($parts) === 1) {
+
+            $this->setFile($parts[0]);
+
+        } elseif (count($parts) === 2) {
+
+            $this->setFolder($parts[0]);
+            $this->setFile($parts[1]);
+
+        } else {
+
+            throw new LogicException(
+                'The template name "' . $this->name . '" is not valid. ' .
+                'Do not use the folder namespace seperator "::" more than once.'
+            );
+        }
+
+        return $this;
     }
 
     /**
@@ -57,12 +107,48 @@ class Name
     }
 
     /**
+     * Set the parsed template folder.
+     * @param string $folder
+     * @return Name
+     */
+    public function setFolder($folder)
+    {
+        $this->folder = $this->engine->getFolders()->get($folder);
+
+        return $this;
+    }
+
+    /**
      * Get the parsed template folder.
      * @return string
      */
     public function getFolder()
     {
         return $this->folder;
+    }
+
+    /**
+     * Set the parsed template file.
+     * @param string $file
+     * @return Name
+     */
+    public function setFile($file)
+    {
+        if ($file === '') {
+
+            throw new LogicException(
+                'The template name "' . $this->name . '" is not valid. ' .
+                'The template name cannot be empty.'
+            );
+        }
+
+        $this->file = $file;
+
+        if (!is_null($this->engine->getFileExtension())) {
+            $this->file .= '.' . $this->engine->getFileExtension();
+        }
+
+        return $this;
     }
 
     /**
@@ -82,15 +168,15 @@ class Name
     {
         if (is_null($this->folder)) {
 
-            $path = $this->engine->getDirectory() . DIRECTORY_SEPARATOR . $this->file;
+            $path = $this->getDefaultDirectory() . DIRECTORY_SEPARATOR . $this->file;
 
         } else {
 
             $path = $this->folder->getPath() . DIRECTORY_SEPARATOR . $this->file;
 
-            if (!is_file($path) and $this->folder->getFallback() and is_file($this->engine->getDirectory() . DIRECTORY_SEPARATOR . $this->file)) {
+            if (!is_file($path) and $this->folder->getFallback() and is_file($this->getDefaultDirectory() . DIRECTORY_SEPARATOR . $this->file)) {
 
-                $path = $this->engine->getDirectory() . DIRECTORY_SEPARATOR . $this->file;
+                $path = $this->getDefaultDirectory() . DIRECTORY_SEPARATOR . $this->file;
             }
         }
 
@@ -101,62 +187,27 @@ class Name
      * Check if template path exists.
      * @return boolean
      */
-    public function exists()
+    public function doesPathExist()
     {
         return is_file($this->getPath());
     }
 
     /**
-     * Parse name to determine template folder and filename.
+     * Get the default templates directory.
+     * @return string
      */
-    protected function parseName()
+    protected function getDefaultDirectory()
     {
-        $parts = explode('::', $this->name);
+        $directory = $this->engine->getDirectory();
 
-        if (count($parts) === 1) {
+        if (is_null($directory)) {
 
-            if (is_null($this->engine->getDirectory())) {
-                $this->parseError('The default directory has not been defined.');
-            }
-
-            if ($parts[0] === '') {
-                $this->parseError('The template name cannot be empty.');
-            }
-
-            $this->file = $parts[0];
-
-        } elseif (count($parts) === 2) {
-
-            if ($parts[0] === '') {
-                $this->parseError('The folder name cannot be empty.');
-            }
-
-            if ($parts[1] === '') {
-                $this->parseError('The template name cannot be empty.');
-            }
-
-            if (!$this->engine->getFolders()->exists($parts[0])) {
-                $this->parseError('The folder "' . $parts[0] . '" does not exist.');
-            }
-
-            $this->folder = $this->engine->getFolders()->get($parts[0]);
-            $this->file = $parts[1];
-
-        } else {
-            $this->parseError('Do not use the folder namespace seperator "::" more than once.');
+            throw new LogicException(
+                'The template name "' . $this->name . '" is not valid. '.
+                'The default directory has not been defined.'
+            );
         }
 
-        if (!is_null($this->engine->getFileExtension())) {
-            $this->file .= '.' . $this->engine->getFileExtension();
-        }
-    }
-
-    /**
-     * Handle a parse error.
-     * @param  string $message
-     */
-    public function parseError($message)
-    {
-        throw new LogicException('The template name "' . $this->name . '" is not valid. ' . $message);
+        return $directory;
     }
 }

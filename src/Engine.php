@@ -253,7 +253,7 @@ class Engine
     {
         $name = new Name($this, $name);
 
-        return $name->exists();
+        return $name->doesPathExist();
     }
 
     /**

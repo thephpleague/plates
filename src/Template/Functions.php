@@ -55,7 +55,7 @@ class Functions
     /**
      * Get a template function.
      * @param  string $name
-     * @return array
+     * @return Func
      */
     public function get($name)
     {

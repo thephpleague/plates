@@ -11,7 +11,7 @@ The `start()` and `stop()` functions allow you to build sections (or blocks) of 
 
 ## Creating sections
 
-You define the name of the section in the `start()` function, and end the section with the `end()` function.
+You define the name of the section in the `start()` function, and end the section with the `stop()` function.
 
 ~~~ php
 <?php $this->start('welcome') ?>

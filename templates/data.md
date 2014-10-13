@@ -43,13 +43,13 @@ Template data is available as locally scoped variables at the time of rendering.
 If you have data that you want assigned to a specific template each time that template is rendered throughout your application, the `addData()` function can help organize that code in one place.
 
 ~~~ php
-$templates->addData('emails::welcome', ['name' => 'Jonathan']);
+$templates->addData(['name' => 'Jonathan'], 'emails::welcome');
 ~~~
 
 You can pressaign data to more than one template by passing an array of templates:
 
 ~~~ php
-$templates->addData(['login', 'template'], ['name' => 'Jonathan']);
+$templates->addData(['name' => 'Jonathan'], ['login', 'template']);
 ~~~
 
 To assign data to ALL templates, simply omit second parameter:

@@ -31,7 +31,7 @@ $templates = new League\Plates\Engine('/path/to/templates');
 $template = new League\Plates\Template\Template($templates, 'profile');
 
 // Render the template
-echo template->render(['name' => 'Jonathan']);
+echo $template->render(['name' => 'Jonathan']);
 ~~~
 
 ## Check if a template exists

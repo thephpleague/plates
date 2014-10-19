@@ -197,12 +197,17 @@ class Template
 
     /**
      * Returns the content for a section block.
-     * @param  string $name
-     * @return null
+     * @param  string $name Section name
+     * @param  string $default Default section content
+     * @return string|null
      */
-    protected function section($name)
+    protected function section($name, $default = null)
     {
         if (!isset($this->sections[$name])) {
+
+            if (null !== $default) {
+                return $default;
+            }
 
             return null;
         }

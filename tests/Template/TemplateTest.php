@@ -145,6 +145,15 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $this->template->render();
     }
 
+    public function testSectionDefaultValue()
+    {
+        vfsStream::create(array(
+            'template.php' => '<?php echo $this->section("test", "Default value") ?>'
+        ));
+
+        $this->assertEquals($this->template->render(), 'Default value');
+    }
+
     public function testNullSection()
     {
         vfsStream::create(

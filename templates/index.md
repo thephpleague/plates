@@ -13,6 +13,9 @@ Plates templates are very simple PHP objects. Generally you'll want to create th
 // Create new Plates instance
 $templates = new League\Plates\Engine('/path/to/templates');
 
+// Render a template in a subdirectory
+echo $templates->render('partials/header');
+
 // Render a template
 echo $templates->render('profile', ['name' => 'Jonathan']);
 ~~~

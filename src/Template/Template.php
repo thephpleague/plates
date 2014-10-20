@@ -204,12 +204,7 @@ class Template
     protected function section($name, $default = null)
     {
         if (!isset($this->sections[$name])) {
-
-            if (null !== $default) {
-                return $default;
-            }
-
-            return null;
+            return $default;
         }
 
         return $this->sections[$name];

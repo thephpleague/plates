@@ -9,6 +9,18 @@ Changelog
 
 All notable changes to this project will be documented in this file.
 
+## Version 3.0.3 - 2014-10-20
+
+### Added
+
+- Added ability to define the default content of a section. See [sections](/templates/sections/#default-section-content) for more information.
+
+## Version 3.0.2 - 2014-10-01
+
+### Changed
+
+- Fixed bug with fallback folders, where the file extension wasn't being applied.
+
 ## Version 3.0.0 - 2014-09-27
 
 ### Added

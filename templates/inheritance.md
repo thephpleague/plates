@@ -7,9 +7,12 @@ title: Inheritance
 Inheritance
 ===========
 
-By combining [layouts](/templates/layouts/) and [sections](/templates/sections/) you to can create a base layout that contains all the common sections of your site. Then, when you build your page template, simply define the layout you want to use and your page will automatically be rendered "into it". The best way to understand template inheritance is by an example:
+By combining [layouts](/templates/layouts/) and [sections](/templates/sections/), Plates allows you to "build up" your pages using predefined sections. This is best understand using an example:
 
-## The layout template
+
+## Inheritance example
+
+The following example illustrates a pretty standard website. Start by creating a site template, which includes your header and footer as well as any predefined content [sections](/templates/sections/). Notice how Plates makes it possible to even set default section content, in the event that a page doesn't define it.
 
 <div class="filename">template.php</div>
 ~~~ php
@@ -19,35 +22,36 @@ By combining [layouts](/templates/layouts/) and [sections](/templates/sections/)
 </head>
 <body>
 
+<img src="logo.png">
+
 <div id="content">
     <?=$this->section('content')?>
 </div>
 
-<?php if ($this->section('sidebar')): ?>
-    <div id="sidebar">
+<div id="sidebar">
+    <?php if ($this->section('sidebar')): ?>
         <?=$this->section('sidebar')?>
-    </div>
-<?php endif ?>
+    <?php else: ?>
+        <?=$this->fetch('default-sidebar')?>
+    <?php endif ?>
+</div>
 
 </body>
 </html>
 ~~~
 
-## The page template
+With the template defined, any page can now "implement" this [layout](/templates/layouts/). Notice how each section of content is defined between the `start()` and `end()` functions.
 
 <div class="filename">profile.php</div>
 ~~~ php
 <?php $this->layout('template', ['title' => 'User Profile']) ?>
 
 <?php $this->start('content') ?>
-
     <h1>Welcome!</h1>
     <p>Hello <?=$name?></p>
-
 <?php $this->stop() ?>
 
 <?php $this->start('sidebar') ?>
-
     <ul>
         <li><a href="/link">Example Link</a></li>
         <li><a href="/link">Example Link</a></li>
@@ -55,6 +59,5 @@ By combining [layouts](/templates/layouts/) and [sections](/templates/sections/)
         <li><a href="/link">Example Link</a></li>
         <li><a href="/link">Example Link</a></li>
     </ul>
-
 <?php $this->stop() ?>
 ~~~

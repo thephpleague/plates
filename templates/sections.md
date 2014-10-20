@@ -31,3 +31,38 @@ Access rendered section content using the name you assigned in the `start()` met
 ~~~
 
 <p class="message-notice">Prior to Plates 3.0, accessing template content was done using either the <code>content()</code> or <code>child()</code> functions. For consistency with sections, this is no longer possible.</p>
+
+## Default section content
+
+In situations where a page doesn't implement a particular section, it's helpful to assign default content. There are a couple ways to do this:
+
+### Defining it inline
+
+If the default content can be defined in a single line of code, it's best to simply pass it as the second parameter of the `content()` function.
+
+~~~ php
+<div id="sidebar">
+    <?=this->section('sidebar', $this->fetch('default-sidebar')?>
+</div>
+~~~
+
+### Use an if statement
+
+If the default content requires more than a single line of code, it's best to use a simple if statement to check if a section exists, and otherwise display the default.
+
+~~~ php
+<div id="sidebar">
+    <?php if ($this->section('sidebar')): ?>
+        <?=$this->section('sidebar')?>
+    <?php else: ?>
+        <ul>
+            <li><a href="/link">Example Link</a></li>
+            <li><a href="/link">Example Link</a></li>
+            <li><a href="/link">Example Link</a></li>
+            <li><a href="/link">Example Link</a></li>
+            <li><a href="/link">Example Link</a></li>
+        </ul>
+    <?php endif ?>
+</div>
+~~~
+

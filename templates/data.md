@@ -52,7 +52,7 @@ You can pressaign data to more than one template by passing an array of template
 $templates->addData(['name' => 'Jonathan'], ['login', 'template']);
 ~~~
 
-To assign data to ALL templates, simply omit second parameter:
+To assign data to ALL templates, simply omit the second parameter:
 
 ~~~ php
 $templates->addData(['name' => 'Jonathan']);

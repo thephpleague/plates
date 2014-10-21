@@ -263,15 +263,14 @@ class Template
 
     /**
      * Escape string.
-     * @param  string $string
+     * @param  string      $string
+     * @param  null|string $functions
      * @return string
      */
-    protected function escape($string)
+    protected function escape($string, $functions = null)
     {
-        $functions = array_slice(func_get_args(), 1);
-
         if ($functions) {
-            $string = $this->batch($string, implode('|', $functions));
+            $string = $this->batch($string, $functions);
         }
 
         return htmlspecialchars($string, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
@@ -279,12 +278,13 @@ class Template
 
     /**
      * Alias to escape function.
-     * @param  string $string
+     * @param  string      $string
+     * @param  null|string $functions
      * @return string
      */
-    protected function e($string)
+    protected function e($string, $functions = null)
     {
-        return call_user_func_array(array($this, 'escape'), func_get_args());
+        return $this->escape($string, $functions);
     }
 }
 

@@ -229,7 +229,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     {
         vfsStream::create(
             array(
-                'template.php' => '<?php echo $this->escape("<strong>Jonathan</strong>", "strtoupper", "strrev") ?>'
+                'template.php' => '<?php echo $this->escape("<strong>Jonathan</strong>", "strtoupper|strrev") ?>'
             )
         );
 

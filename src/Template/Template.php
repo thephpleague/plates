@@ -284,7 +284,7 @@ class Template
      */
     protected function e($string)
     {
-        return call_user_func_array([$this, 'escape'], func_get_args());
+        return call_user_func_array(array($this, 'escape'), func_get_args());
     }
 }
 

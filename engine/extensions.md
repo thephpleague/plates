@@ -38,7 +38,13 @@ class ChangeCase implements ExtensionInterface
 To use this extension in your template, simply call your new functions:
 
 ~~~ php
-<p>Hello, <?=$this->e($this->uppercase($firstname))?>!</p>
+<p>Hello, <?=$this->e($this->uppercase($name))?></p>
+~~~
+
+They can also be used in a [batch](/templates/functions/#batch-function-calls) compatible function:
+
+~~~ php
+<h1>Hello <?=$this->e($name, 'uppercase')</h1>
 ~~~
 
 ## Single method extensions
@@ -76,7 +82,7 @@ class ChangeCase implements ExtensionInterface
 To use this extension in your template, first call the primary function, then the secondary functions:
 
 ~~~ php
-<p>Hello, <?=$this->e($this->case()->upper($firstname))?>!</p>
+<p>Hello, <?=$this->e($this->case()->upper($name))?></p>
 ~~~
 
 ## Loading extensions

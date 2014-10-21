@@ -9,6 +9,12 @@ Changelog
 
 All notable changes to this project will be documented in this file.
 
+## Version 3.1.0 - 2014-10-21
+
+### Added
+
+- Added batch functionality to the escaping functions. See [functions](/templates/functions/#batch-function-calls) for more information.
+
 ## Version 3.0.3 - 2014-10-20
 
 ### Added

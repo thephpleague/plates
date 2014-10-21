@@ -18,6 +18,14 @@ Escaping is a form of [data filtering](http://www.phptherightway.com/#data_filte
 <h1>Hello, <?=$this->e($name)?></h1>
 ~~~
 
+## Batch function calls
+
+The escape functions also support [batch](/templates/functions/#batch-function-calls) function calls, which allow you to apply multiple functions, including native PHP functions, to a variable at one time.
+
+~~~ php
+<p>Welcome <?=$this->e($name, 'strip_tags|strtoupper')?></p>
+~~~
+
 ## Escaping HTML attributes
 
 <p class="message-notice">It's VERY important to always double quote HTML attributes that contain escaped variables, otherwise your template will still be open to injection attacks.</p>

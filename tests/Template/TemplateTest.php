@@ -225,6 +225,17 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->template->render(), '&lt;strong&gt;Jonathan&lt;/strong&gt;');
     }
 
+    public function testEscapeFunctionBatch()
+    {
+        vfsStream::create(
+            array(
+                'template.php' => '<?php echo $this->escape("<strong>Jonathan</strong>", "strtoupper", "strrev") ?>'
+            )
+        );
+
+        $this->assertEquals($this->template->render(), '&gt;GNORTS/&lt;NAHTANOJ&gt;GNORTS&lt;');
+    }
+
     public function testEscapeShortcutFunction()
     {
         vfsStream::create(

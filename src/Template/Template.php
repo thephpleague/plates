@@ -268,6 +268,12 @@ class Template
      */
     protected function escape($string)
     {
+        $functions = array_slice(func_get_args(), 1);
+
+        if ($functions) {
+            $string = $this->batch($string, implode('|', $functions));
+        }
+
         return htmlspecialchars($string, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
     }
 
@@ -278,7 +284,7 @@ class Template
      */
     protected function e($string)
     {
-        return $this->escape($string);
+        return call_user_func_array(array($this, 'escape'), func_get_args());
     }
 }
 

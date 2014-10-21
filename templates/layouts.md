@@ -17,7 +17,7 @@ The `layout()` function can be called anywhere in a template, since the layout t
 <?php $this->layout('template') ?>
 
 <h1>User Profile</h1>
-<p>Hello, <?=$name?></p>
+<p>Hello, <?=$this->e($name)?></p>
 ~~~
 
 This function also works with [folders](/engine/folders/):
@@ -41,7 +41,7 @@ To access the rendered template content within the layout, use the `section()` f
 ~~~ php
 <html>
 <head>
-    <title><?=$title?></title>
+    <title><?=$this->e($title)?></title>
 </head>
 <body>
 
@@ -61,7 +61,7 @@ Plates allows stacking of layouts, allowing even further simplification and orga
 ~~~ php
 <html>
 <head>
-    <title><?=$title?></title>
+    <title><?=$this->e($title)?></title>
 </head>
 <body>
 
@@ -95,8 +95,8 @@ Plates allows stacking of layouts, allowing even further simplification and orga
 ~~~ php
 <?php $this->layout('blog', ['title' => $article->title]) ?>
 
-<h2><?=$article->title?></h2>
+<h2><?=$this->e($article->title)?></h2>
 <article>
-    <?=$article->content?>
+    <?=$this->e($article->content)?>
 </article>
 ~~~

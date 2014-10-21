@@ -18,7 +18,7 @@ The following example illustrates a pretty standard website. Start by creating a
 ~~~ php
 <html>
 <head>
-    <title><?=$title?></title>
+    <title><?=$this->e($title)?></title>
 </head>
 <body>
 
@@ -48,7 +48,7 @@ With the template defined, any page can now "implement" this [layout](/templates
 
 <?php $this->start('content') ?>
     <h1>Welcome!</h1>
-    <p>Hello <?=$name?></p>
+    <p>Hello <?=$this->e($name)?></p>
 <?php $this->stop() ?>
 
 <?php $this->start('sidebar') ?>

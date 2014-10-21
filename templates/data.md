@@ -30,10 +30,10 @@ $template->data(['name' => 'Jonathan']);
 
 ## Accessing data
 
-Template data is available as locally scoped variables at the time of rendering. Continuing with the example above, here is how you would output the "name" value in a template:
+Template data is available as locally scoped variables at the time of rendering. Continuing with the example above, here is how you would [escape](/templates/escaping/) and output the "name" value in a template:
 
 ~~~ php
-<p>Hello <?=$name?></p>
+<p>Hello <?=$this->e($name)?></p>
 ~~~
 
 <p class="message-notice">Prior to Plates 3.0, variables were accessed using the <code>$this</code> pseudo-variable. This is no longer possible. Use the locally scoped variables instead.</p>

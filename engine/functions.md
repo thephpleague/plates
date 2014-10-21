@@ -24,5 +24,5 @@ $templates->registerFunction('uppercase', function ($string) {
 To use this function in a template, simply call it like any other function:
 
 ~~~ php
-<h1>Hello <?=$this->uppercase($name)</h1>
+<h1>Hello <?=$this->e($this->uppercase($name))</h1>
 ~~~

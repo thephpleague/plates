@@ -17,7 +17,7 @@ You define the name of the section in the `start()` function, and end the sectio
 <?php $this->start('welcome') ?>
 
     <h1>Welcome!</h1>
-    <p>Hello <?=$name?></p>
+    <p>Hello <?=$this->e($name)?></p>
 
 <?php $this->stop() ?>
 ~~~

@@ -34,8 +34,8 @@ The batch function works well for "piped" functions that accept one parameter, m
 
 ~~~ php
 <!-- Will output: JONATHAN -->
-<?=$this->batch('Jonathan', 'e|strtolower|strtoupper')?>
+<?=$this->batch('Jonathan', 'escape|strtolower|strtoupper')?>
 
 <!-- Will output: jonathan -->
-<?=$this->batch('Jonathan', 'e|strtoupper|strtolower')?>
+<?=$this->batch('Jonathan', 'escape|strtoupper|strtolower')?>
 ~~~

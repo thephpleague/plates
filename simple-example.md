@@ -34,7 +34,7 @@ echo $templates->render('profile', ['name' => 'Jonathan']);
 <?php $this->layout('template', ['title' => 'User Profile']) ?>
 
 <h1>User Profile</h1>
-<p>Hello, <?=$name?></p>
+<p>Hello, <?=$this->e($name)?></p>
 ~~~
 
 ## The layout template
@@ -43,7 +43,7 @@ echo $templates->render('profile', ['name' => 'Jonathan']);
 ~~~ php
 <html>
 <head>
-    <title><?=$title?></title>
+    <title><?=$this->e($title)?></title>
 </head>
 <body>
 

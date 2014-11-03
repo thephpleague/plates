@@ -24,8 +24,8 @@ The following example illustrates a pretty standard website. Start by creating a
 
 <img src="logo.png">
 
-<div id="content">
-    <?=$this->section('content')?>
+<div id="page">
+    <?=$this->section('page')?>
 </div>
 
 <div id="sidebar">
@@ -46,7 +46,7 @@ With the template defined, any page can now "implement" this [layout](/templates
 ~~~ php
 <?php $this->layout('template', ['title' => 'User Profile']) ?>
 
-<?php $this->start('content') ?>
+<?php $this->start('page') ?>
     <h1>Welcome!</h1>
     <p>Hello <?=$this->e($name)?></p>
 <?php $this->stop() ?>

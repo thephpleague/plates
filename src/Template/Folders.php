@@ -25,7 +25,7 @@ class Folders
     public function add($name, $path, $fallback = false)
     {
         if ($this->exists($name)) {
-            throw new LogicException('The template folder "' . $name . '" is already being used.');
+            throw new LogicException('The template folder "'.$name.'" is already being used.');
         }
 
         $this->folders[$name] = new Folder($name, $path, $fallback);
@@ -35,13 +35,13 @@ class Folders
 
     /**
      * Remove a template folder.
-     * @param  string $name
+     * @param  string  $name
      * @return Folders
      */
     public function remove($name)
     {
         if (!$this->exists($name)) {
-            throw new LogicException('The template folder "' . $name . '" was not found.');
+            throw new LogicException('The template folder "'.$name.'" was not found.');
         }
 
         unset($this->folders[$name]);
@@ -57,7 +57,7 @@ class Folders
     public function get($name)
     {
         if (!$this->exists($name)) {
-            throw new LogicException('The template folder "' . $name . '" was not found.');
+            throw new LogicException('The template folder "'.$name.'" was not found.');
         }
 
         return $this->folders[$name];
@@ -65,7 +65,7 @@ class Folders
 
     /**
      * Check if a template folder exists.
-     * @param  string $name
+     * @param  string  $name
      * @return boolean
      */
     public function exists($name)

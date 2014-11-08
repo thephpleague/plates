@@ -33,7 +33,7 @@ class Directory
     {
         if (!is_null($path) and !is_dir($path)) {
             throw new LogicException(
-                'The specified path "' . $path . '" does not exist.'
+                'The specified path "'.$path.'" does not exist.'
             );
         }
 

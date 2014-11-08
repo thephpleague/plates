@@ -107,7 +107,6 @@ class Template
     public function render(array $data = array())
     {
         try {
-
             $this->data($data);
 
             unset($data);
@@ -117,29 +116,23 @@ class Template
             ob_start();
 
             if ($this->exists()) {
-
-                include($this->path());
-
+                include $this->path();
             } else {
-
                 throw new LogicException(
-                    'The template "' . $this->name->getName() . '" could not be found at "' . $this->path() . '".'
+                    'The template "'.$this->name->getName().'" could not be found at "'.$this->path().'".'
                 );
             }
 
             $content = ob_get_clean();
 
             if (isset($this->layoutName)) {
-
                 $layout = $this->engine->make($this->layoutName);
                 $layout->sections = array_merge($this->sections, array('content' => $content));
                 $content = $layout->render($this->layoutData);
             }
 
             return $content;
-
         } catch (LogicException $e) {
-
             ob_end_clean();
 
             throw new LogicException($e->getMessage());
@@ -166,7 +159,6 @@ class Template
     protected function start($name)
     {
         if ($name === 'content') {
-
             throw new LogicException(
                 'The section name "content" is reserved.'
             );
@@ -184,7 +176,6 @@ class Template
     protected function stop()
     {
         if (empty($this->sections)) {
-
             throw new LogicException(
                 'You must start a section before you can stop it.'
             );
@@ -197,8 +188,8 @@ class Template
 
     /**
      * Returns the content for a section block.
-     * @param  string $name Section name
-     * @param  string $default Default section content
+     * @param  string      $name    Section name
+     * @param  string      $default Default section content
      * @return string|null
      */
     protected function section($name, $default = null)
@@ -241,19 +232,13 @@ class Template
     protected function batch($var, $functions)
     {
         foreach (explode('|', $functions) as $function) {
-
             if ($this->engine->doesFunctionExist($function)) {
-
                 $var = call_user_func(array($this, $function), $var);
-
             } elseif (is_callable($function)) {
-
                 $var = call_user_func($function, $var);
-
             } else {
-
                 throw new LogicException(
-                    'The batch function could not find the "' . $function . '" function.'
+                    'The batch function could not find the "'.$function.'" function.'
                 );
             }
         }

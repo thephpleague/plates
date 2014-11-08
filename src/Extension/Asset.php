@@ -55,11 +55,11 @@ class Asset implements ExtensionInterface
      */
     public function cachedAssetUrl($url)
     {
-        $filePath = $this->path . '/' .  ltrim($url, '/');
+        $filePath = $this->path.'/'.ltrim($url, '/');
 
         if (!file_exists($filePath)) {
             throw new LogicException(
-                'Unable to locate the asset "' . $url . '" in the "' . $this->path . '" directory.'
+                'Unable to locate the asset "'.$url.'" in the "'.$this->path.'" directory.'
             );
         }
 
@@ -71,13 +71,13 @@ class Asset implements ExtensionInterface
         } elseif ($pathInfo['dirname'] === '/') {
             $directory = '/';
         } else {
-            $directory = $pathInfo['dirname'] . '/';
+            $directory = $pathInfo['dirname'].'/';
         }
 
         if ($this->filenameMethod) {
-            return $directory . $pathInfo['filename'] . '.' . $lastUpdated . '.' . $pathInfo['extension'];
+            return $directory.$pathInfo['filename'].'.'.$lastUpdated.'.'.$pathInfo['extension'];
         } else {
-            return $directory . $pathInfo['filename'] . '.' . $pathInfo['extension'] . '?v=' . $lastUpdated;
+            return $directory.$pathInfo['filename'].'.'.$pathInfo['extension'].'?v='.$lastUpdated;
         }
     }
 }

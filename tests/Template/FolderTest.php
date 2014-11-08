@@ -30,7 +30,7 @@ class FolderTest extends \PHPUnit_Framework_TestCase
     {
         vfsStream::create(
             array(
-                'folder' => array()
+                'folder' => array(),
             )
         );
 

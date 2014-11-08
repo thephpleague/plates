@@ -56,9 +56,9 @@ class Engine
     {
         $this->directory = new Directory($directory);
         $this->fileExtension = new FileExtension($fileExtension);
-        $this->folders = new Folders;
-        $this->functions = new Functions;
-        $this->data = new Data;
+        $this->folders = new Folders();
+        $this->functions = new Functions();
+        $this->data = new Data();
     }
 
     /**
@@ -119,7 +119,7 @@ class Engine
 
     /**
      * Remove a template folder.
-     * @param  string  $name
+     * @param  string $name
      * @return Engine
      */
     public function removeFolder($name)
@@ -176,7 +176,7 @@ class Engine
 
     /**
      * Remove a template function.
-     * @param  string   $name;
+     * @param  string $name;
      * @return Engine
      */
     public function dropFunction($name)

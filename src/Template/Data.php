@@ -37,7 +37,7 @@ class Data
             return $this->shareWithSome($data, array($templates));
         } else {
             throw new LogicException(
-                'The templates variable must be null, an array or a string, ' . gettype($templates) . ' given.'
+                'The templates variable must be null, an array or a string, '.gettype($templates).' given.'
             );
         }
     }

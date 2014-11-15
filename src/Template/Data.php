@@ -80,7 +80,7 @@ class Data
      */
     public function get($template = null)
     {
-        if (!is_null($template) and isset($this->templateVariables[$template])) {
+        if (isset($template, $this->templateVariables[$template])) {
             return array_merge($this->sharedVariables, $this->templateVariables[$template]);
         } else {
             return $this->sharedVariables;

@@ -69,7 +69,7 @@ class Folder
     public function setPath($path)
     {
         if (!is_dir($path)) {
-            throw new LogicException('The specified directory path "' . $path . '" does not exist.');
+            throw new LogicException('The specified directory path "'.$path.'" does not exist.');
         }
 
         $this->path = $path;

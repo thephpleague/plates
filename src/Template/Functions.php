@@ -25,7 +25,7 @@ class Functions
     {
         if ($this->exists($name)) {
             throw new LogicException(
-                'The template function name "' . $name . '" is already registered.'
+                'The template function name "'.$name.'" is already registered.'
             );
         }
 
@@ -43,7 +43,7 @@ class Functions
     {
         if (!$this->exists($name)) {
             throw new LogicException(
-                'The template function "' . $name . '" was not found.'
+                'The template function "'.$name.'" was not found.'
             );
         }
 
@@ -60,7 +60,7 @@ class Functions
     public function get($name)
     {
         if (!$this->exists($name)) {
-            throw new LogicException('The template function "' . $name . '" was not found.');
+            throw new LogicException('The template function "'.$name.'" was not found.');
         }
 
         return $this->functions[$name];

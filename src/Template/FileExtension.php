@@ -2,8 +2,6 @@
 
 namespace League\Plates\Template;
 
-use LogicException;
-
 /**
  * Template file extension.
  */

@@ -26,7 +26,7 @@ class Directory
 
     /**
      * Set path to templates directory.
-     * @param  string|null $directory Pass null to disable the default directory.
+     * @param  string|null $path Pass null to disable the default directory.
      * @return Directory
      */
     public function set($path)

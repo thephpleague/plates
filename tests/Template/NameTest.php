@@ -138,7 +138,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
 
     public function testParseWithInvalidName()
     {
-        $this->setExpectedException('LogicException', 'Do not use the folder namespace seperator "::" more than once.');
+        $this->setExpectedException('LogicException', 'Do not use the folder namespace separator "::" more than once.');
 
         $name = new Name($this->engine, 'folder::template::wrong');
     }

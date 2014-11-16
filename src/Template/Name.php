@@ -90,7 +90,7 @@ class Name
 
             throw new LogicException(
                 'The template name "' . $this->name . '" is not valid. ' .
-                'Do not use the folder namespace seperator "::" more than once.'
+                'Do not use the folder namespace separator "::" more than once.'
             );
         }
 

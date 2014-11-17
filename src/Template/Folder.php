@@ -99,7 +99,7 @@ class Folder
     }
 
     /**
-     * GEt the folder fallback status.
+     * Get the folder fallback status.
      * @return boolean
      */
     public function getFallback()

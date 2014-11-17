@@ -100,7 +100,6 @@ class Template
 
     /**
      * Render the template and layout.
-     * @param  string $name
      * @param  array  $data
      * @return string
      */

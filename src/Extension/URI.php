@@ -78,10 +78,10 @@ class URI implements ExtensionInterface
 
     /**
      * Perform a URI segment match.
-     * @param  integer  $key
+     * @param  integer $key
      * @param  string  $string
-     * @param  mixed  $returnOnTrue
-     * @param  mixed $returnOnFalse
+     * @param  mixed   $returnOnTrue
+     * @param  mixed   $returnOnFalse
      * @return mixed
      */
     protected function checkUriSegmentMatch($key, $string, $returnOnTrue = null, $returnOnFalse = null)
@@ -95,9 +95,9 @@ class URI implements ExtensionInterface
 
     /**
      * Perform a regular express match.
-     * @param  string  $regex
-     * @param  mixed $returnOnTrue
-     * @param  mixed $returnOnFalse
+     * @param  string $regex
+     * @param  mixed  $returnOnTrue
+     * @param  mixed  $returnOnFalse
      * @return mixed
      */
     protected function checkUriRegexMatch($regex, $returnOnTrue = null, $returnOnFalse = null)

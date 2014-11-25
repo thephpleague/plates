@@ -31,7 +31,7 @@ class AssetTest extends \PHPUnit_Framework_TestCase
     {
         vfsStream::create(
             array(
-                'styles.css' => ''
+                'styles.css' => '',
             )
         );
 
@@ -45,8 +45,8 @@ class AssetTest extends \PHPUnit_Framework_TestCase
         vfsStream::create(
             array(
                 'folder' => array(
-                    'styles.css' => ''
-                )
+                    'styles.css' => '',
+                ),
             )
         );
 
@@ -58,7 +58,7 @@ class AssetTest extends \PHPUnit_Framework_TestCase
     {
         vfsStream::create(
             array(
-                'styles.css' => ''
+                'styles.css' => '',
             )
         );
 

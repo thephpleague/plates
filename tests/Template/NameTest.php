@@ -16,8 +16,8 @@ class NameTest extends \PHPUnit_Framework_TestCase
                 'template.php' => '',
                 'fallback.php' => '',
                 'folder' => array(
-                    'template.php' => ''
-                )
+                    'template.php' => '',
+                ),
             )
         );
 

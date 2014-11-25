@@ -65,8 +65,8 @@ class EngineTest extends \PHPUnit_Framework_TestCase
         vfsStream::create(
             array(
                 'folder' => array(
-                    'template.php' => ''
-                )
+                    'template.php' => '',
+                ),
             )
         );
 
@@ -92,8 +92,8 @@ class EngineTest extends \PHPUnit_Framework_TestCase
         vfsStream::create(
             array(
                 'folder' => array(
-                    'template.php' => ''
-                )
+                    'template.php' => '',
+                ),
             )
         );
 
@@ -133,7 +133,7 @@ class EngineTest extends \PHPUnit_Framework_TestCase
     {
         vfsStream::create(
             array(
-                'template.php' => '<?=$this->uppercase($name)?>'
+                'template.php' => '<?=$this->uppercase($name)?>',
             )
         );
 
@@ -199,7 +199,7 @@ class EngineTest extends \PHPUnit_Framework_TestCase
             $this->engine->loadExtensions(
                 array(
                     new \League\Plates\Extension\URI(''),
-                    new \League\Plates\Extension\Asset('public')
+                    new \League\Plates\Extension\Asset('public'),
                 )
             )
         );
@@ -218,7 +218,7 @@ class EngineTest extends \PHPUnit_Framework_TestCase
 
         vfsStream::create(
             array(
-                'template.php' => ''
+                'template.php' => '',
             )
         );
 
@@ -229,7 +229,7 @@ class EngineTest extends \PHPUnit_Framework_TestCase
     {
         vfsStream::create(
             array(
-                'template.php' => ''
+                'template.php' => '',
             )
         );
 
@@ -240,7 +240,7 @@ class EngineTest extends \PHPUnit_Framework_TestCase
     {
         vfsStream::create(
             array(
-                'template.php' => 'Hello!'
+                'template.php' => 'Hello!',
             )
         );
 

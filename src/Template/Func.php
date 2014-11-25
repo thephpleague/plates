@@ -24,8 +24,8 @@ class Func
 
     /**
      * Create new Func instance.
-     * @param  string   $name
-     * @param  callable $callback
+     * @param string   $name
+     * @param callable $callback
      */
     public function __construct($name, $callback)
     {
@@ -35,7 +35,7 @@ class Func
 
     /**
      * Set the function name.
-     * @param string $name
+     * @param  string $name
      * @return Func
      */
     public function setName($name)
@@ -62,7 +62,7 @@ class Func
 
     /**
      * Set the function callback
-     * @param callable $callback
+     * @param  callable $callback
      * @return Func
      */
     public function setCallback($callback)
@@ -89,8 +89,8 @@ class Func
 
     /**
      * Call the function.
-     * @param  Template  $template
-     * @param  array     $arguments
+     * @param  Template $template
+     * @param  array    $arguments
      * @return mixed
      */
     public function call(Template $template = null, $arguments = array())

@@ -8,7 +8,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->template_data = new Data;
+        $this->template_data = new Data();
     }
 
     public function testCanCreateInstance()

@@ -11,6 +11,13 @@ use LogicException;
 class Template
 {
     /**
+     * Autoescaping for all string values
+     *
+     * @var bool
+     */
+    protected $autoescape;
+
+    /**
      * Instance of the template engine.
      * @var Engine
      */
@@ -57,6 +64,7 @@ class Template
         $this->name = new Name($engine, $name);
 
         $this->data($this->engine->getData($name));
+        $this->autoescape = $this->engine->isAutoescape();
     }
 
     /**
@@ -90,6 +98,17 @@ class Template
     }
 
     /**
+     * Get variable value without autoescaping
+     * @return mixed
+     */
+    public function get($name, $functions = null)
+    {
+        return isset($this->data[$name])
+            ? $this->batch($this->data[$name], $functions)
+            : null;
+    }
+
+    /**
      * Get the template path.
      * @return string
      */
@@ -101,16 +120,19 @@ class Template
     /**
      * Render the template and layout.
      * @param  array  $data
+     * @param  bool   $autoescape
      * @return string
      */
-    public function render(array $data = array())
+    public function render(array $data = array(), $autoescape = null)
     {
         try {
             $this->data($data);
 
             unset($data);
 
-            extract($this->data);
+            $autoescape = is_null($autoescape) ? $this->autoescape : $autoescape;
+
+            extract($this->getData($autoescape));
 
             ob_start();
 
@@ -258,6 +280,26 @@ class Template
         }
 
         return htmlspecialchars($string, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    }
+
+    /**
+     * Get template data
+     *
+     * @return array
+     */
+    protected function getData($autoescape = false)
+    {
+        $arr = $this->data;
+
+        if ($autoescape) {
+            foreach ($arr as $key => $val) {
+                if (is_string($val)) {
+                    $arr[$key] = $this->escape($val);
+                }
+            }
+        }
+
+        return $arr;
     }
 
     /**

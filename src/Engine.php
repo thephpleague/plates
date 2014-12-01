@@ -48,17 +48,24 @@ class Engine
     protected $data;
 
     /**
+     * Autoescaping for all string values
+     * @var bool
+     */
+    protected $autoescape;
+
+    /**
      * Create new Engine instance.
      * @param string $directory
      * @param string $fileExtension
      */
-    public function __construct($directory = null, $fileExtension = 'php')
+    public function __construct($directory = null, $fileExtension = 'php', $autoescape = null)
     {
         $this->directory = new Directory($directory);
         $this->fileExtension = new FileExtension($fileExtension);
         $this->folders = new Folders();
         $this->functions = new Functions();
         $this->data = new Data();
+        $this->autoescape = $autoescape;
     }
 
     /**
@@ -272,8 +279,28 @@ class Engine
      * @param  array  $data
      * @return string
      */
-    public function render($name, array $data = array())
+    public function render($name, array $data = array(), $autoescape = null)
     {
-        return $this->make($name)->render($data);
+        return $this->make($name)->render($data, $autoescape);
+    }
+
+    /**
+     * Check is autoescaping enabled by default
+     * @return boolean
+     */
+    public function isAutoescape()
+    {
+        return $this->autoescape;
+    }
+
+    /**
+     * Switch autoescaping for all string values by default
+     * @return Engine
+     */
+    public function setAutoescape($autoescape)
+    {
+        $this->autoescape = $autoescape;
+
+        return $this;
     }
 }

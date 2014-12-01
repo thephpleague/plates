@@ -94,7 +94,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     {
         vfsStream::create(
             array(
-              'template.php' => '<?= $name ?> <?= $surname ?>',
+              'template.php' => '<?php echo $name ?> <?php echo $surname ?>',
             )
         );
 
@@ -113,7 +113,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
 
         vfsStream::create(
             array(
-                'template.php' => '<?= $name ?> <?= $surname ?> <?= $this->get("surname") ?>',
+                'template.php' => '<?php echo $name ?> <?php echo $surname ?> <?php echo $this->get("surname") ?>',
             )
         );
 

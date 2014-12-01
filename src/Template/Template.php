@@ -103,9 +103,17 @@ class Template
      */
     public function get($name, $functions = null)
     {
-        return isset($this->data[$name])
-            ? $this->batch($this->data[$name], $functions)
-            : null;
+        if (!isset($this->data[$name])) {
+            return null;
+        }
+
+        $var = $this->data[$name];
+
+        if ($functions) {
+            $var = $this->batch($var, $functions);
+        }
+
+        return $var;
     }
 
     /**

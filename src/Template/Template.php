@@ -291,6 +291,23 @@ class Template
     }
 
     /**
+     * Recursive escape strings in array
+     * @param array $array
+     */
+    protected function escapeArr(array $array)
+    {
+        foreach ($array as $key => $val) {
+            if (is_array($val)) {
+                $array[$key] = $this->escapeArr($val);
+            } elseif (is_string($val)) {
+                $array[$key] = $this->escape($val);
+            }
+        }
+
+        return $array;
+    }
+
+    /**
      * Get template data
      *
      * @return array
@@ -303,6 +320,8 @@ class Template
             foreach ($arr as $key => $val) {
                 if (is_string($val)) {
                     $arr[$key] = $this->escape($val);
+                } elseif (is_array($val)) {
+                    $arr[$key] = $this->escapeArr($val);
                 }
             }
         }

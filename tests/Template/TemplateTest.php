@@ -104,6 +104,22 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testRenderWithArrayAutoescape()
+    {
+        vfsStream::create(
+            array(
+              'template.php' => '<?php echo $user["name"] ?> <?php echo $user["surname"] ?>',
+            )
+        );
+
+        $this->assertEquals(
+            $this->template->render(array('user' => array('name' => '"""<a href="#">Jonathan', 'surname' => '<script>')), true),
+            '&quot;&quot;&quot;&lt;a href=&quot;#&quot;&gt;Jonathan &lt;script&gt;'
+        );
+    }
+
+
+
     public function testRenderWithDataAutoescapeEngineDefaultSetting()
     {
         $engine = new \League\Plates\Engine(vfsStream::url('templates'));

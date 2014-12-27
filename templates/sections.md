@@ -42,7 +42,7 @@ If the default content can be defined in a single line of code, it's best to sim
 
 ~~~ php
 <div id="sidebar">
-    <?=this->section('sidebar', $this->fetch('default-sidebar')?>
+    <?=$this->section('sidebar', $this->fetch('default-sidebar')?>
 </div>
 ~~~
 

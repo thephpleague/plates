@@ -253,11 +253,17 @@ class Template
      */
     protected function escape($string, $functions = null)
     {
+        static $flags;
+
+        if (!isset($flags)) {
+            $flags = ENT_QUOTES | (defined('ENT_SUBSTITUTE') ? ENT_SUBSTITUTE : 0);
+        }
+
         if ($functions) {
             $string = $this->batch($string, $functions);
         }
 
-        return htmlspecialchars($string, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+        return htmlspecialchars($string, $flags, 'UTF-8');
     }
 
     /**
@@ -270,8 +276,4 @@ class Template
     {
         return $this->escape($string, $functions);
     }
-}
-
-if (!defined('ENT_SUBSTITUTE')) {
-    define('ENT_SUBSTITUTE', 8);
 }

@@ -162,6 +162,17 @@ class Name
     {
         if (is_null($this->folder)) {
             $path = $this->getDefaultDirectory() . DIRECTORY_SEPARATOR . $this->file;
+
+			/* If template does not exists search in any additional folder */	
+			if (!is_file($path)) {
+				foreach ($this->engine->getFolders()->all() as $search_folder) {
+					$path = $search_folder->getPath() . DIRECTORY_SEPARATOR . $this->file;
+					if (is_file($path)) {
+						break;
+					}
+				}
+			}
+
         } else {
             $path = $this->folder->getPath() . DIRECTORY_SEPARATOR . $this->file;
 

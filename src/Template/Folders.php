@@ -35,7 +35,7 @@ class Folders
 
     /**
      * Remove a template folder.
-     * @param  string  $name
+     * @param  string $name
      * @return Folders
      */
     public function remove($name)
@@ -65,11 +65,21 @@ class Folders
 
     /**
      * Check if a template folder exists.
-     * @param  string  $name
+     * @param  string $name
      * @return boolean
      */
     public function exists($name)
     {
         return isset($this->folders[$name]);
     }
+
+    /**
+     * Returns all the template's folders.
+     * @return array
+     */
+    public function all()
+    {
+        return $this->folders;
+    }
+
 }

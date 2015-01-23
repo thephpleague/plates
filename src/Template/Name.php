@@ -47,7 +47,7 @@ class Name
 
     /**
      * Set the engine.
-     * @param Engine  $engine
+     * @param  Engine $engine
      * @return Name
      */
     public function setEngine(Engine $engine)
@@ -68,7 +68,7 @@ class Name
 
     /**
      * Set the original name and parse it.
-     * @param string  $name
+     * @param  string $name
      * @return Name
      */
     public function setName($name)

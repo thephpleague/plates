@@ -11,7 +11,7 @@ class Directory
 {
     /**
      * Template directory path.
-     * @var string
+     * @var array
      */
     protected $path;
 
@@ -31,11 +31,19 @@ class Directory
      */
     public function set($path)
     {
-        if (!is_null($path) and !is_dir($path)) {
-            throw new LogicException(
-                'The specified path "' . $path . '" does not exist.'
-            );
-        }
+		if (is_null($path)) {
+			$path = array();
+		}else
+		if (!is_array($path)) {
+			$path = array($path);
+		}
+		foreach ($path as $dir) {
+			if (!is_dir($dir)) {
+				throw new LogicException(
+					'The specified path "' . $dir . '" does not exist.'
+				);
+			}
+		}
 
         $this->path = $path;
 

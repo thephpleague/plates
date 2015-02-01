@@ -73,13 +73,4 @@ class Folders
         return isset($this->folders[$name]);
     }
 
-    /**
-     * Returns all the template's folders.
-     * @return array
-     */
-    public function all()
-    {
-        return $this->folders;
-    }
-
 }

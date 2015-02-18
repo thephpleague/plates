@@ -35,6 +35,9 @@ $template = new League\Plates\Template\Template($templates, 'profile');
 
 // Render the template
 echo $template->render(['name' => 'Jonathan']);
+
+// If there is no data, you may also echo the template
+echo $template;
 ~~~
 
 ## Check if a template exists

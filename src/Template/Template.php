@@ -75,8 +75,12 @@ class Template
      * @param  array $data
      * @return null
      */
-    public function data(array $data)
+    public function data(array $data = null)
     {
+        if ($data === null) {
+            return $this->data;
+        }
+
         $this->data = array_merge($this->data, $data);
     }
 

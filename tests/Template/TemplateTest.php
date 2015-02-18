@@ -46,6 +46,20 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->template->render(), 'Jonathan');
     }
 
+    public function testReturnData()
+    {
+        vfsStream::create(
+            array(
+                'template.php' => '<?php echo $name ?>',
+            )
+        );
+
+        $actual = array('name' => 'Jonathan');
+
+        $this->template->data($actual);
+        $this->assertEquals($this->template->data(), $actual);
+    }
+
     public function testExists()
     {
         vfsStream::create(

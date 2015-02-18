@@ -114,3 +114,27 @@ class MyExtension implements ExtensionInterface
     }
 }
 ~~~
+
+You may also access the template data from your extension like so:
+
+~~~ php
+use League\Plates\Engine;
+use League\Plates\Extension\ExtensionInterface;
+
+class MyExtension implements ExtensionInterface
+{
+    protected $engine;
+    public $template;
+
+    public function register(Engine $engine)
+    {
+        $this->engine = $engine;
+        $this->engine->registerFunction('default', [$this, 'extension_default']);
+    }
+
+    function extension_default($var, $def = '')
+    {
+        $data = $this->template->data(); // Get template data as an array
+    }
+}
+~~~

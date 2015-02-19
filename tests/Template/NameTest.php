@@ -64,21 +64,21 @@ class NameTest extends \PHPUnit_Framework_TestCase
     {
         $name = new Name($this->engine, 'template');
 
-        $this->assertEquals($name->getPath(), vfsStream::url('templates/template.php'));
+        $this->assertStringMatchesFormat('vfs://templates%etemplate.php', $name->getPath());
     }
 
     public function testGetPathWithFolder()
     {
         $name = new Name($this->engine, 'folder::template');
 
-        $this->assertEquals($name->getPath(), vfsStream::url('templates/folder/template.php'));
+        $this->assertStringMatchesFormat('vfs://templates/folder%etemplate.php', $name->getPath());
     }
 
     public function testGetPathWithFolderFallback()
     {
         $name = new Name($this->engine, 'folder::fallback');
 
-        $this->assertEquals($name->getPath(), vfsStream::url('templates/fallback.php'));
+        $this->assertStringMatchesFormat('vfs://templates%efallback.php', $name->getPath());
     }
 
     public function testTemplateExists()

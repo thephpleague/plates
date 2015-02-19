@@ -64,7 +64,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPath()
     {
-        $this->assertEquals($this->template->path(), 'vfs://templates/template.php');
+        $this->assertEquals($this->template->path(), 'vfs://templates' . DIRECTORY_SEPARATOR . 'template.php');
     }
 
     public function testRender()
@@ -91,7 +91,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
 
     public function testRenderDoesNotExist()
     {
-        $this->setExpectedException('LogicException', 'The template "template" could not be found at "vfs://templates/template.php".');
+        $this->setExpectedException('LogicException', 'The template "template" could not be found at "vfs://templates' . DIRECTORY_SEPARATOR . 'template.php".');
         var_dump($this->template->render());
     }
 

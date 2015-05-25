@@ -35,6 +35,12 @@ class Template
     protected $sections = array();
 
     /**
+     * Stack of section buffering
+     * @var array
+     */
+    protected $bufferingStack = array();
+    
+    /**
      * The name of the template layout.
      * @var string
      */
@@ -164,6 +170,7 @@ class Template
         }
 
         $this->sections[$name] = '';
+        $this->bufferingStack[] = $name;
 
         ob_start();
     }
@@ -182,7 +189,7 @@ class Template
 
         end($this->sections);
 
-        $this->sections[key($this->sections)] = ob_get_clean();
+        $this->sections[array_pop($this->bufferingStack)] = ob_get_clean();
     }
 
     /**

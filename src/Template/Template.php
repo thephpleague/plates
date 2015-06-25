@@ -208,6 +208,7 @@ class Template
      */
     protected function fetch($name, array $data = array())
     {
+        $this->data = array_merge($this->data, $data);
         return $this->engine->render($name, $data);
     }
 
@@ -219,6 +220,7 @@ class Template
      */
     protected function insert($name, array $data = array())
     {
+        $this->data = array_merge($this->data, $data);
         echo $this->engine->render($name, $data);
     }
 

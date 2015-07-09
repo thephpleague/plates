@@ -72,4 +72,5 @@ class Folders
     {
         return isset($this->folders[$name]);
     }
+
 }

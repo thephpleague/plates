@@ -154,6 +154,16 @@ class Name
         return $this->file;
     }
 
+	public function getPathFromDefaultDirectory() {
+		foreach ($this->getDefaultDirectory() as $dir) {
+			$path = $dir . DIRECTORY_SEPARATOR . $this->file;
+			if (is_file($path)) {
+				return $path;
+			}
+		}
+		return FALSE;	
+	}
+
     /**
      * Resolve template path.
      * @return string
@@ -161,12 +171,16 @@ class Name
     public function getPath()
     {
         if (is_null($this->folder)) {
-            $path = $this->getDefaultDirectory() . DIRECTORY_SEPARATOR . $this->file;
+		
+			/* Search into default directories */
+			$path = $this->getPathFromDefaultDirectory();
+
         } else {
             $path = $this->folder->getPath() . DIRECTORY_SEPARATOR . $this->file;
 
-            if (!is_file($path) and $this->folder->getFallback() and is_file($this->getDefaultDirectory() . DIRECTORY_SEPARATOR . $this->file)) {
-                $path = $this->getDefaultDirectory() . DIRECTORY_SEPARATOR . $this->file;
+            if (!is_file($path) and $this->folder->getFallback()) {
+				/* if not found and fallback is enabled then search into default directories */
+				$path = $this->getPathFromDefaultDirectory();
             }
         }
 
@@ -190,7 +204,7 @@ class Name
     {
         $directory = $this->engine->getDirectory();
 
-        if (is_null($directory)) {
+        if (is_null($directory)||(!is_array($directory))||(count($directory)==0)) {
             throw new LogicException(
                 'The template name "' . $this->name . '" is not valid. '.
                 'The default directory has not been defined.'

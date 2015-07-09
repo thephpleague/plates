@@ -132,9 +132,11 @@ class Template
 
             return $content;
         } catch (LogicException $e) {
-            ob_end_clean();
+            if (ob_get_length() > 0) {
+                ob_end_clean();
+            }
 
-            throw new LogicException($e->getMessage());
+            throw $e;
         }
     }
 

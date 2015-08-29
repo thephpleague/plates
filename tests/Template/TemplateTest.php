@@ -246,4 +246,23 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($this->template->render(), '&lt;strong&gt;Jonathan&lt;/strong&gt;');
     }
+
+    public function testContext()
+    {
+        $this->template->data(array('name' => 'Jonathan'));
+        $this->assertSame(array('name' => 'Jonathan'), $this->template->context());
+    }
+
+    public function testContextOverridesData()
+    {
+        $this->template->data(array('name' => 'Jonathan'));
+        $this->assertSame(array('name' => 'Jason'), $this->template->context(array('name' => 'Jason')));
+    }
+
+    public function testContextIsNonDestructive()
+    {
+        $this->template->data(array('name' => 'Jonathan'));
+        $this->template->context(array('name' => 'Jason'));
+        $this->assertSame(array('name' => 'Jonathan'), $this->template->context());
+    }
 }

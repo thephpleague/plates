@@ -12,6 +12,10 @@ php:
 matrix:
   allow_failures:
     - php: hhvm
+    
+cache:
+  directories:
+    - $HOME/.composer/cache
 
 before_script:
   - travis_retry composer self-update

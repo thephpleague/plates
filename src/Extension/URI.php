@@ -3,6 +3,7 @@
 namespace League\Plates\Extension;
 
 use League\Plates\Engine;
+use League\Plates\Template\Template;
 use LogicException;
 
 /**

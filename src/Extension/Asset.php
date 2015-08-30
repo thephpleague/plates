@@ -41,6 +41,7 @@ class Asset implements ExtensionInterface
 
     /**
      * Register extension function.
+     * @param Engine $engine
      * @return null
      */
     public function register(Engine $engine)

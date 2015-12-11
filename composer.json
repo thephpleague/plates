@@ -17,6 +17,9 @@
             "role": "Developer"
         }
     ],
+    "require" : {
+        "php": "^5.3"
+    },
     "require-dev": {
         "phpunit/phpunit": "~4.0",
         "mikey179/vfsStream": "~1.4.0",

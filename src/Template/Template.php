@@ -114,13 +114,13 @@ class Template
 
             ob_start();
 
-            if ($this->exists()) {
-                include $this->path();
-            } else {
+            if (!$this->exists()) {
                 throw new LogicException(
                     'The template "' . $this->name->getName() . '" could not be found at "' . $this->path() . '".'
                 );
             }
+
+            include $this->path();
 
             $content = ob_get_clean();
 

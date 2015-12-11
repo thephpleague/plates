@@ -88,9 +88,9 @@ class URI implements ExtensionInterface
     {
         if ($this->parts[$key] === $string) {
             return is_null($returnOnTrue) ? true : $returnOnTrue;
-        } else {
-            return is_null($returnOnFalse) ? false : $returnOnFalse;
         }
+
+        return is_null($returnOnFalse) ? false : $returnOnFalse;
     }
 
     /**
@@ -104,8 +104,8 @@ class URI implements ExtensionInterface
     {
         if (preg_match('#^' . $regex . '$#', $this->uri) === 1) {
             return is_null($returnOnTrue) ? true : $returnOnTrue;
-        } else {
-            return is_null($returnOnFalse) ? false : $returnOnFalse;
         }
+
+        return is_null($returnOnFalse) ? false : $returnOnFalse;
     }
 }

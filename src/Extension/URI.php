@@ -41,6 +41,7 @@ class URI implements ExtensionInterface
 
     /**
      * Register extension functions.
+     * @param Engine $engine
      * @return null
      */
     public function register(Engine $engine)

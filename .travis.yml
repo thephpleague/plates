@@ -1,5 +1,7 @@
 language: php
 
+sudo: false
+
 php:
   - 5.3
   - 5.4
@@ -12,6 +14,10 @@ matrix:
   fast_finish: true
   allow_failures:
     - php: hhvm
+    
+cache:
+  directories:
+    - $HOME/.composer/cache
 
 before_install:
   - travis_retry composer self-update

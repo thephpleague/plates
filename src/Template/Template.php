@@ -146,7 +146,7 @@ class Template
      * @param  array  $data
      * @return null
      */
-    protected function layout($name, array $data = array())
+    public function layout($name, array $data = array())
     {
         $this->layoutName = $name;
         $this->layoutData = $data;

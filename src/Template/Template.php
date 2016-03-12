@@ -266,7 +266,7 @@ class Template
             $string = $this->batch($string, $functions);
         }
 
-        return htmlspecialchars($string, $flags, $encoding);
+        return htmlspecialchars($string, $flags, $enconding);
     }
 
     /**

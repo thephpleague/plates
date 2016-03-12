@@ -251,9 +251,10 @@ class Template
      * Escape string.
      * @param  string      $string
      * @param  null|string $functions
+     * @param  null|string $enconding
      * @return string
      */
-    protected function escape($string, $functions = null)
+    protected function escape($string, $functions = null, $enconding = 'UTF-8')
     {
         static $flags;
 
@@ -265,7 +266,7 @@ class Template
             $string = $this->batch($string, $functions);
         }
 
-        return htmlspecialchars($string, $flags, 'UTF-8');
+        return htmlspecialchars($string, $flags, $encoding);
     }
 
     /**

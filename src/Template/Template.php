@@ -105,6 +105,12 @@ class Template
      */
     public function render(array $data = array())
     {
+        static $startLevel;
+
+        if ($startLevel === null) {
+            $startLevel = ob_get_level();
+        }
+
         try {
             $this->data($data);
 
@@ -132,8 +138,8 @@ class Template
 
             return $content;
         } catch (LogicException $e) {
-            if (ob_get_length() > 0) {
-                ob_end_clean();
+            while (ob_get_level() > $startLevel) {
+                ob_get_clean();
             }
 
             throw $e;

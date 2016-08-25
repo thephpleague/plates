@@ -146,7 +146,7 @@ class Template
      * @param  array  $data
      * @return null
      */
-    protected function layout($name, array $data = array())
+    public function layout($name, array $data = array())
     {
         $this->layoutName = $name;
         $this->layoutData = $data;
@@ -157,7 +157,7 @@ class Template
      * @param  string $name
      * @return null
      */
-    protected function start($name)
+    public function start($name)
     {
         if ($name === 'content') {
             throw new LogicException(
@@ -174,7 +174,7 @@ class Template
      * Stop the current section block.
      * @return null
      */
-    protected function stop()
+    public function stop()
     {
         if (empty($this->sections)) {
             throw new LogicException(
@@ -193,7 +193,7 @@ class Template
      * @param  string      $default Default section content
      * @return string|null
      */
-    protected function section($name, $default = null)
+    public function section($name, $default = null)
     {
         if (!isset($this->sections[$name])) {
             return $default;
@@ -208,7 +208,7 @@ class Template
      * @param  array  $data
      * @return string
      */
-    protected function fetch($name, array $data = array())
+    public function fetch($name, array $data = array())
     {
         return $this->engine->render($name, $data);
     }
@@ -219,7 +219,7 @@ class Template
      * @param  array  $data
      * @return null
      */
-    protected function insert($name, array $data = array())
+    public function insert($name, array $data = array())
     {
         echo $this->engine->render($name, $data);
     }
@@ -230,7 +230,7 @@ class Template
      * @param  string $functions
      * @return mixed
      */
-    protected function batch($var, $functions)
+    public function batch($var, $functions)
     {
         foreach (explode('|', $functions) as $function) {
             if ($this->engine->doesFunctionExist($function)) {
@@ -253,7 +253,7 @@ class Template
      * @param  null|string $functions
      * @return string
      */
-    protected function escape($string, $functions = null)
+    public function escape($string, $functions = null)
     {
         static $flags;
 
@@ -274,7 +274,7 @@ class Template
      * @param  null|string $functions
      * @return string
      */
-    protected function e($string, $functions = null)
+    public function e($string, $functions = null)
     {
         return $this->escape($string, $functions);
     }

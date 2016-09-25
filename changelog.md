@@ -9,6 +9,14 @@ Changelog
 
 All notable changes to this project will be documented in this file.
 
+## Version 3.1.1 - 2015-07-09
+
+### Changed
+
+- Fix bug related to output buffering and exceptions (#78)
+- Improvements to escaping (#56)
+- Various CI and packaging improvements
+
 ## Version 3.1.0 - 2014-10-21
 
 ### Added

@@ -154,10 +154,11 @@ class Template
 
     /**
      * Start a new section block.
-     * @param  string $name
+     * @param  string  $name
+     * @param  boolean $append
      * @return null
      */
-    protected function start($name)
+    protected function start($name, $append = false)
     {
         if ($name === 'content') {
             throw new LogicException(
@@ -165,9 +166,13 @@ class Template
             );
         }
 
+        $sectionContent = $this->section($name, '');
         $this->sections[$name] = '';
 
         ob_start();
+        if ($append) {
+            echo $sectionContent;
+        }
     }
 
     /**

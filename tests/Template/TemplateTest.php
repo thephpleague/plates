@@ -119,6 +119,18 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->template->render(), 'Hello World');
     }
 
+    public function testSectionAppend()
+    {
+        vfsStream::create(
+            array(
+                'template.php' => '<?php $this->layout("layout")?><?php $this->start("test") ?>Hello World<?php $this->stop() ?><?php $this->start("test", true) ?>!<?php $this->stop() ?>',
+                'layout.php' => '<?php echo $this->section("test") ?>',
+            )
+        );
+
+        $this->assertEquals($this->template->render(), 'Hello World!');
+    }
+
     public function testStartSectionWithInvalidName()
     {
         $this->setExpectedException('LogicException', 'The section name "content" is reserved.');

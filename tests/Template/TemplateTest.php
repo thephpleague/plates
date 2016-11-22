@@ -6,6 +6,7 @@ use org\bovigo\vfs\vfsStream;
 
 class TemplateTest extends \PHPUnit_Framework_TestCase
 {
+    /** @var Template */
     private $template;
 
     public function setUp()
@@ -87,6 +88,59 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals($this->template->render(array('name' => 'Jonathan')), 'Jonathan');
+    }
+
+    public function testRenderWithDataAutoescape()
+    {
+        vfsStream::create(
+            array(
+              'template.php' => '<?php echo $name ?> <?php echo $surname ?>',
+            )
+        );
+
+        $this->assertEquals(
+            $this->template->render(array('name' => '"""<a href="#">Jonathan', 'surname' => '<script>'), true),
+            '&quot;&quot;&quot;&lt;a href=&quot;#&quot;&gt;Jonathan &lt;script&gt;'
+        );
+    }
+
+    public function testRenderWithArrayAutoescape()
+    {
+        vfsStream::create(
+            array(
+              'template.php' => '<?php echo $user["name"] ?> <?php echo $user["surname"] ?>',
+            )
+        );
+
+        $this->assertEquals(
+            $this->template->render(array('user' => array('name' => '"""<a href="#">Jonathan', 'surname' => '<script>')), true),
+            '&quot;&quot;&quot;&lt;a href=&quot;#&quot;&gt;Jonathan &lt;script&gt;'
+        );
+    }
+
+
+
+    public function testRenderWithDataAutoescapeEngineDefaultSetting()
+    {
+        $engine = new \League\Plates\Engine(vfsStream::url('templates'));
+        $engine->setAutoescape(true);
+
+        $template = new \League\Plates\Template\Template($engine, 'template');
+
+        vfsStream::create(
+            array(
+                'template.php' => '<?php echo $name ?> <?php echo $surname ?> <?php echo $this->get("surname") ?>',
+            )
+        );
+
+        $vars = array('name' => '"""<a href="#">Jonathan', 'surname' => '<script>');
+
+        $this->assertEquals(
+            $template->render($vars),
+            '&quot;&quot;&quot;&lt;a href=&quot;#&quot;&gt;Jonathan &lt;script&gt; <script>'
+        );
+
+        $this->assertEquals($template->render($vars, false), '"""<a href="#">Jonathan <script> <script>');
     }
 
     public function testRenderDoesNotExist()
@@ -199,6 +253,17 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals($this->template->render(), 'jonathan');
+    }
+
+    public function testGetFunction()
+    {
+        vfsStream::create(
+            array(
+                'template.php' => '<?php echo $this->get("name", "uppercase|strtolower") ?>',
+            )
+        );
+
+        $this->assertEquals($this->template->render(array('name' => 'Jonathan')), 'jonathan');
     }
 
     public function testBatchFunctionWithInvalidFunction()

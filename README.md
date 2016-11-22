@@ -26,6 +26,7 @@ Plates is a native PHP template system that's fast, easy to use and easy to exte
 - Framework-agnostic, will work with any project
 - Decoupled design makes templates easy to test
 - Composer ready and PSR-2 compliant
+- Autoescaping values
 
 ## Installation
 

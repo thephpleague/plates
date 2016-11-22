@@ -45,6 +45,23 @@ Some [libraries](http://framework.zend.com/manual/2.1/en/modules/zend.escaper.es
 
 ## Automatic escaping
 
-Probably the biggest drawbacks to native PHP templates is the inability to auto-escape variables properly. Template languages like Twig and Smarty can identify "echoed" variables during a parsing stage and automatically escape them. This cannot be done in native PHP as the language does not offer overloading functionality for it's output functions (ie. `print` and `echo`).
+The easiest way to stay safe is enabling autoescaping for all string values by default. You can done it by setting this as default behavior for Engine:
 
-Don't worry, escaping can still be done safely, it just means you are responsible for manually escaping each variable on output. Consider creating a snippet for one of the above, built-in escaping functions to make this process easier.
+~~~ php
+$engine->setAutoescape(true);
+$engine->isAutoescape(); // true
+~~~
+
+Or directly when rendering:
+~~~ php
+$template->render(array('name' => '<a href="#">John</a>'), true);
+$engine->render('profile', array('name' => '<a href="#">John</a>'), true);
+~~~
+
+If you rendering template with autoescaping enabled, you can get unescaped variable value inside template:
+~~~ php
+$this->get('name'); // get clean value
+$this->get('name', 'strtoupper|strtolower') // get clean value and apply functions
+~~~
+
+(if variable does not exists NULL will be returned without passing through functions)

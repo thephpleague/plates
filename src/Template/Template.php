@@ -101,6 +101,8 @@ class Template
     /**
      * Render the template and layout.
      * @param  array  $data
+     * @throws \Throwable
+     * @throws \Exception
      * @return string
      */
     public function render(array $data = array())
@@ -131,13 +133,22 @@ class Template
             }
 
             return $content;
-        } catch (LogicException $e) {
-            if (ob_get_length() > 0) {
-                ob_end_clean();
-            }
-
-            throw $e;
+        } catch (\Throwable $e) {
+            $this->cleanOutputBuffer($e);
+        } catch (\Exception $e) {
+            $this->cleanOutputBuffer($e);
         }
+    }
+
+    /**
+     * @param \Throwable|\Exception $e
+     * @throws \Throwable
+     * @throws \Exception
+     */
+    private function cleanOutputBuffer($e)
+    {
+        ob_end_clean();
+        throw $e;
     }
 
     /**

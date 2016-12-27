@@ -73,6 +73,18 @@ class Template
     }
 
     /**
+     * Alias for render() method.
+     * @param  array  $data
+     * @throws \Throwable
+     * @throws \Exception
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->render();
+    }
+
+    /**
      * Assign data to template object.
      * @param  array $data
      * @return null
@@ -281,14 +293,5 @@ class Template
     public function e($string, $functions = null)
     {
         return $this->escape($string, $functions);
-    }
-
-    /**
-     * Alias for render()
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->render();
     }
 }

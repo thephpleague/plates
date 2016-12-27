@@ -78,7 +78,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->template->render(), 'Hello World');
     }
 
-    public function testRenderThroughStringAlias()
+    public function testRenderViaToStringMagicMethod()
     {
         vfsStream::create(
             array(
@@ -86,11 +86,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        // Capture the template rendered from __toString()
-        ob_start();
-            echo $this->template;
-            $actual = ob_get_contents();
-        ob_end_clean();
+        $actual = (string) $this->template;
 
         $this->assertEquals($actual, 'Hello World');
     }

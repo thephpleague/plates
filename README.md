@@ -32,7 +32,7 @@ Plates is a native PHP template system that's fast, easy to use and easy to exte
 Plates is available via Composer:
 
 ```
-$ composer require league/plates
+composer require league/plates
 ```
 
 ## Documentation
@@ -42,7 +42,7 @@ Full documentation can be found at [platesphp.com](http://platesphp.com/).
 ## Testing
 
 ```bash
-$ phpunit
+phpunit
 ```
 
 ## Contributing

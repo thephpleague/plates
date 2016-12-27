@@ -124,20 +124,19 @@ class Template
      */
     public function render(array $data = array())
     {
+        $this->data($data);
+        unset($data);
+        extract($this->data);
+
+        if (!$this->exists()) {
+            throw new LogicException(
+                'The template "' . $this->name->getName() . '" could not be found at "' . $this->path() . '".'
+            );
+        }
+
         try {
-            $this->data($data);
-
-            unset($data);
-
-            extract($this->data);
-
+            $level = ob_get_level();
             ob_start();
-
-            if (!$this->exists()) {
-                throw new LogicException(
-                    'The template "' . $this->name->getName() . '" could not be found at "' . $this->path() . '".'
-                );
-            }
 
             include $this->path();
 
@@ -151,10 +150,16 @@ class Template
 
             return $content;
         } catch (Throwable $e) {
-            ob_end_clean();
+            while (ob_get_level() > $level) {
+                ob_end_clean();
+            }
+
             throw $e;
         } catch (Exception $e) {
-            ob_end_clean();
+            while (ob_get_level() > $level) {
+                ob_end_clean();
+            }
+
             throw $e;
         }
     }

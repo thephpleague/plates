@@ -37,6 +37,18 @@ class Template
     protected $sections = array();
 
     /**
+     * The name of the section currently being rendered.
+     * @var string
+     */
+    protected $sectionName;
+
+    /**
+     * Whether the section should be appended or not.
+     * @var boolean
+     */
+    protected $appendSection;
+
+    /**
      * The name of the template layout.
      * @var string
      */
@@ -178,7 +190,7 @@ class Template
 
     /**
      * Start a new section block.
-     * @param  string $name
+     * @param  string  $name
      * @return null
      */
     public function start($name)
@@ -189,9 +201,25 @@ class Template
             );
         }
 
-        $this->sections[$name] = '';
+        if ($this->sectionName) {
+            throw new LogicException('You cannot nest sections within other sections.');
+        }
+
+        $this->sectionName = $name;
 
         ob_start();
+    }
+
+    /**
+     * Start a new append section block.
+     * @param  string $name
+     * @return null
+     */
+    public function push($name)
+    {
+        $this->appendSection = true;
+
+        $this->start($name);
     }
 
     /**
@@ -200,15 +228,28 @@ class Template
      */
     public function stop()
     {
-        if (empty($this->sections)) {
+        if (is_null($this->sectionName)) {
             throw new LogicException(
                 'You must start a section before you can stop it.'
             );
         }
 
-        end($this->sections);
+        if (!isset($this->sections[$this->sectionName])) {
+            $this->sections[$this->sectionName] = '';
+        }
 
-        $this->sections[key($this->sections)] = ob_get_clean();
+        $this->sections[$this->sectionName] = $this->appendSection ? $this->sections[$this->sectionName] . ob_get_clean() : ob_get_clean();
+        $this->sectionName = null;
+        $this->appendSection = false;
+    }
+
+    /**
+     * Alias of stop().
+     * @return null
+     */
+    public function end()
+    {
+        $this->stop();
     }
 
     /**

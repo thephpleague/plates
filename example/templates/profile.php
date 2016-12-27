@@ -4,3 +4,9 @@
 <p>Hello, <?=$this->e($name)?>!</p>
 
 <?php $this->insert('sidebar') ?>
+
+<?php $this->push('scripts') ?>
+    <script>
+        // Some JavaScript
+    </script>
+<?php $this->end() ?>

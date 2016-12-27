@@ -7,11 +7,11 @@ title: Sections
 Sections
 ========
 
-The `start()` and `stop()` functions allow you to build sections (or blocks) of content within your template, and instead of them being rendered directly, they are saved for use elsewhere. For example, in your [layout](/templates/layouts/) template.
+The `start()` and `stop` functions allow you to build sections (or blocks) of content within your template, and instead of them being rendered directly, they are saved for use elsewhere. For example, in your [layout](/templates/layouts/) template.
 
 ## Creating sections
 
-You define the name of the section in the `start()` function, and end the section with the `stop()` function.
+You define the name of the section with the `start()` function. To end a section call the `stop()` function.
 
 ~~~ php
 <?php $this->start('welcome') ?>
@@ -21,6 +21,18 @@ You define the name of the section in the `start()` function, and end the sectio
 
 <?php $this->stop() ?>
 ~~~
+
+## Stacking section content
+
+By default, when you render a section its content will overwrite any existing content for that section. However, it's possible to append (or stack) the content instead using the `push()` method. This can be useful for specifying any JavaScript libraries required by your child views.
+
+~~~ php
+<?php $this->push('scripts') ?>
+    <script src="example.js"></script>
+<?php $this->end() ?>
+~~~
+
+<p class="message-notice">The <code>end()</code> function is simply an alias of <code>stop()</code>. These functions can be used interchangeably.</p>
 
 ## Accessing section content
 

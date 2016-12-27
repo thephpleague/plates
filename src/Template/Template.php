@@ -74,7 +74,6 @@ class Template
 
     /**
      * Alias for render() method.
-     * @param  array  $data
      * @throws \Throwable
      * @throws \Exception
      * @return string

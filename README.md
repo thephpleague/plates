@@ -31,12 +31,8 @@ Plates is a native PHP template system that's fast, easy to use and easy to exte
 
 Plates is available via Composer:
 
-```json
-{
-    "require": {
-        "league/plates": "3.*"
-    }
-}
+```
+$ composer require league/plates
 ```
 
 ## Documentation

@@ -282,4 +282,13 @@ class Template
     {
         return $this->escape($string, $functions);
     }
+
+    /**
+     * Alias for render()
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->render();
+    }
 }

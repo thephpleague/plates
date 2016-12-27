@@ -78,6 +78,23 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->template->render(), 'Hello World');
     }
 
+    public function testRenderThroughStringAlias()
+    {
+        vfsStream::create(
+            array(
+                'template.php' => 'Hello World',
+            )
+        );
+
+        // Capture the template rendered from __toString()
+        ob_start();
+            echo $this->template;
+            $actual = ob_get_contents();
+        ob_end_clean();
+
+        $this->assertEquals($actual, 'Hello World');
+    }
+
     public function testRenderWithData()
     {
         vfsStream::create(

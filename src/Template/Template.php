@@ -2,8 +2,10 @@
 
 namespace League\Plates\Template;
 
+use Exception;
 use League\Plates\Engine;
 use LogicException;
+use Throwable;
 
 /**
  * Container which holds template data and provides access to template functions.
@@ -133,22 +135,13 @@ class Template
             }
 
             return $content;
-        } catch (\Throwable $e) {
-            $this->cleanOutputBuffer($e);
-        } catch (\Exception $e) {
-            $this->cleanOutputBuffer($e);
+        } catch (Throwable $e) {
+            ob_end_clean();
+            throw $e;
+        } catch (Exception $e) {
+            ob_end_clean();
+            throw $e;
         }
-    }
-
-    /**
-     * @param \Throwable|\Exception $e
-     * @throws \Throwable
-     * @throws \Exception
-     */
-    private function cleanOutputBuffer($e)
-    {
-        ob_end_clean();
-        throw $e;
     }
 
     /**

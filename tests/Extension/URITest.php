@@ -85,4 +85,20 @@ class URITest extends \PHPUnit_Framework_TestCase
 
         $this->extension->runUri(array());
     }
+
+    public function testFetchNonExistingUriIndex()
+    {
+        $engine = new Engine();
+        $extension = new URI('/');
+        $extension->register($engine);
+        $this->assertTrue(is_null($extension->runUri(2)));
+    }
+
+    public function testComparehNonExistingUriIndex()
+    {
+        $engine = new Engine();
+        $extension = new URI('/hello');
+        $extension->register($engine);
+        $this->assertFalse($extension->runUri(2, 'hello'));
+    }
 }

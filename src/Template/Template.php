@@ -84,13 +84,13 @@ class Template
     }
 
     /**
-     * Assign data to template object.
+     * Assign or get template data.
      * @param  array $data
-     * @return null
+     * @return mixed
      */
     public function data(array $data = null)
     {
-        if ($data === null) {
+        if (is_null($data)) {
             return $this->data;
         }
 

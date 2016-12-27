@@ -95,6 +95,17 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         var_dump($this->template->render());
     }
 
+    public function testRenderException()
+    {
+        $this->setExpectedException('Exception', 'error');
+        vfsStream::create(
+            array(
+                'template.php' => '<?php throw new Exception("error"); ?>',
+            )
+        );
+        var_dump($this->template->render());
+    }
+
     public function testLayout()
     {
         vfsStream::create(

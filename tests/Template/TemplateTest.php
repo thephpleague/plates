@@ -151,6 +151,21 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->template->render(), 'Hello World');
     }
 
+    public function testReplaceSection()
+    {
+        vfsStream::create(
+            array(
+                'template.php' => implode('\n', array(
+                    '<?php $this->layout("layout")?><?php $this->start("test") ?>Hello World<?php $this->stop() ?>',
+                    '<?php $this->layout("layout")?><?php $this->start("test") ?>See this instead!<?php $this->stop() ?>',
+                )),
+                'layout.php' => '<?php echo $this->section("test") ?>',
+            )
+        );
+
+        $this->assertEquals($this->template->render(), 'See this instead!');
+    }
+
     public function testStartSectionWithInvalidName()
     {
         $this->setExpectedException('LogicException', 'The section name "content" is reserved.');
@@ -158,6 +173,19 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         vfsStream::create(
             array(
                 'template.php' => '<?php $this->start("content") ?>',
+            )
+        );
+
+        $this->template->render();
+    }
+
+    public function testNestSectionWithinAnotherSection()
+    {
+        $this->setExpectedException('LogicException', 'You cannot nest sections within other sections.');
+
+        vfsStream::create(
+            array(
+                'template.php' => '<?php $this->start("section1") ?><?php $this->start("section2") ?>',
             )
         );
 
@@ -196,6 +224,42 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals($this->template->render(), 'NULL');
+    }
+
+    public function testPushSection()
+    {
+        vfsStream::create(
+            array(
+                'template.php' => implode('\n', array(
+                    '<?php $this->layout("layout")?>',
+                    '<?php $this->push("scripts") ?><script src="example1.js"></script><?php $this->end() ?>',
+                    '<?php $this->push("scripts") ?><script src="example2.js"></script><?php $this->end() ?>',
+                )),
+                'layout.php' => '<?php echo $this->section("scripts") ?>',
+            )
+        );
+
+        $this->assertEquals($this->template->render(), '<script src="example1.js"></script><script src="example2.js"></script>');
+    }
+
+    public function testPushWithMultipleSections()
+    {
+        vfsStream::create(
+            array(
+                'template.php' => implode('\n', array(
+                    '<?php $this->layout("layout")?>',
+                    '<?php $this->push("scripts") ?><script src="example1.js"></script><?php $this->end() ?>',
+                    '<?php $this->start("test") ?>test<?php $this->stop() ?>',
+                    '<?php $this->push("scripts") ?><script src="example2.js"></script><?php $this->end() ?>',
+                )),
+                'layout.php' => implode('\n', array(
+                    '<?php echo $this->section("test") ?>',
+                    '<?php echo $this->section("scripts") ?>',
+                )),
+            )
+        );
+
+        $this->assertEquals($this->template->render(), 'test\n<script src="example1.js"></script><script src="example2.js"></script>');
     }
 
     public function testFetchFunction()

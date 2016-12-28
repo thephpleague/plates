@@ -286,6 +286,44 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->template->render(), 'Hello World');
     }
 
+    public function testInsertFunctionWithData()
+    {
+        vfsStream::create(
+            array(
+                'template.php' => '<?php $this->insert("inserted", array("foo" => "bar")); ?>',
+                'inserted.php' => 'Hello, <?php echo $foo; ?>',
+            )
+        );
+
+        $this->assertEquals($this->template->render(), 'Hello, bar');
+    }
+
+    public function testInsertFunctionWithMergedData()
+    {
+        vfsStream::create(
+            array(
+                'template.php' => '<?php $this->insert("inserted"); ?>',
+                'inserted.php' => 'Hello, <?php echo $foo; ?>',
+            )
+        );
+
+        $this->template->data(array('foo' => 'bar'));
+        $this->assertEquals($this->template->render(), 'Hello, bar');
+    }
+
+    public function testInsertFunctionWithSameMergedData()
+    {
+        vfsStream::create(
+            array(
+                'template.php' => '<?php $this->insert("inserted", array("foo" => "bazz")); ?>',
+                'inserted.php' => 'Hello, <?php echo $foo; ?>',
+            )
+        );
+
+        $this->template->data(array('foo' => 'bar'));
+        $this->assertEquals($this->template->render(), 'Hello, bazz');
+    }
+
     public function testBatchFunction()
     {
         vfsStream::create(

@@ -167,12 +167,6 @@ class Template
             }
 
             throw $e;
-        } catch (Exception $e) {
-            while (ob_get_level() > $level) {
-                ob_end_clean();
-            }
-
-            throw $e;
         }
     }
 

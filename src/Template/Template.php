@@ -275,7 +275,8 @@ class Template
      */
     public function fetch($name, array $data = array())
     {
-        return $this->engine->render($name, $data);
+        $this->data = array_merge($this->data, $data);
+        return $this->engine->render($name, $this->data);
     }
 
     /**
@@ -286,7 +287,8 @@ class Template
      */
     public function insert($name, array $data = array())
     {
-        echo $this->engine->render($name, $data);
+        $this->data = array_merge($this->data, $data);
+        echo $this->engine->render($name, $this->data);
     }
 
     /**

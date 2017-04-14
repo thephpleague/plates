@@ -209,7 +209,7 @@ class EngineTest extends \PHPUnit_Framework_TestCase
 
     public function testGetTemplatePath()
     {
-        $this->assertEquals($this->engine->path('template'), 'vfs://templates/template.php');
+        $this->assertStringMatchesFormat('vfs://templates%etemplate.php', $this->engine->path('template'));
     }
 
     public function testTemplateExists()

@@ -110,6 +110,16 @@ class Template
     }
 
     /**
+     * Get the current data assigned to the template object.
+     * @param  array $data Optional array of additional data.
+     * @return null
+     */
+    public function context(array $data = array())
+    {
+        return array_merge($this->data, $data);
+    }
+
+    /**
      * Check if the template exists.
      * @return boolean
      */

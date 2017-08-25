@@ -30,14 +30,22 @@ class Asset implements ExtensionInterface
     public $filenameMethod;
 
     /**
+     * Enables hashing for last updated value in filename.
+     * @var boolean
+     */
+    public $hashLastUpdatedValue;
+
+    /**
      * Create new Asset instance.
      * @param string  $path
      * @param boolean $filenameMethod
+     * @param boolean $hashLastUpdatedValue
      */
-    public function __construct($path, $filenameMethod = false)
+    public function __construct($path, $filenameMethod = false, $hashLastUpdatedValue = false)
     {
         $this->path = rtrim($path, '/');
         $this->filenameMethod = $filenameMethod;
+        $this->hashLastUpdatedValue = $hashLastUpdatedValue;
     }
 
     /**
@@ -67,6 +75,10 @@ class Asset implements ExtensionInterface
 
         $lastUpdated = filemtime($filePath);
         $pathInfo = pathinfo($url);
+
+        if ($this->hashLastUpdatedValue) {
+			$lastUpdated = hash('crc32b', $lastUpdated);
+        }
 
         if ($pathInfo['dirname'] === '.') {
             $directory = '';

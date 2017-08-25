@@ -18,7 +18,7 @@ The asset extension comes packaged with Plates but is not enabled by default, as
 $engine->loadExtension(new League\Plates\Extension\Asset('/path/to/public/assets/', true));
 ~~~
 
-The first constructor parameter is the file system path of the assets directory. The second is an optional `boolean` parameter that if set to true uses the filename caching method (ie. `file.1373577602.css`) instead of the default query string method (ie. `file.css?v=1373577602`).
+The first constructor parameter is the file system path of the assets directory. The second is an optional `boolean` parameter that if set to true uses the filename caching method (ie. `file.1373577602.css`) instead of the default query string method (ie. `file.css?v=1373577602`). A third optional `boolean` parameter can be added to hash the raw timestamp value (ie. `file.78b9540d.css` or `file.css?v=78b9540d`).
 
 ## Filename caching
 

@@ -17,6 +17,10 @@ class AssetTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('League\Plates\Extension\Asset', new Asset(vfsStream::url('assets')));
         $this->assertInstanceOf('League\Plates\Extension\Asset', new Asset(vfsStream::url('assets'), true));
         $this->assertInstanceOf('League\Plates\Extension\Asset', new Asset(vfsStream::url('assets'), false));
+        $this->assertInstanceOf('League\Plates\Extension\Asset', new Asset(vfsStream::url('assets'), true, true));
+        $this->assertInstanceOf('League\Plates\Extension\Asset', new Asset(vfsStream::url('assets'), true, false));
+        $this->assertInstanceOf('League\Plates\Extension\Asset', new Asset(vfsStream::url('assets'), false, true));
+        $this->assertInstanceOf('League\Plates\Extension\Asset', new Asset(vfsStream::url('assets'), false, false));
     }
 
     public function testRegister()
@@ -64,6 +68,18 @@ class AssetTest extends \PHPUnit_Framework_TestCase
 
         $extension = new Asset(vfsStream::url('assets'), true);
         $this->assertTrue($extension->cachedAssetUrl('styles.css') === 'styles.' . filemtime(vfsStream::url('assets/styles.css')) . '.css');
+    }
+
+    public function testCachedAssetUrlUsingHashMethod()
+    {
+        vfsStream::create(
+            array(
+                'styles.css' => '',
+            )
+        );
+
+        $extension = new Asset(vfsStream::url('assets'), false, true);
+        $this->assertTrue($extension->cachedAssetUrl('styles.css') === 'styles.css?v=' . hash('crc32b', filemtime(vfsStream::url('assets/styles.css'))));
     }
 
     public function testFileNotFoundException()

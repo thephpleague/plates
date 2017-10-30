@@ -4,8 +4,9 @@ namespace League\Plates\Extension;
 
 use League\Plates\Engine;
 use org\bovigo\vfs\vfsStream;
+use PHPUnit\Framework\TestCase;
 
-class AssetTest extends \PHPUnit_Framework_TestCase
+class AssetTest extends TestCase
 {
     public function setUp()
     {

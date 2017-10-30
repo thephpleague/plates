@@ -3,8 +3,9 @@
 namespace League\Plates;
 
 use org\bovigo\vfs\vfsStream;
+use PHPUnit\Framework\TestCase;
 
-class EngineTest extends \PHPUnit_Framework_TestCase
+class EngineTest extends TestCase
 {
     private $engine;
 

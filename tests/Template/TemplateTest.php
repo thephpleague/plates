@@ -3,8 +3,9 @@
 namespace League\Plates\Template;
 
 use org\bovigo\vfs\vfsStream;
+use PHPUnit\Framework\TestCase;
 
-class TemplateTest extends \PHPUnit_Framework_TestCase
+class TemplateTest extends TestCase
 {
     private $template;
 

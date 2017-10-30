@@ -2,7 +2,9 @@
 
 namespace League\Plates\Template;
 
-class FunctionsTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class FunctionsTest extends TestCase
 {
     private $functions;
 

@@ -1,7 +1,7 @@
 Plates
 ======
 
-[![Author](http://img.shields.io/badge/author-@reinink-blue.svg?style=flat-square)](https://twitter.com/reinink)
+[![Maintainer](http://img.shields.io/badge/maintainer-@ragboyjr-blue.svg?style=flat-square)](https://twitter.com/ragboyjr)
 [![Source Code](http://img.shields.io/badge/source-league/plates-blue.svg?style=flat-square)](https://github.com/thephpleague/plates)
 [![Latest Version](https://img.shields.io/github/release/thephpleague/plates.svg?style=flat-square)](https://github.com/thephpleague/plates/releases)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
@@ -51,11 +51,12 @@ Please see [CONTRIBUTING](https://github.com/thephpleague/plates/blob/master/CON
 
 ## Security
 
-If you discover any security related issues, please email jonathan@reinink.ca instead of using the issue tracker.
+If you discover any security related issues, please email rj@bighead.net instead of using the issue tracker.
 
 ## Credits
 
-- [Jonathan Reinink](https://github.com/reinink)
+- [RJ Garcia](https://github.com/ragboyjr) (Current Maintainer)
+- [Jonathan Reinink](https://github.com/reinink) (Original Author)
 - [All Contributors](https://github.com/thephpleague/plates/contributors)
 
 ## License

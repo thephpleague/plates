@@ -15,6 +15,11 @@
             "name": "Jonathan Reinink",
             "email": "jonathan@reinink.ca",
             "role": "Developer"
+        },
+        {
+            "name": "RJ Garcia",
+            "email": "rj@bighead.net",
+            "role": "Developer"
         }
     ],
     "require" : {

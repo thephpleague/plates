@@ -1,6 +1,6 @@
-# Known Extensions List
+# Community Extensions
 
-This file should have all the known Plates extensions listed.
+> This file should have all the known Plates extensions listed.
 
 Please feel free submit a [Pull Request](https://github.com/thephpleague/plates/compare) to add your extension to this list.
 

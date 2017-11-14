@@ -343,4 +343,15 @@ class Template
     {
         return $this->escape($string, $functions);
     }
+    
+     /**
+     * Return current template engine
+     * @return Engine
+     */
+    public function getEngine()
+    {
+        return $this->engine;
+    }
+    
+    
 }

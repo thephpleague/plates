@@ -70,7 +70,7 @@ class Asset implements ExtensionInterface
 
         if ($pathInfo['dirname'] === '.') {
             $directory = '';
-        } elseif ($pathInfo['dirname'] === '/') {
+        } elseif ($pathInfo['dirname'] === DIRECTORY_SEPARATOR) {
             $directory = '/';
         } else {
             $directory = $pathInfo['dirname'] . '/';

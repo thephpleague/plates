@@ -27,7 +27,7 @@
     },
     "require-dev": {
         "mikey179/vfsStream": "^1.4",
-        "phpunit/phpunit": "~4.0",
+        "phpunit/phpunit": "^4.8.35 | ^5.7",
         "squizlabs/php_codesniffer": "~1.5"
     },
     "autoload": {

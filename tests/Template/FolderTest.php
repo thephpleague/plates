@@ -3,8 +3,9 @@
 namespace League\Plates\Template;
 
 use org\bovigo\vfs\vfsStream;
+use PHPUnit\Framework\TestCase;
 
-class FolderTest extends \PHPUnit_Framework_TestCase
+class FolderTest extends TestCase
 {
     private $folder;
 

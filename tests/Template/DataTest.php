@@ -2,7 +2,9 @@
 
 namespace League\Plates\Template;
 
-class DataTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class DataTest extends TestCase
 {
     private $template_data;
 

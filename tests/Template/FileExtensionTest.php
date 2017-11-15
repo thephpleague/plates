@@ -2,7 +2,9 @@
 
 namespace League\Plates\Template;
 
-class FileExtensionTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class FileExtensionTest extends TestCase
 {
     private $fileExtension;
 

@@ -3,8 +3,9 @@
 namespace League\Plates\Extension;
 
 use League\Plates\Engine;
+use PHPUnit\Framework\TestCase;
 
-class URITest extends \PHPUnit_Framework_TestCase
+class URITest extends TestCase
 {
     private $extension;
 

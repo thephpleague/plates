@@ -2,201 +2,61 @@
 
 namespace League\Plates\Template;
 
-use League\Plates\Engine;
-use LogicException;
+use League\Plates;
 
-/**
- * A template name.
- */
-class Name
-{
-    /**
-     * Instance of the template engine.
-     * @var Engine
-     */
-    protected $engine;
+/** appends a suffix to the name */
+function extResolveName($ext = 'phtml') {
+    return function($name, array $context) use ($ext) {
+        return [$name . '.' . $ext, $context];
+    };
+}
 
-    /**
-     * The original name.
-     * @var string
-     */
-    protected $name;
+function prefixResolveName($prefix) {
+    return function($name, array $context) use ($prefix) {
+        return [
+            Plates\Util\joinPath([$prefix, $name]),
+            $context
+        ];
+    };
+}
 
-    /**
-     * The parsed template folder.
-     * @var Folder
-     */
-    protected $folder;
-
-    /**
-     * The parsed template filename.
-     * @var string
-     */
-    protected $file;
-
-    /**
-     * Create a new Name instance.
-     * @param Engine $engine
-     * @param string $name
-     */
-    public function __construct(Engine $engine, $name)
-    {
-        $this->setEngine($engine);
-        $this->setName($name);
-    }
-
-    /**
-     * Set the engine.
-     * @param  Engine $engine
-     * @return Name
-     */
-    public function setEngine(Engine $engine)
-    {
-        $this->engine = $engine;
-
-        return $this;
-    }
-
-    /**
-     * Get the engine.
-     * @return Engine
-     */
-    public function getEngine()
-    {
-        return $this->engine;
-    }
-
-    /**
-     * Set the original name and parse it.
-     * @param  string $name
-     * @return Name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        $parts = explode('::', $this->name);
-
-        if (count($parts) === 1) {
-            $this->setFile($parts[0]);
-        } elseif (count($parts) === 2) {
-            $this->setFolder($parts[0]);
-            $this->setFile($parts[1]);
-        } else {
-            throw new LogicException(
-                'The template name "' . $this->name . '" is not valid. ' .
-                'Do not use the folder namespace separator "::" more than once.'
-            );
+/** If the template context stores a current directory and  */
+function relativeResolveName() {
+    return function($name, array $context) {
+        if (strpos($path, './') !== 0 || !isset($context['current_directory'])) {
+            return $name; // nothing to do
         }
 
-        return $this;
-    }
+        return [
+            Plates\Util\joinPath([$context['current_directory'], substr($path, 2)]),
+            $context
+        ];
+    };
+}
 
-    /**
-     * Get the original name.
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set the parsed template folder.
-     * @param  string $folder
-     * @return Name
-     */
-    public function setFolder($folder)
-    {
-        $this->folder = $this->engine->getFolders()->get($folder);
-
-        return $this;
-    }
-
-    /**
-     * Get the parsed template folder.
-     * @return string
-     */
-    public function getFolder()
-    {
-        return $this->folder;
-    }
-
-    /**
-     * Set the parsed template file.
-     * @param  string $file
-     * @return Name
-     */
-    public function setFile($file)
-    {
-        if ($file === '') {
-            throw new LogicException(
-                'The template name "' . $this->name . '" is not valid. ' .
-                'The template name cannot be empty.'
-            );
+/** assumes the template name is in the format of `folder::path`.
+    folders */
+function folderResolveName(array $folders, $sep = '::') {
+    return function($name, array $context) use ($folders, $sep) {
+        if (strpos($name, $sep) === false) {
+            return [$name, $context];
         }
 
-        $this->file = $file;
-
-        if (!is_null($this->engine->getFileExtension())) {
-            $this->file .= '.' . $this->engine->getFileExtension();
+        list($folder, $path) = explode($sep, $name);
+        if (!isset($folders[$folder])) {
+            return [$name, $context];
         }
 
-        return $this;
-    }
+        return [
+            Plates\Util\joinPath([$folders[$folder], $path]),
+            $context
+        ];
+    };
+}
 
-    /**
-     * Get the parsed template file.
-     * @return string
-     */
-    public function getFile()
-    {
-        return $this->file;
-    }
-
-    /**
-     * Resolve template path.
-     * @return string
-     */
-    public function getPath()
-    {
-        if (is_null($this->folder)) {
-            return $this->getDefaultDirectory() . DIRECTORY_SEPARATOR . $this->file;
-        }
-
-        $path = $this->folder->getPath() . DIRECTORY_SEPARATOR . $this->file;
-
-        if (!is_file($path) and $this->folder->getFallback() and is_file($this->getDefaultDirectory() . DIRECTORY_SEPARATOR . $this->file)) {
-            $path = $this->getDefaultDirectory() . DIRECTORY_SEPARATOR . $this->file;
-        }
-
-        return $path;
-    }
-
-    /**
-     * Check if template path exists.
-     * @return boolean
-     */
-    public function doesPathExist()
-    {
-        return is_file($this->getPath());
-    }
-
-    /**
-     * Get the default templates directory.
-     * @return string
-     */
-    protected function getDefaultDirectory()
-    {
-        $directory = $this->engine->getDirectory();
-
-        if (is_null($directory)) {
-            throw new LogicException(
-                'The template name "' . $this->name . '" is not valid. '.
-                'The default directory has not been defined.'
-            );
-        }
-
-        return $directory;
-    }
+/** will automatically*/
+function defaultFolderResolveName(array $folders, $sep = '::') {
+    return function($name, array $context) use ($folders, $sep) {
+        // if (strpos($name, $sep))
+    };
 }

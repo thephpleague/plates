@@ -18,16 +18,16 @@ describe('PlatesRenderTemplate', function() {
     it('it renders nested content', function() {
         $layout = new Template('layout');
         $main = new Template('main');
-        $main = $main->withContent(new StringContent('b'));
-        $layout = $layout->withContent(new CollectionContent([
+        $main->content = new StringContent('b');
+        $layout->content = new CollectionContent([
             new StringContent('a'),
             LazyContent::fromTemplate($main),
             new StringContent('c')
-        ]));
-
-        $main = $main->withContext([
-            'layout' => $layout
         ]);
+
+        $main->context = [
+            'layout' => $layout
+        ];
 
         $rt = new PlatesRenderTemplate();
         expect($rt->renderTemplate($main))->equal('abc');

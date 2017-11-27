@@ -3,12 +3,12 @@
 namespace League\Plates;
 
 /** Template value object */
-class Template
+final class Template
 {
-    private $name;
-    private $data;
-    private $context;
-    private $content;
+    public $name;
+    public $data;
+    public $context;
+    public $content;
 
     public function __construct(
         $name,
@@ -22,35 +22,12 @@ class Template
         $this->content = $content ?: Content\StringContent::empty();
     }
 
-    public function getName() {
-        return $this->name;
+    public function addData(array $data) {
+        $this->data = array_merge($this->data, $data);
+        return $this;
     }
-
-    public function getData() {
-        return $this->data;
-    }
-
-    public function getContext() {
-        return $this->context;
-    }
-
-    public function getContent() {
-        return $this->content;
-    }
-
-    public function withName($name) {
-        return new self($name, $this->data, $this->context, $this->content);
-    }
-
-    public function withData(array $data) {
-        return new self($this->name, $data, $this->context, $this->content);
-    }
-
-    public function withContext(array $context) {
-        return new self($this->name, $this->data, $context, $this->content);
-    }
-
-    public function withContent(Content $content) {
-        return new self($this->name, $this->data, $this->context, $content);
+    public function addContext(array $context) {
+        $this->context = array_merge($this->context, $context);
+        return $this;
     }
 }

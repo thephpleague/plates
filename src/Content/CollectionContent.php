@@ -17,4 +17,8 @@ class CollectionContent implements Content
             return $acc . $part;
         }, '');
     }
+
+    public function appendParts(array $parts) {
+        return new self(array_merge($this->parts, $parts));
+    }
 }

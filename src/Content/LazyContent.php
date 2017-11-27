@@ -14,7 +14,9 @@ class LazyContent implements Plates\Content
     }
 
     public static function fromTemplate(Plates\Template $template) {
-        return new self([$template, 'getContent']);
+        return new self(function() use ($template) {
+            return $template->content;
+        });
     }
 
     public function __toString() {

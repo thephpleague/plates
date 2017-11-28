@@ -28,6 +28,16 @@ function stack(array $funcs) {
     });
 }
 
+function stackGroup(array $funcs) {
+    return function(...$args) {
+        $next = end($args);
+        $args = array_slice($args, 0, -1);
+        $funcs[] = $next;
+        $next = stack($funcs);
+        return $next(...$args);
+    }
+}
+
 function compose(array $funcs, $multi = false) {
     if (!$multi) {
         return function($arg) use ($funcs) {

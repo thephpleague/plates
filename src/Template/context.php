@@ -22,17 +22,15 @@ function getLayout(Template $template) {
     return isset($template->context['layout']) ? $template->context['layout'] : null;
 }
 
-function setSection(Template $template, $section_name, Content $content) {
+function getSections(Template $template) {
     if (!isset($template->context['sections'])) {
-        $template->context['sections'] = [];
+        setSection($template, new Section());
     }
 
-    $template->context['sections'][$section_name] = $content;
-    return $template;
+    return $template->context['sections'];
 }
 
-function getSection(Template $template, $section_name) {
-    return isset($template->context['sections'][$section_name])
-        ? $template->context['sections'][$section_name]
-        : null;
+function setSections(Template $template, Sections $sections) {
+    $template->context['sections'] = $sections;
+    return $template;
 }

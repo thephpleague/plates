@@ -1,6 +1,8 @@
 Plates
 ======
 
+**DISCLAIMER: v4 is in active development and is not in a shippable state yet**
+
 [![Maintainer](http://img.shields.io/badge/maintainer-@ragboyjr-blue.svg?style=flat-square)](https://twitter.com/ragboyjr)
 [![Source Code](http://img.shields.io/badge/source-league/plates-blue.svg?style=flat-square)](https://github.com/thephpleague/plates)
 [![Latest Version](https://img.shields.io/github/release/thephpleague/plates.svg?style=flat-square)](https://github.com/thephpleague/plates/releases)

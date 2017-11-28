@@ -8,7 +8,7 @@ final class Template
     public $name;
     public $data;
     public $context;
-    public $content;
+    // public $content;
 
     public function __construct(
         $name,
@@ -19,7 +19,7 @@ final class Template
         $this->name = $name;
         $this->data = $data;
         $this->context = $context;
-        $this->content = $content ?: Content\StringContent::empty();
+        // $this->content = $content ?: Content\StringContent::empty();
     }
 
     public function addData(array $data) {
@@ -29,5 +29,13 @@ final class Template
     public function addContext(array $context) {
         $this->context = array_merge($this->context, $context);
         return $this;
+    }
+
+    public function resolveName(callable $resolve_name) {
+        return $resolve_name($this->name, $this->context);
+    }
+
+    public function resolveData(callable $resolve_data) {
+        return $resolve_data($this->data, $this->context);
     }
 }

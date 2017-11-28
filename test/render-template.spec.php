@@ -2,34 +2,27 @@
 
 use League\Plates\{
     RenderTemplate\PlatesRenderTemplate,
-    Template,
-    Content\StringContent,
-    Content\CollectionContent,
-    Content\LazyContent
+    Template
 };
 
 describe('PlatesRenderTemplate', function() {
-    it('it renders a templates content', function() {
-        $rt = new PlatesRenderTemplate();
-        $tpl = new Template('', [], [], new StringContent('abc'));
+    it('it renders a template into string', function() {
+        $rt = new PlatesRenderTemplate(
+            null,
+            null,
+            function($path, $data) {
+                $content = "{$path}-{$data['a']}";
+                if ($path == 'bar') {
+                    return $content;
+                }
 
-        expect($rt->renderTemplate($tpl))->equal('abc');
-    });
-    it('it renders nested content', function() {
-        $layout = new Template('layout');
-        $main = new Template('main');
-        $main->content = new StringContent('b');
-        $layout->content = new CollectionContent([
-            new StringContent('a'),
-            LazyContent::fromTemplate($main),
-            new StringContent('c')
-        ]);
-
-        $main->context = [
-            'layout' => $layout
-        ];
-
-        $rt = new PlatesRenderTemplate();
-        expect($rt->renderTemplate($main))->equal('abc');
+                return $content . "-" . $data['v']->render->renderTemplate(new Template(
+                    'bar',
+                    ['a' => 2]
+                ));
+            }
+        );
+        $t = new Template('foo', ['a' => 1]);
+        expect($rt->renderTemplate($t))->equal('foo-1-bar-2');
     });
 });

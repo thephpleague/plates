@@ -5,7 +5,7 @@ use League\Plates\{
     Template
 };
 
-describe('StringContent', function() {
+xdescribe('StringContent', function() {
     it('can create content from a stringy value', function() {
         $content = new Content\StringContent('a');
         expect((string) $content)->equal('a');
@@ -15,7 +15,7 @@ describe('StringContent', function() {
         expect((string) $content)->equal('');
     });
 });
-describe('LazyContent', function() {
+xdescribe('LazyContent', function() {
     it('can create content lazily', function() {
         $called = 0;
         $content = new Content\LazyContent(function() use (&$called) {
@@ -34,7 +34,7 @@ describe('LazyContent', function() {
         expect((string) $content)->equal('a');
     });
 });
-describe('CollectionContent', function() {
+xdescribe('CollectionContent', function() {
     it('can create a collection of content appended to one another', function() {
         $content = new Content\CollectionContent([
             new Content\StringContent('a'),

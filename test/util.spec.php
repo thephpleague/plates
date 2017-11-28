@@ -32,6 +32,9 @@ describe('Util/stack', function() {
         })->to->throw(ComposeException::class);
     });
 });
+xdescribe('Util/stackGroup', function() {
+
+});
 describe('Util/compose', function() {
     it('can compose functions together', function() {
         $handler = Util\compose([

@@ -26,6 +26,7 @@
         "php": "^5.3 | ^7.0"
     },
     "require-dev": {
+        "eloquent/phony-peridot": "^2.0",
         "mikey179/vfsStream": "^1.4",
         "peridot-php/leo": "^1.6",
         "peridot-php/peridot": "^1.19",

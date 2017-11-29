@@ -24,12 +24,11 @@ function getLayout(Template $template) {
 
 function getSections(Template $template) {
     if (!isset($template->context['sections'])) {
-        setSection($template, new Section());
+        setSections($template, new Sections());
     }
 
     return $template->context['sections'];
 }
-
 function setSections(Template $template, Sections $sections) {
     $template->context['sections'] = $sections;
     return $template;

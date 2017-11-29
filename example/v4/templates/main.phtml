@@ -1,0 +1,6 @@
+<?php $v->layout(__DIR__ . '/layout.phtml') ?>
+<h1>Hi <?=$v($name)?></h1>
+<?php $v->insert(__DIR__ . '/sidebar.phtml') ?>
+<?php $v->unshift('scripts') ?>
+    <script type="text/javascript" id="main"></script>
+<?php $v->end() ?>

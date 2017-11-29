@@ -6,39 +6,35 @@ use BadMethodCallException;
 
 final class RenderContext
 {
-    private $prop_stack;
-    private $func_stack;
+    public $render;
+    public $template;
 
-    private $render;
-    private $template;
+    private $func_stack;
 
     public function __construct(
         RenderTemplate $render,
         Template $template,
-        $prop_stack = null,
         $func_stack = null
     ) {
         $this->render = $render;
         $this->template = $template;
-
-        $this->prop_stack = $prop_stack;
-        $this->func_stack = $func_stack;
+        $this->func_stack = $func_stack ?: Util\stack([RenderContext\platesFunc()]);
     }
 
     public function __get($name) {
-        if (!$this->prop_stack) {
-            throw new BadMethodCallException('Cannot access ' . $name . ' because no prop stack was setup.');
+        if (!$this->func_stack) {
+            throw new BadMethodCallException('Cannot access ' . $name . ' because no func stack has been setup.');
         }
 
-        $prop_stack = $this->prop_stack;
-        return $prop_stack(new RenderContext\PropArgs(
+        $func_stack = $this->func_stack;
+        return $prop_stack(new RenderContext\FuncArgs(
             $this->render,
             $this->template,
             $name
         ));
     }
 
-    public function __set($name) {
+    public function __set($name, $value) {
         throw new BadMethodCallException('Cannot set ' . $name . ' on this render context.');
     }
 
@@ -65,20 +61,18 @@ final class RenderContext
         return $func_stack(new RenderContext\FuncArgs(
             $this->render,
             $this->template,
-            null,
+            '__invoke',
             $args
         ));
     }
 
-    public static function createFactory($prop_stack = null, $func_stack = null) {
+    public static function factory($func_stack = null) {
         return function(RenderTemplate $render, Template $template) use (
-            $prop_stack,
             $func_stack
         ) {
             return new self(
                 $render,
                 $template,
-                $prop_stack,
                 $func_stack
             );
         };

@@ -29,13 +29,13 @@ function stack(array $funcs) {
 }
 
 function stackGroup(array $funcs) {
-    return function(...$args) {
+    return function(...$args) use ($funcs) {
         $next = end($args);
         $args = array_slice($args, 0, -1);
         $funcs[] = $next;
         $next = stack($funcs);
         return $next(...$args);
-    }
+    };
 }
 
 function compose(array $funcs, $multi = false) {

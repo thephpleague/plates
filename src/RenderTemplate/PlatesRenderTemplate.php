@@ -22,12 +22,7 @@ final class PlatesRenderTemplate implements Plates\RenderTemplate
         $this->resolve_name = $resolve_name ?: Plates\Util\id(true);
         $this->resolve_data = $resolve_data ?: Plates\Util\id(true);
         $this->include = $include ?: Plates\Template\phpInclude();
-        $this->create_render_context = $create_render_context ?: function($render, $template) {
-            return (object) [
-                'render' => $render,
-                'template' => $template
-            ];
-        };
+        $this->create_render_context = $create_render_context ?: Plates\RenderContext::factory();
         $this->render_context_var_name = $render_context_var_name;
     }
 

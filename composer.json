@@ -36,6 +36,7 @@
             "League\\Plates\\": "src"
         },
         "files": [
+            "src/RenderContext/func.php",
             "src/Template/context.php",
             "src/Template/include.php",
             "src/Template/name.php",

@@ -8,18 +8,15 @@ final class Template
     public $name;
     public $data;
     public $context;
-    // public $content;
 
     public function __construct(
         $name,
         array $data = [],
-        array $context = [],
-        Content $content = null
+        array $context = []
     ) {
         $this->name = $name;
         $this->data = $data;
         $this->context = $context;
-        // $this->content = $content ?: Content\StringContent::empty();
     }
 
     public function addData(array $data) {
@@ -30,6 +27,11 @@ final class Template
         $this->context = array_merge($this->context, $context);
         return $this;
     }
+    public function getContextItem($key, $default = null) {
+        return array_key_exists($key, $this->context)
+            ? $this->context[$key]
+            : $default;
+    }
 
     public function resolveName(callable $resolve_name) {
         return $resolve_name($this->name, $this->context);
@@ -37,5 +39,14 @@ final class Template
 
     public function resolveData(callable $resolve_data) {
         return $resolve_data($this->data, $this->context);
+    }
+
+    /** Create a new template based off of this current one */
+    public function fork($name, array $data = [], array $context = []) {
+        return new self(
+            $name,
+            array_merge($this->data, $data),
+            array_merge($this->context, $context)
+        );
     }
 }

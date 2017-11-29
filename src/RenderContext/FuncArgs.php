@@ -4,22 +4,24 @@ namespace League\Plates\RenderContext;
 
 use League\Plates;
 
-class FuncArgs extends AbstractArgs
+final class FuncArgs
 {
+    public $render;
+    public $template;
     public $func_name;
     public $args;
 
-    public function __construct(Plates\RenderTemplate $render, Plates\Template $template, $func_name, array $args) {
-        parent::__construct($render, $template);
+    public function __construct(Plates\RenderTemplate $render, Plates\Template $template, $func_name = null, $args = []) {
+        $this->render = $render;
+        $this->template = $template;
         $this->func_name = $func_name;
         $this->args = $args;
     }
 
-    public function isInvoke() {
-        return $this->func_name === null;
+    public function withName($func_name) {
+        return new self($this->render, $this->template, $func_name, $this->args);
     }
-
-    public function getName() {
-        return $this->func_name;
+    public function withArgs($args) {
+        return new self($this->render, $this->template, $this->func_name, $args);
     }
 }

@@ -3,13 +3,13 @@
 namespace League\Plates;
 
 /** API for the Plates system */
-class Engine
+final class Engine
 {
     private $render;
     private $context;
 
     public function __construct(RenderTemplate $render = null) {
-        $this->render = $render ?: new RenderTemplate\PlatesRenderTemplate();
+        $this->render = $render ?: self::createRenderTemplate();
         $this->context = [];
     }
 
@@ -27,5 +27,11 @@ class Engine
 
     public function getContext() {
         return $this->context;
+    }
+
+    public static function createRenderTemplate() {
+        $rt = new RenderTemplate\PlatesRenderTemplate();
+        $rt = new RenderTemplate\LayoutRenderTemplate($rt);
+        return $rt;
     }
 }

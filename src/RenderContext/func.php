@@ -104,10 +104,6 @@ function assertArgsFunc($num_required, $num_default = 0) {
     };
 }
 
-function assertTemplateArgsFunc() {
-    return assertArgsFunc(1, 1);
-}
-
 /** Creates aliases for certain functions */
 function aliasNameFunc(array $aliases) {
     return function(FuncArgs $args, $next) use ($aliases) {
@@ -126,7 +122,7 @@ function aliasNameFunc(array $aliases) {
 /** Allows splitting of the handlers from the args name */
 function splitByNameFunc(array $handlers) {
     return function(FuncArgs $args, $next) use ($handlers) {
-        $name = $args->func_name ?: '__invoke';
+        $name = $args->func_name;
         if (isset($handlers[$name])) {
             $handler = Plates\Util\stackGroup($handlers[$name]);
             return $handler($args, $next);
@@ -137,6 +133,8 @@ function splitByNameFunc(array $handlers) {
 }
 
 function platesFunc() {
+    $template_args = assertArgsFunc(1, 1);
+    $one_arg = assertArgsFunc(1);
     return Plates\Util\stackGroup([
         aliasNameFunc([
             'e' => 'escape',
@@ -144,13 +142,13 @@ function platesFunc() {
             'stop' => 'end',
         ]),
         splitByNameFunc([
-            'layout' => [assertTemplateArgsFunc(), layoutFunc()],
-            'section' => [assertArgsFunc(1), sectionFunc()],
-            'insert' => [assertTemplateArgsFunc(), insertFunc()],
-            'escape' => [assertArgsFunc(1), escapeFunc()],
-            'start' => [assertArgsFunc(1), startFunc()],
-            'push' => [assertArgsFunc(1), startFunc(START_APPEND)],
-            'unshift' => [assertArgsFunc(1), startFunc(START_PREPEND)],
+            'layout' => [$template_args, layoutFunc()],
+            'section' => [$one_arg, sectionFunc()],
+            'insert' => [$template_args, insertFunc()],
+            'escape' => [$one_arg, escapeFunc()],
+            'start' => [$one_arg, startFunc()],
+            'push' => [$one_arg, startFunc(START_APPEND)],
+            'unshift' => [$one_arg, startFunc(START_PREPEND)],
             'end' => [endFunc()]
         ])
     ]);

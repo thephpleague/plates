@@ -11,7 +11,7 @@ final class FuncArgs
     public $func_name;
     public $args;
 
-    public function __construct(Plates\RenderTemplate $render, Plates\Template $template, $func_name = null, $args = []) {
+    public function __construct(Plates\RenderTemplate $render, Plates\Template $template, $func_name, $args = []) {
         $this->render = $render;
         $this->template = $template;
         $this->func_name = $func_name;

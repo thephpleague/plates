@@ -58,4 +58,5 @@ describe('LayoutRenderTemplate', function() {
         $res = $rt->renderTemplate(new Template('main'));
         expect($res)->equal('abcba');
     });
+    xit('initializes the sections on templates being rendered');
 });

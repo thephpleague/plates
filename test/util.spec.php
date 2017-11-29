@@ -33,7 +33,9 @@ describe('Util/stack', function() {
     });
 });
 xdescribe('Util/stackGroup', function() {
+    it('groups a stack functions to be used in a stack', function() {
 
+    });
 });
 describe('Util/compose', function() {
     it('can compose functions together', function() {

@@ -27,7 +27,7 @@ final class RenderContext
         }
 
         $func_stack = $this->func_stack;
-        return $prop_stack(new RenderContext\FuncArgs(
+        return $func_stack(new RenderContext\FuncArgs(
             $this->render,
             $this->template,
             $name

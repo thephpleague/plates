@@ -44,7 +44,7 @@ Full documentation can be found at [platesphp.com](http://platesphp.com/).
 ## Testing
 
 ```bash
-phpunit
+make test
 ```
 
 ## Contributing

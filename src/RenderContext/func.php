@@ -28,25 +28,41 @@ const START_REPLACE = 2;
 
 /** Starts the output buffering for a section, update of 0 = replace, 1 = append, 2 = prepend */
 function startFunc($update = START_REPLACE) {
-    return function(FuncArgs $args) use ($update) {
-        $section_def = $args->template->getContextItem('_section_def') ?: [];
+    return startBufferFunc(function(FuncArgs $args) use ($update) {
+        return function($contents) use ($update, $args) {
+            $name = $args->args[0];
+            $sections = Plates\Template\getSections($args->template);
+
+            if ($update === START_APPEND) {
+                $sections->append($name, $contents);
+            } else if ($update === START_PREPEND) {
+                $sections->prepend($name, $contents);
+            } else {
+                $sections->add($name, $contents);
+            }
+        };
+    });
+}
+
+function startBufferFunc(callable $create_callback) {
+    return function(FuncArgs $args) use ($create_callback) {
+        $buffer_stack = $args->template->getContextItem('buffer_stack') ?: [];
 
         ob_start();
-        $section_def[] = [$args->args[0], $update, ob_get_level()];
+        $buffer_stack[] = [ob_get_level(), $create_callback($args)];
 
-
-        $args->template->context['_section_def'] = $section_def;
+        $args->template->context['buffer_stack'] = $buffer_stack;
     };
 }
 
 function endFunc() {
     return function(FuncArgs $args) {
-        $section_def = $args->template->getContextItem('_section_def') ?: [];
-        if (!count($section_def)) {
+        $buffer_stack = $args->template->getContextItem('buffer_stack') ?: [];
+        if (!count($buffer_stack)) {
             throw new Plates\Exception\FuncException('Cannot end a section definition because no section has been started.');
         }
 
-        list($name, $update, $ob_level) = array_pop($section_def);
+        list($ob_level, $callback) = array_pop($buffer_stack);
 
         if ($ob_level != ob_get_level()) {
             throw new Plates\Exception\FuncException('Output buffering level does not match when section was started.');
@@ -54,17 +70,9 @@ function endFunc() {
 
         $contents = ob_get_clean();
 
-        $sections = Plates\Template\getSections($args->template);
+        $callback($contents);
 
-        if ($update === START_APPEND) {
-            $sections->append($name, $contents);
-        } else if ($update === START_PREPEND) {
-            $sections->prepend($name, $contents);
-        } else {
-            $sections->add($name, $contents);
-        }
-
-        $args->template->context['_section_def'] = $section_def;
+        $args->template->context['buffer_stack'] = $buffer_stack;
     };
 }
 

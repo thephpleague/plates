@@ -34,11 +34,11 @@ final class Template
     }
 
     public function resolveName(callable $resolve_name) {
-        return $resolve_name($this->name, $this->context);
+        return $resolve_name(new Template\ResolveNameArgs($this->name, $this->context, $resolve_name));
     }
 
     public function resolveData(callable $resolve_data) {
-        return $resolve_data($this->data, $this->context);
+        return $resolve_data($this->data);
     }
 
     /** Create a new template based off of this current one */

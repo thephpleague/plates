@@ -19,8 +19,8 @@ final class PlatesRenderTemplate implements Plates\RenderTemplate
         $create_render_context = null,
         $render_context_var_name = 'v'
     ) {
-        $this->resolve_name = $resolve_name ?: Plates\Util\id(true);
-        $this->resolve_data = $resolve_data ?: Plates\Util\id(true);
+        $this->resolve_name = $resolve_name ?: Plates\Template\idResolveName();
+        $this->resolve_data = $resolve_data ?: Plates\Util\id();
         $this->include = $include ?: Plates\Template\phpInclude();
         $this->create_render_context = $create_render_context ?: Plates\RenderContext::factory();
         $this->render_context_var_name = $render_context_var_name;
@@ -29,8 +29,8 @@ final class PlatesRenderTemplate implements Plates\RenderTemplate
     public function renderTemplate(Plates\Template $template) {
         $resolve_name = $this->resolve_name;
 
-        list($path) = $template->resolveName($this->resolve_name);
-        list($data) = $template->resolveData($this->resolve_data);
+        $path = $template->resolveName($this->resolve_name);
+        $data = $template->resolveData($this->resolve_data);
 
         $template->addContext([
             'path' => $path,

@@ -23,11 +23,10 @@
         }
     ],
     "require" : {
-        "php": "^5.3 | ^7.0"
+        "php": "^5.6 | ^7.0"
     },
     "require-dev": {
         "eloquent/phony-peridot": "^2.0",
-        "mikey179/vfsStream": "^1.4",
         "peridot-php/leo": "^1.6",
         "peridot-php/peridot": "^1.19",
         "peridot-php/peridot-code-coverage-reporters": "^3.0",
@@ -41,7 +40,8 @@
             "src/RenderContext/func.php",
             "src/Template/context.php",
             "src/Template/include.php",
-            "src/Template/name.php",
+            "src/Template/resolve-data.php",
+            "src/Template/resolve-name.php",
             "src/Util/util.php"
         ]
     },

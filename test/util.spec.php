@@ -32,12 +32,22 @@ describe('Util/stack', function() {
         })->to->throw(ComposeException::class);
     });
 });
-xdescribe('Util/stackGroup', function() {
+describe('Util/stackGroup', function() {
     it('groups a stack functions to be used in a stack', function() {
-
+        $add = function($by) {
+            return function($v, $next) use ($by) {
+                return $next($v + $by);
+            };
+        };
+        $group = Util\stackGroup([
+            $add(1),
+            $add(2)
+        ]);
+        $stack = Util\stack([$group, Util\id()]);
+        expect($stack(0))->equal(3);
     });
 });
-describe('Util/compose', function() {
+xdescribe('Util/compose', function() {
     it('can compose functions together', function() {
         $handler = Util\compose([
             function($v) { return $v + 1; },

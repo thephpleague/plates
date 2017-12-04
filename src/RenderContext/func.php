@@ -3,6 +3,7 @@
 namespace League\Plates\RenderContext;
 
 use League\Plates;
+use League\Plates\Exception\FuncException;
 
 function layoutFunc() {
     return function(FuncArgs $args) {
@@ -44,6 +45,42 @@ function startFunc($update = START_REPLACE) {
     });
 }
 
+function componentFunc($insert = null) {
+    $insert = $insert ?: insertFunc();
+    return startBufferFunc(function(FuncArgs $args) use ($insert) {
+        if (isset($args->template->context['component_slot_data'])) {
+            throw new FuncException('Cannot nest component func calls.');
+        }
+
+        $args->template->context['component_slot_data'] = [];
+        return function($contents) use ($insert, $args) {
+            list($name, $data) = $args->args;
+
+            $data = array_merge(
+                $data ?: [],
+                ['slot' => $contents],
+                $args->template->context['component_slot_data']
+            );
+
+            $insert($args->withArgs([$name, $data]));
+
+            unset($args->template->context['component_slot_data']);
+        };
+    });
+}
+
+function slotFunc() {
+    return startBufferFunc(function(FuncArgs $args) {
+        if (!isset($args->template->context['component_slot_data'])) {
+            throw new FuncException('Cannot call slot func outside of component definition.');
+        }
+
+        return function($contents) use ($args) {
+            $args->template->context['component_slot_data'][$args->args[0]] = $contents;
+        };
+    });
+}
+
 function startBufferFunc(callable $create_callback) {
     return function(FuncArgs $args) use ($create_callback) {
         $buffer_stack = $args->template->getContextItem('buffer_stack') ?: [];
@@ -59,13 +96,13 @@ function endFunc() {
     return function(FuncArgs $args) {
         $buffer_stack = $args->template->getContextItem('buffer_stack') ?: [];
         if (!count($buffer_stack)) {
-            throw new Plates\Exception\FuncException('Cannot end a section definition because no section has been started.');
+            throw new FuncException('Cannot end a section definition because no section has been started.');
         }
 
         list($ob_level, $callback) = array_pop($buffer_stack);
 
         if ($ob_level != ob_get_level()) {
-            throw new Plates\Exception\FuncException('Output buffering level does not match when section was started.');
+            throw new FuncException('Output buffering level does not match when section was started.');
         }
 
         $contents = ob_get_clean();
@@ -95,7 +132,7 @@ function escapeFunc($flags = ENT_COMPAT | ENT_HTML401, $encoding = 'UTF-8') {
 function assertArgsFunc($num_required, $num_default = 0) {
     return function(FuncArgs $args, $next) use ($num_required, $num_default) {
         if (count($args->args) < $num_required) {
-            throw new Plates\Exception\FuncException("Func {$args->func_name} has {$num_required} argument(s).");
+            throw new FuncException("Func {$args->func_name} has {$num_required} argument(s).");
         }
 
         if (count($args->args) >= $num_required + $num_default) {
@@ -162,6 +199,8 @@ function platesFunc(array $config = []) {
             'start' => [$one_arg, startFunc()],
             'push' => [$one_arg, startFunc(START_APPEND)],
             'unshift' => [$one_arg, startFunc(START_PREPEND)],
+            'component' => [$template_args, componentFunc()],
+            'slot' => [$one_arg, slotFunc()],
             'end' => [endFunc()]
         ])
     ]);

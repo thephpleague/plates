@@ -17,9 +17,14 @@ final class Engine
             'base_dir' => null,
             'escape_encoding' => null,
             'escape_flags' => null,
+            'validate_paths' => true,
         ], $context));
         $this->container->add('include', function($c) {
-            return Template\phpInclude();
+            $inc = Template\phpInclude();
+            if ($c->get('config')['validate_paths']) {
+                $inc = Template\validatePathInclude($inc);
+            }
+            return $inc;
         });
         $this->container->add('funcs', function($c) {
             return [RenderContext\platesFunc($c->get('config'))];
@@ -36,7 +41,7 @@ final class Engine
         $this->container->add('render', function($c) {
             $rt = new RenderTemplate\PlatesRenderTemplate(
                 Util\stack($c->get('resolve_name_stack')),
-                Util\stack($c->get('resolve_data_stack')),
+                $c->get('resolve_data_stack'),
                 $c->get('include'),
                 $c->get('createRenderContext'),
                 $c->get('config')['render_context_var_name']

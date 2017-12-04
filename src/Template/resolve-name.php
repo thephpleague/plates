@@ -16,8 +16,15 @@ function absoluteResolveName($file_exists = 'file_exists') {
 
 /** appends an extension to the name */
 function extResolveName($ext = 'phtml') {
-    return function(ResolveNameArgs $args, $next) use ($ext) {
-        return $next($args->withName($args->name . '.' . $ext));
+    $full_ext = '.' . $ext;
+    $ext_len = strlen($full_ext);
+    return function(ResolveNameArgs $args, $next) use ($full_ext, $ext_len) {
+        // ext is already there, just skip
+        if (strrpos($args->name, $full_ext) === strlen($args->name) - $ext_len) {
+            return $next($args);
+        }
+
+        return $next($args->withName($args->name . $full_ext));
     };
 }
 

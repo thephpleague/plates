@@ -66,4 +66,9 @@ describe('extResolveName', function() {
         $path = $resolve($this->args->withName('foo'));
         expect($path)->equal('foo.bar');
     });
+    it('does not append the name if ext already exists', function() {
+        $resolve = stack([extResolveName('bar'), idResolveName()]);
+        $path = $resolve($this->args->withName('foo.bar'));
+        expect($path)->equal('foo.bar');
+    });
 });

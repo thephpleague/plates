@@ -4,7 +4,11 @@
         <title>Profile - <?=$name?></title>
     </head>
     <body>
+        <?php $v->component('./alerts', ['type' => 'success']) ?>
+        <p>Success!</p>
+        <?php $v->end(); ?>
         <?=$v->section('content')?>
         <?=$v->section('scripts')?>
+        <?php // $v->insert('bad-tpl') ?>
     </body>
 </html>

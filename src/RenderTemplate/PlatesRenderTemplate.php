@@ -3,6 +3,8 @@
 namespace League\Plates\RenderTemplate;
 
 use League\Plates;
+use Throwable;
+use Exception;
 
 final class PlatesRenderTemplate implements Plates\RenderTemplate
 {
@@ -34,7 +36,7 @@ final class PlatesRenderTemplate implements Plates\RenderTemplate
 
         $template->addContext([
             'path' => $path,
-            'current_directory' => basename($path)
+            'current_directory' => dirname($path)
         ]);
         $ctx = call_user_func($this->create_render_context, $this, $template);
 
@@ -46,8 +48,18 @@ final class PlatesRenderTemplate implements Plates\RenderTemplate
         // this is done for BC reasons}
         $include = $this->include->bindTo($ctx);
 
-        $contents = $include($path, $data);
+        try {
+            return $include($path, $data);
+        } catch (Exception $e) {
 
-        return $contents;
+        } catch (Throwable $e) {
+
+        }
+
+        throw new Plates\Exception\PlatesException(
+            'An exception occurred while rendering Template ' . $template->name . '.',
+            0,
+            $e
+        );
     }
 }

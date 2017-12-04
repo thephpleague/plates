@@ -15,7 +15,9 @@ use function League\Plates\{
 use function League\Plates\RenderContext\{
     startFunc,
     startBufferFunc,
-    endFunc
+    endFunc,
+    slotFunc,
+    componentFunc
 };
 use const League\Plates\RenderContext\{
     START_APPEND,
@@ -105,6 +107,46 @@ describe('Funcs', function() {
             endFunc()($this->args);
             expect($was_called)->true();
             expect($this->args->template->context['buffer_stack'])->length(0);
+        });
+    });
+    describe('slotFunc', function() {
+        it('throws an exception if not component slot data is there', function() {
+            expect(function() {
+                slotFunc()($this->args);
+            })->throw(FuncException::class, 'Cannot call slot func outside of component definition.');
+        });
+        it('adds to the component slot data', function() {
+            $this->args->template->context['component_slot_data'] = [];
+            slotFunc()($this->args->withArgs(['foo']));
+            echo "bar";
+            endFunc()($this->args);
+            expect($this->args->template->context['component_slot_data']['foo'])
+                ->equal('bar');
+        });
+    });
+    describe('componentFunc', function() {
+        it('inserts a partial while passing in buffered content', function() {
+            $insert_args = null;
+            componentFunc(function($args) use (&$insert_args) {
+                $insert_args = $args->args;
+            })($this->args->withArgs(['name', ['a' => 1]]));
+            $this->args->template->context['component_slot_data']['b'] = 2;
+            echo "content";
+            endFunc()($this->args);
+            expect($insert_args)->equal([
+                'name',
+                [
+                    'a' => 1,
+                    'slot' => 'content',
+                    'b' => 2,
+                ]
+            ]);
+        });
+        it('throws an exception if the nested component func is called', function() {
+            expect(function() {
+                componentFunc()($this->args->withArgs(['name', []]));
+                componentFunc()($this->args->withArgs(['name', []]));
+            })->throw(FuncException::class, 'Cannot nest component func calls.');
         });
     });
     xdescribe('insertFunc', function() {

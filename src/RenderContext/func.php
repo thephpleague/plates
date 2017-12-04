@@ -77,7 +77,7 @@ function endFunc() {
 }
 
 function insertFunc($echo = null) {
-    $echo = $echo ?: function($v) { echo $v; };
+    $echo = $echo ?: Plates\Util\phpEcho();
 
     return function(FuncArgs $args) use ($echo) {
         list($name, $data) = $args->args;
@@ -140,7 +140,7 @@ function splitByNameFunc(array $handlers) {
     };
 }
 
-function platesFunc() {
+function platesFunc(array $config = []) {
     $template_args = assertArgsFunc(1, 1);
     $one_arg = assertArgsFunc(1);
     return Plates\Util\stackGroup([
@@ -153,7 +153,12 @@ function platesFunc() {
             'layout' => [$template_args, layoutFunc()],
             'section' => [$one_arg, sectionFunc()],
             'insert' => [$template_args, insertFunc()],
-            'escape' => [$one_arg, escapeFunc()],
+            'escape' => [
+                $one_arg,
+                isset($config['escape_flags'], $config['escape_encoding'])
+                    ? escapeFunc($config['escape_flags'], $config['escape_encoding'])
+                    : escapeFunc()
+            ],
             'start' => [$one_arg, startFunc()],
             'push' => [$one_arg, startFunc(START_APPEND)],
             'unshift' => [$one_arg, startFunc(START_PREPEND)],

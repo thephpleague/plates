@@ -16,6 +16,14 @@ function id($multi = false) {
     }
 }
 
+/** simple utility that wraps php echo which allows for stubbing out the
+    echo func for testing */
+function phpEcho() {
+    return function($v) {
+        echo $v;
+    };
+}
+
 /** stack a set of functions into each other and returns the stacked func */
 function stack(array $funcs) {
     return array_reduce(array_reverse($funcs), function($next, $func) {
@@ -29,33 +37,26 @@ function stack(array $funcs) {
 }
 
 function stackGroup(array $funcs) {
-    return function(...$args) use ($funcs) {
-        $next = end($args);
-        $args = array_slice($args, 0, -1);
-        $funcs[] = $next;
-        $next = stack($funcs);
-        return $next(...$args);
+    $end_next = null;
+    $funcs[] = function(...$args) use (&$end_next) {
+        return $end_next(...array_slice($args, 0, -1));
+    };
+    $next = stack($funcs);
+    return function(...$args) use ($next, &$end_next) {
+        $end_next = end($args);
+        return $next(...array_slice($args, 0, -1));
     };
 }
 
-function compose(array $funcs, $multi = false) {
-    if (!$multi) {
-        return function($arg) use ($funcs) {
-            return array_reduce($funcs, function($acc, $func) {
-                return $func($acc);
-            }, $arg);
-        };
-    }
-
-    return function(...$args) use ($funcs) {
-        return array_reduce($funcs, function($acc, $func) {
-            return $func(...$acc);
-        }, $args);
+function compose(array $funcs, $context_args = []) {
+    return function($arg) use ($funcs, $context_args) {
+        return array_reduce($funcs, function($acc, $func) use ($context_args) {
+            return $func($acc, ...$context_args);
+        }, $arg);
     };
 }
 
-
-function joinPath(array $parts, $sep = DIRECTORY_SEPARTOR) {
+function joinPath(array $parts, $sep = DIRECTORY_SEPARATOR) {
     return array_reduce($parts, function($acc, $part) use ($sep) {
         if ($acc === null) {
             return rtrim($part, $sep);

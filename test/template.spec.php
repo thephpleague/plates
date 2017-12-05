@@ -19,5 +19,12 @@ describe('Template', function() {
         $t = new Template('a', [], [2,3]);
         expect($t->context)->equal([2,3]);
     });
-    xit('can fork a template');
+    it('can fork a template', function() {
+        $t = new Template('a', ['a' => 1, 'b' => 1], ['c' => 1]);
+        $f = $t->fork('b', ['b' => 2], ['d' => 2]);
+        expect($f)->not->equal($t);
+        expect($f->name)->equal('b');
+        expect($f->data)->equal(['a' => 1, 'b' => 2]);
+        expect($f->context)->equal(['c' => 1, 'd' => 2]);
+    });
 });

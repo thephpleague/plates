@@ -1,15 +1,28 @@
 <?php
 
-xdescribe('setLayout', function() {
-    it('can set a layout on a template');
+use League\Plates\{
+    Template
+};
+
+describe('getLayout', function() {
+    it('can get a layout or null from a template', function() {
+        $t = new Template('main');
+        $layout = new Template('layout');
+        Template\setLayout($t, $layout);
+        expect(Template\getLayout($t))->equal($layout);
+        expect(Template\getLayout($layout))->equal(null);
+    });
 });
-xdescribe('getLayout', function() {
-    it('can get a layout or null from a template');
-});
-xdescribe('getSections', function() {
-    it('can get sections from a template');
-    it('can initialize sections for a template if non exist');
-});
-xdescribe('setSections', function() {
-    it('can set the sections for a template');
+describe('getSections', function() {
+    it('can get sections from a template', function() {
+        $t = new Template('main');
+        $sections = new Template\Sections();
+        Template\setSections($t, $sections);
+        expect(Template\getSections($t))->equal($sections);
+    });
+    it('can initialize sections for a template if non exist', function() {
+        $t = new Template('main');
+        expect(Template\getSections($t))->instanceof(Template\Sections::class);
+        expect(Template\getSections($t))->equal(Template\getSections($t));
+    });
 });

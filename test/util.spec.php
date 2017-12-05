@@ -47,26 +47,6 @@ describe('Util/stackGroup', function() {
         expect($stack(0))->equal(3);
     });
 });
-xdescribe('Util/compose', function() {
-    it('can compose functions together', function() {
-        $handler = Util\compose([
-            function($v) { return $v + 1; },
-            function($v) { return $v * 2; }
-        ]);
-        expect($handler(1))->equal(4);
-    });
-    it('can compose functions with multiple arguments', function() {
-        $handler = Util\compose([
-            function($a, $b) {
-                return [$a + $b, $b - $a];
-            },
-            function($a, $b) {
-                return [$a * $b, $b * $a];
-            }
-        ], true);
-        expect($handler(1, 2))->equal([3, 3]);
-    });
-});
 describe('Util/joinPath', function() {
     it('joins paths together', function() {
         expect(Util\joinPath(['a', 'b'], '/'))->equal('a/b');

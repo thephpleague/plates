@@ -48,14 +48,6 @@ function stackGroup(array $funcs) {
     };
 }
 
-function compose(array $funcs, $context_args = []) {
-    return function($arg) use ($funcs, $context_args) {
-        return array_reduce($funcs, function($acc, $func) use ($context_args) {
-            return $func($acc, ...$context_args);
-        }, $arg);
-    };
-}
-
 function joinPath(array $parts, $sep = DIRECTORY_SEPARATOR) {
     return array_reduce($parts, function($acc, $part) use ($sep) {
         if ($acc === null) {

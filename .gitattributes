@@ -1,3 +1,5 @@
+/docs               export-ignore
+/example            export-ignore
 /tests              export-ignore
 /.gitattributes     export-ignore
 /.gitignore         export-ignore

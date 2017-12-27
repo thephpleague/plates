@@ -164,7 +164,7 @@ class Engine
     /**
      * Register a new template function.
      * @param  string   $name;
-     * @param  callback $callback;
+     * @param  callable $callback;
      * @return Engine
      */
     public function registerFunction($name, $callback)

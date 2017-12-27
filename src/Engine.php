@@ -7,7 +7,7 @@ final class Engine
 {
     private $container;
 
-    public function __construct($context = []) {
+    public function __construct($config = []) {
         $this->container = new Util\Container();
 
         $this->container->add('engine_methods', []);
@@ -18,50 +18,64 @@ final class Engine
             'escape_encoding' => null,
             'escape_flags' => null,
             'validate_paths' => true,
-        ], $context));
-        $this->container->add('include', function($c) {
-            $inc = Template\phpInclude();
-            if ($c->get('config')['validate_paths']) {
-                $inc = Template\validatePathInclude($inc);
-            }
-            return $inc;
-        });
-        $this->container->add('funcs', function($c) {
-            return [RenderContext\platesFunc($c->get('config'))];
-        });
-        $this->container->add('resolve_name_stack', function($c) {
-            return [Template\platesResolveName($c->get('config'))];
-        });
-        $this->container->add('resolve_data_stack', function() {
+            'php_extensions' => ['php', 'phtml'],
+            'image_extensions' => ['png', 'jpg'],
+        ], $config));
+        $this->container->add('compose', function($c) {
             return Util\id();
         });
-        $this->container->add('createRenderContext', function($c) {
-            return RenderContext::factory(Util\stack($c->get('funcs')));
+        $this->container->add('fileExists', function($c) {
+            return 'file_exists';
         });
-        $this->container->add('render', function($c) {
-            $rt = new RenderTemplate\PlatesRenderTemplate(
-                Util\stack($c->get('resolve_name_stack')),
-                $c->get('resolve_data_stack'),
-                $c->get('include'),
-                $c->get('createRenderContext'),
-                $c->get('config')['render_context_var_name']
-            );
-            $rt = new RenderTemplate\LayoutRenderTemplate($rt);
+        $this->container->add('renderTemplate', function($c) {
+            $rt = new RenderTemplate\FileSystemRenderTemplate([
+                [
+                    Template\matchExtensions($c->get('config')['php_extensions']),
+                    new RenderTemplate\PhpRenderTemplate($c->get('renderTemplate.bind'))
+                ],
+                [
+                    Template\matchExtensions($c->get('config')['image_extensions']),
+                    RenderTemplate\MapContentRenderTemplate::base64Encode(new RenderTemplate\StaticFileRenderTemplate())
+                ],
+                [
+                    Template\matchStub(true),
+                    new RenderTemplate\StaticFileRenderTemplate(),
+                ]
+            ]);
+            if ($c->get('config')['validate_paths']) {
+                $rt = new RenderTemplate\ValidatePathRenderTemplate($rt, $c->get('fileExists'));
+            }
+            // $rt = new RenderTemplate\LayoutRenderTemplate($rt);
+            $rt = array_reduce($c->get('renderTemplate.factories'), function($rt, $create) {
+                return $create($rt);
+            }, $rt);
+            $rt = new RenderTemplate\ComposeRenderTemplate($rt, $c->get('compose'));
             return $rt;
         });
+        $this->container->add('renderTemplate.bind', function() {
+            return Util\id();
+        });
+        $this->container->add('renderTemplate.factories', function() {
+            return [];
+        });
+        $this->register(new Extension\Data\DataExtension());
+        $this->register(new Extension\Path\PathExtension());
+        $this->register(new Extension\RenderContext\RenderContextExtension());
+        $this->register(new Extension\LayoutSections\LayoutSectionsExtension());
+        $this->register(new Extension\Folders\FoldersExtension());
     }
 
     /** @return string */
-    public function render($template_name, array $data) {
-        $template = new Template($template_name, $data, [
-            'config' => $this->getConfig(),
-            'container' => $this->container,
-        ]);
-        return $this->container->get('render')->renderTemplate($template);
+    public function render($template_name, array $data = [], array $attributes = []) {
+        return $this->container->get('renderTemplate')->renderTemplate(new Template(
+            $template_name,
+            $data,
+            $attributes
+        ));
     }
 
     public function __call($method, array $args) {
-        $methods = $this->get('engine_methods');
+        $methods = $this->container->get('engine_methods');
         if (isset($methods[$method])) {
             return $methods[$method]($this, ...$args);
         }
@@ -69,26 +83,17 @@ final class Engine
         throw new \BadMethodCallException("No method {$method} found for engine.");
     }
 
+    public function register(Extension $extension) {
+        $extension->register($this);
+    }
     public function addMethods(array $methods) {
         $this->container->merge('engine_methods', $methods);
     }
     public function addConfig(array $config) {
         $this->container->merge('config', $config);
     }
-    public function getConfig() {
-        $this->container->get('config');
-    }
 
-    public function get($id) {
-        return $this->container->get($id);
-    }
-    public function has($id) {
-        return $this->contianer->has($id);
-    }
-    public function add($id, $value) {
-        $this->container->add($id, $value);
-    }
-    public function wrap($id, $wrapper) {
-        $this->container->wrap($id, $wrapper);
+    public function getContainer() {
+        return $this->container;
     }
 }

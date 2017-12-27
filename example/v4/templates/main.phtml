@@ -1,5 +1,5 @@
-<?php $v->layout('layout.phtml') ?>
-<h1>Hi <?=$v($name)?></h1>
+<?php $v->layout('layouts/layout.phtml') ?>
+<?php $v->insert('components::header', ['value' => 'Hi ' . $v($name)]) ?>
 <?php $v->insert(__DIR__ . '/sidebar.phtml') ?>
 <?php $v->unshift('scripts') ?>
     <script type="text/javascript" id="main"></script>

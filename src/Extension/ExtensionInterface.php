@@ -4,5 +4,5 @@ namespace League\Plates\Extension;
 
 use League\Plates;
 
-/** Kepts for BC */
+/** @deprecated Kepts for BC */
 interface ExtensionInterface extends Plates\Extension {}

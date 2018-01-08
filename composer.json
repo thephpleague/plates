@@ -37,11 +37,13 @@
             "League\\Plates\\": "src"
         },
         "files": [
-            "src/RenderContext/func.php",
-            "src/Template/context.php",
-            "src/Template/include.php",
-            "src/Template/resolve-data.php",
-            "src/Template/resolve-name.php",
+            "src/Template/match.php",
+            "src/Extension/Data/data.php",
+            "src/Extension/Path/path.php",
+            "src/Extension/RenderContext/func.php",
+            "src/Extension/RenderContext/render-context.php",
+            "src/Extension/LayoutSections/layout-sections.php",
+            "src/Extension/Folders/folders.php",
             "src/Util/util.php"
         ]
     },

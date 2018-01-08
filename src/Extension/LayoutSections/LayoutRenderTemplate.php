@@ -20,6 +20,12 @@ final class LayoutRenderTemplate extends Plates\RenderTemplate\RenderTemplateDec
 
         return ($rt ?: $this)->renderTemplate($layout);
     }
+
+    public static function factory() {
+        return function(Plates\RenderTemplate $render) {
+            return new static($render);
+        };
+    }
 }
 
 

@@ -11,7 +11,7 @@ final class Engine
         $this->container = new Util\Container();
 
         $this->container->add('engine_methods', []);
-        $this->container->add('config', array_merge([
+        $this->container->add('config', [
             'render_context_var_name' => 'v',
             'ext' => 'phtml',
             'base_dir' => null,
@@ -20,7 +20,7 @@ final class Engine
             'validate_paths' => true,
             'php_extensions' => ['php', 'phtml'],
             'image_extensions' => ['png', 'jpg'],
-        ], $config));
+        ]);
         $this->container->add('compose', function($c) {
             return Util\id();
         });
@@ -63,6 +63,8 @@ final class Engine
         $this->register(new Extension\RenderContext\RenderContextExtension());
         $this->register(new Extension\LayoutSections\LayoutSectionsExtension());
         $this->register(new Extension\Folders\FoldersExtension());
+
+        $this->addConfig($config);
     }
 
     /** @return string */

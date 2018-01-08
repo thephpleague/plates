@@ -188,3 +188,9 @@ function splitByNameFunc(array $handlers) {
         return $next($args);
     };
 }
+
+function notFoundFunc() {
+    return function(FuncArgs $args) {
+        throw new FuncException('The function ' . $args->func_name . ' does not exist.');
+    };
+}

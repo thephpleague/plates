@@ -10,10 +10,15 @@ final class LayoutSectionsExtension implements Plates\Extension
     public function register(Plates\Engine $plates) {
         $c = $plates->getContainer();
 
+        $c->merge('config', ['default_layout_path' => null]);
         $c->wrap('compose', function($compose, $c) {
             return Plates\Util\compose($compose, sectionsCompose());
         });
-        $c->wrap('renderTemplate.factories', function($factories) {
+        $c->wrap('renderTemplate.factories', function($factories, $c) {
+            $default_layout_path = $c->get('config')['default_layout_path'];
+            if ($default_layout_path) {
+                $factories[] = DefaultLayoutRenderTemplate::factory($default_layout_path);
+            }
             $factories[] = LayoutRenderTemplate::factory();
             return $factories;
         });

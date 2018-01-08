@@ -17,7 +17,8 @@ final class RenderContextExtension implements Plates\Extension
                 'plates' => Plates\Util\stackGroup([
                     aliasNameFunc($c->get('renderContext.func.aliases')),
                     splitByNameFunc($c->get('renderContext.func.funcs'))
-                ])
+                ]),
+                'notFound' => notFoundFunc(),
             ];
         });
         $c->add('renderContext.func.aliases', [

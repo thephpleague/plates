@@ -13,10 +13,4 @@ abstract class RenderTemplateDecorator implements Plates\RenderTemplate
     }
 
     abstract public function renderTemplate(Plates\Template $template, Plates\RenderTemplate $rt = null);
-
-    public static function factory() {
-        return function(Plates\RenderTemplate $render) {
-            return new static($render);
-        };
-    }
 }

@@ -11,8 +11,8 @@ final class LayoutSectionsExtension implements Plates\Extension
         $c = $plates->getContainer();
 
         $c->merge('config', ['default_layout_path' => null]);
-        $c->wrap('compose', function($compose, $c) {
-            return Plates\Util\compose($compose, sectionsCompose());
+        $c->wrapComposed('compose', function($composed, $c) {
+            return array_merge($composed, ['layoutSections.sections' => sectionsCompose()]);
         });
         $c->wrap('renderTemplate.factories', function($factories, $c) {
             $default_layout_path = $c->get('config')['default_layout_path'];

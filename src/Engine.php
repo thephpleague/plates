@@ -21,9 +21,7 @@ final class Engine
             'php_extensions' => ['php', 'phtml'],
             'image_extensions' => ['png', 'jpg'],
         ]);
-        $this->container->add('compose', function($c) {
-            return Util\id();
-        });
+        $this->container->addComposed('compose', function() { return []; });
         $this->container->add('fileExists', function($c) {
             return 'file_exists';
         });

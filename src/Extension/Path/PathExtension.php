@@ -8,28 +8,35 @@ final class PathExtension implements Plates\Extension
 {
     public function register(Plates\Engine $plates) {
         $c = $plates->getContainer();
-        $c->add('path.resolvePath.stack', function($c) {
+        $c->add('path.resolvePath.prefixes', function($c) {
             $config = $c->get('config');
 
             // wrap base dir in an array if not already
             $base_dir = isset($config['base_dir']) ? $config['base_dir'] : null;
             $base_dir = $base_dir ? (is_string($base_dir) ? [$base_dir] : $base_dir) : $base_dir;
-
+            return $base_dir;
+        });
+        $c->addComposed('path.normalizeName', function($c) {
+            return [
+                'path.stripExt' => stripExtNormalizeName(),
+                'path.stripPrefix' => stripPrefixNormalizeName($c->get('path.resolvePath.prefixes'))
+            ];
+        });
+        $c->addStack('path.resolvePath', function($c) {
+            $config = $c->get('config');
+            $prefixes = $c->get('path.resolvePath.prefixes');
             return array_filter([
-                'relative' =>relativeResolvePath(),
-                'ext' => isset($config['ext']) ? extResolvePath($config['ext']) : null,
-                'prefix' => $base_dir ? prefixResolvePath($base_dir, $c->get('fileExists')) : null,
-                'id' => idResolvePath(),
+                'path.relative' =>relativeResolvePath(),
+                'path.ext' => isset($config['ext']) ? extResolvePath($config['ext']) : null,
+                'path.prefix' => $prefixes ? prefixResolvePath($prefixes, $c->get('fileExists')) : null,
+                'path.id' => idResolvePath(),
             ]);
         });
-        $c->add('path.resolvePath', function($c) {
-            return Plates\Util\stack($c->get('path.resolvePath.stack'));
-        });
-        $c->wrap('compose', function($compose, $c) {
-            return Plates\Util\compose(
-                $compose,
-                resolvePathCompose($c->get('path.resolvePath'))
-            );
+        $c->wrapComposed('compose', function($composed, $c) {
+            return array_merge([
+                'path.resolvePath' => resolvePathCompose($c->get('path.resolvePath')),
+                'path.normalizeName' => normalizeNameCompose($c->get('path.normalizeName'))
+            ], $composed);
         });
     }
 }

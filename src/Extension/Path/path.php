@@ -10,6 +10,39 @@ function resolvePathCompose(callable $resolve_path) {
     };
 }
 
+function normalizeNameCompose(callable $normalize_name) {
+    return function(Plates\Template $template) use ($normalize_name) {
+        return $template->with(
+            'normalized_name',
+             Plates\Util\isPath($template->name) ? $normalize_name($template->get('path')) : $template->name
+        );
+    };
+}
+
+function stripExtNormalizeName() {
+    return function($name) {
+        $ext = pathinfo($name, PATHINFO_EXTENSION);
+        if (!$ext) {
+            return $name;
+        }
+
+        return substr($name, 0, (strlen($ext) + 1) * -1); // +1 for the leading `.`
+    };
+}
+
+function stripPrefixNormalizeName(array $prefixes) {
+    $prefixes = array_filter($prefixes);
+    return function($name) use ($prefixes) {
+        foreach ($prefixes as $prefix) {
+            if (strpos($name, $prefix . '/') === 0) {
+                return substr($name, strlen($prefix) + 1); // +1 for the trailing `/`
+            }
+        }
+
+        return $name;
+    };
+}
+
 /** appends an extension to the name */
 
 function extResolvePath($ext = 'phtml') {
@@ -32,7 +65,7 @@ function prefixResolvePath(array $prefixes, $file_exists = 'file_exists') {
         }
 
         foreach ($prefixes as $cur_prefix) {
-            $path = strpos($args->path, '/') === 0
+            $path = Plates\Util\isAbsolutePath($args->path)
                 ? $next($args)
                 : $next($args->withPath(
                     Plates\Util\joinPath([$cur_prefix, $args->path])
@@ -69,10 +102,7 @@ function prefixResolvePath(array $prefixes, $file_exists = 'file_exists') {
 /** Figures out the path based off of the parent templates current path */
 function relativeResolvePath() {
     return function(ResolvePathArgs $args, $next) {
-        $is_relative = (
-            strpos($args->path, './') === 0
-            || strpos($args->path, '../') === 0
-        ) && $args->template->parent;
+        $is_relative = Plates\Util\isRelativePath($args->path) && $args->template->parent;
 
         if (!$is_relative) {
             return $next($args); // nothing to do

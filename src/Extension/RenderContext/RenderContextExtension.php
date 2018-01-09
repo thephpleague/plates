@@ -9,10 +9,7 @@ final class RenderContextExtension implements Plates\Extension
 {
     public function register(Plates\Engine $plates) {
         $c = $plates->getContainer();
-        $c->add('renderContext.func', function($c) {
-            return Plates\Util\stack($c->get('renderContext.func.stack'));
-        });
-        $c->add('renderContext.func.stack', function($c) {
+        $c->addStack('renderContext.func', function($c) {
             return [
                 'plates' => Plates\Util\stackGroup([
                     aliasNameFunc($c->get('renderContext.func.aliases')),
@@ -48,11 +45,13 @@ final class RenderContextExtension implements Plates\Extension
             ];
         });
 
-        $c->wrap('compose', function($compose, $c) {
-            return Plates\Util\compose($compose, renderContextCompose(
-                $c->get('renderContext.factory'),
-                $c->get('config')['render_context_var_name']
-            ));
+        $c->wrapComposed('compose', function($composed, $c) {
+            return array_merge($composed, [
+                'renderContext.renderContext' => renderContextCompose(
+                    $c->get('renderContext.factory'),
+                    $c->get('config')['render_context_var_name']
+                )
+            ]);
         });
         $c->add('include.bind', function($c) {
             return renderContextBind($c->get('config')['render_context_var_name']);

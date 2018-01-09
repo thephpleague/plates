@@ -4,7 +4,7 @@ namespace League\Plates\Extension\RenderContext;
 
 use League\Plates;
 
-/** The render context extension provides a RenderContext object and functions to be used within the render context object */
+/** The render context extension provides a RenderContext object and functions to be used within the render context object. This RenderContext object is injected into the template data to allow usefulness in the templates. */
 final class RenderContextExtension implements Plates\Extension
 {
     public function register(Plates\Engine $plates) {

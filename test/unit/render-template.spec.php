@@ -1,74 +1,48 @@
 <?php
 
 use League\Plates\{
-    HydrateTemplate\CallableHydrateTemplate,
     RenderTemplate\FileSystemRenderTemplate,
     RenderTemplate\ComposeRenderTemplate,
-    RenderTemplate\LayoutRenderTemplate,
-    Template
+    RenderTemplate\MockRenderTemplate,
+    Template,
+    Exception\RenderTemplateException
 };
 
 use function League\Plates\{
-    Template\withLayout,
-    Template\getSections
+    Template\matchStub
 };
 
 describe('RenderTemplate', function() {
-    beforeEach(function() {
-        $this->compose = function($template) {
-            return $template->withAddedData([
-                'this' => $template->reference,
-                'render' => $template->attributes['render']
-            ])->withAddedContext(['path' => $template->name]);
-        };
+    describe('MockRenderTemplate', function() {
+        it('calls a mock render function based off of the template name', function() {
+            $rt = new MockRenderTemplate([
+                'a' => function($t) {
+                    return 'a-contents';
+                }
+            ]);
+            expect($rt->renderTemplate(new Template('a')))->equal('a-contents');
+        });
+        it('throws an exception if a mock render does not exist', function() {
+            expect(function() {
+                $rt = new MockRenderTemplate([]);
+                $rt->renderTemplate(new Template('a'));
+            })->throw(RenderTemplateException::class);
+        });
     });
     describe('FileSystemRenderTemplate', function() {
-        it('it renders a template into string', function() {
-            $rt = new FileSystemRenderTemplate(
-                Template\mockInclude([
-                    'foo' => function($path, $data) {
-                        $content = "{$path}-{$data['a']}";
-                        return $content . "-" . $data['render']->renderTemplate($data['this']()->fork(
-                            'bar',
-                            ['a' => 2]
-                        ));
-                    },
-                    'bar' => function($path, $data) {
-                        return "{$path}-{$data['a']}";
-                    }
-                ])
-            );
-            $rt = new ComposeRenderTemplate($rt, $this->compose);
-            $t = new Template('foo', ['a' => 1], ['render' => $rt]);
-            expect($rt->renderTemplate($t))->equal('foo-1-bar-2');
+        it('it delegates rendering to the matched renderer according to the render set', function() {
+            $rt = new FileSystemRenderTemplate([
+                [matchStub(false), new MockRenderTemplate(['a' => function() { return 'a'; }])],
+                [matchStub(true), new MockRenderTemplate(['a' => function() { return 'b'; }])],
+            ]);
+
+            expect($rt->renderTemplate(new Template('a')))->equal('b');
         });
-    });
-    describe('LayoutRenderTemplate', function() {
-        it('recursively renders a layout template if there is one', function() {
-            $rt = new FileSystemRenderTemplate(
-                Template\mockInclude([
-                    'main' => function($path, $data) {
-                        $tpl = $data['this']->template;
-                        $tpl = $tpl->with('layout', $tpl->fork('sub-layout')->reference);
-                        return 'c';
-                    },
-                    'sub-layout' => function($path, $data) {
-                        $tpl = $data['this']->template;
-                        $tpl = $tpl->with('layout', $tpl->fork('layout')->reference);
-                        $content = $tpl->get('sections')->get('content');
-                        return "b{$content}b";
-                    },
-                    'layout' => function($path, $data) {
-                        $content = $data['this']()->get('sections')->get('content');
-                        return "a{$content}a";
-                    },
-                ])
-            );
-            $rt = new LayoutRenderTemplate($rt);
-            $rt = new ComposeRenderTemplate($rt, $this->compose);
-            $res = $rt->renderTemplate(new Template('main', [], ['render' => $rt]));
-            expect($res)->equal('abcba');
+        it('throws an exception if no renderer is available', function() {
+            expect(function() {
+                $rt = new FileSystemRenderTemplate([]);
+                $rt->renderTemplate(new Template('a'));
+            })->throw(RenderTemplateException::class);
         });
-        xit('initializes the sections on templates being rendered');
     });
 });

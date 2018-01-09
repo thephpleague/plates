@@ -60,7 +60,7 @@ final class Template
     }
 
     public function __clone() {
-        return new self($this->name, $this->data, $this->attributes, null, $this->parent);
+        $this->reference = new TemplateReference();
     }
 
     /** Create a new template based off of this current one */

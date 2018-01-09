@@ -10,9 +10,6 @@ describe('Util', function() {
         it('returns the argument given', function() {
             expect(Util\id()(1))->equal(1);
         });
-        it ('can return multiple arguments if multi = true', function() {
-            expect(Util\id(true)(1, 2))->equal([1,2]);
-        });
     });
     describe('stack', function() {
         it('can stack a group of functions', function() {

@@ -32,3 +32,17 @@ function foldersResolvePath(array $folders, $sep = '::', $file_exists = 'file_ex
         return $path;
     };
 }
+
+function stripFoldersNormalizeName(array $folders, $sep = '::') {
+    return function($name) use ($folders, $sep) {
+        foreach ($folders as $folder) {
+            foreach (array_filter($folder['prefixes']) as $prefix) {
+                if (strpos($name, $prefix) === 0) {
+                    return $folder['folder'] . $sep . substr($name, strlen($prefix) + 1);
+                }
+            }
+        }
+
+        return $name;
+    };
+}

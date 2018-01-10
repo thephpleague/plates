@@ -12,7 +12,7 @@ final class FoldersExtension implements Plates\Extension
             'folder_separator' => '::',
         ]);
         $c->add('folders.folders', []);
-        $c->wrap('path.resolvePath.stack', function($stack, $c) {
+        $c->wrapStack('path.resolvePath', function($stack, $c) {
             $config = $c;
             return array_merge([
                 'folders' => foldersResolvePath(
@@ -21,6 +21,11 @@ final class FoldersExtension implements Plates\Extension
                     $c->get('fileExists')
                 )
             ], $stack);
+        });
+        $c->wrapComposed('path.normalizeName', function($composed, $c) {
+            return array_merge($composed, [
+                'folders.stripFolders' => stripFoldersNormalizeName($c->get('folders.folders'))
+            ]);
         });
         $plates->addMethods([
             'addFolder' => function($plates, $folder, $prefixes, $fallback = false) {

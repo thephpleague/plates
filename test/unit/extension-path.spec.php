@@ -7,6 +7,9 @@ use function League\Plates\{
     Extension\Path\relativeResolvePath,
     Extension\Path\prefixResolvePath,
     Extension\Path\extResolvePath,
+    Extension\Path\stripPrefixNormalizeName,
+    Extension\Path\stripExtNormalizeName,
+    Extension\Path\normalizeNameCompose,
     Util\joinPath,
     Util\stack
 };
@@ -76,6 +79,47 @@ describe('Extension\Path', function() {
             $resolve = stack([extResolvePath('bar'), idResolvePath()]);
             $path = $resolve($this->args->withPath('foo.bar'));
             expect($path)->equal('foo.bar');
+        });
+    });
+    describe('normalizeNameCompose', function() {
+        it('normalizes the name field into the normalized_name template attribute if it is a path', function() {
+            $compose = normalizeNameCompose(function($name) {
+                return $name . 'bar';
+            });
+            expect($compose((new Template('/foo', [], ['path' => '/foo'])))->get('normalized_name'))->equal('/foobar');
+        });
+        it('sets the name into the normalized_name attribute if it is not a path', function() {
+            $compose = normalizeNameCompose(function($name) {
+                return $name . 'bar';
+            });
+            expect($compose((new Template('foo', [], ['path' => 'foo'])))->get('normalized_name'))->equal('foo');
+        });
+    });
+    describe('stripExtNormalizeName', function() {
+        it('strips the extension if it exists', function() {
+            $nn = stripExtNormalizeName();
+            expect($nn('abc.ext'))->equal('abc');
+        });
+        it('does nothing if no extension found', function() {
+            $nn = stripExtNormalizeName();
+            expect($nn('abc'))->equal('abc');
+        });
+    });
+    describe('stripPrefixNormalizeName', function() {
+        it('strips a prefix if there is a match', function() {
+            $nn = stripPrefixNormalizeName([
+                '/a/b/c',
+                '/b',
+            ]);
+            expect($nn('/a/b/c/d'))->equal('d');
+            expect($nn('/b/d/c'))->equal('d/c');
+        });
+        it('filters any empty prefixes before matching', function() {
+            $nn = stripPrefixNormalizeName([
+                '',
+                '/b',
+            ]);
+            expect($nn('/a'))->equal('/a');
         });
     });
 });

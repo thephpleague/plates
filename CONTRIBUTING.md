@@ -17,6 +17,6 @@ We accept contributions via Pull Requests on [Github](https://github.com/thephpl
 ## Running Tests
 
 ``` bash
-$ phpunit
+$ make test
 ```
 **Happy coding**!

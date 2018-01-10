@@ -70,6 +70,19 @@ function joinPath(array $parts, $sep = DIRECTORY_SEPARATOR) {
     }, null);
 }
 
+function isAbsolutePath($path) {
+    return strpos($path, '/') === 0;
+}
+function isRelativePath($path) {
+    return strpos($path, './') === 0 || strpos($path, '../') === 0;
+}
+function isResourcePath($path) {
+    return strpos($path, '://') !== false;
+}
+function isPath($path) {
+    return isAbsolutePath($path) || isRelativePath($path) || isResourcePath($path);
+}
+
 /** returns the debug type of an object as string for exception printing */
 function debugType($v) {
     if (is_object($v)) {

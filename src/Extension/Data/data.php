@@ -6,7 +6,7 @@ use League\Plates\Template;
 
 function addGlobalsCompose(array $globals) {
     return function(Template $template) use ($globals) {
-        return $template->withAddedData($globals);
+        return $template->withData(array_merge($globals, $template->data));
     };
 }
 
@@ -20,10 +20,10 @@ function mergeParentDataCompose() {
 
 function perTemplateDataCompose(array $template_data_map) {
     return function(Template $template) use ($template_data_map) {
-        $name = $template->name;
+        $name = $template->get('normalized_name', $template->name);
 
         return isset($template_data_map[$name])
-            ? $template->withAddedData($template_data_map[$name])
+            ? $template->withData(array_merge($template_data_map[$name], $template->data))
             : $template;
     };
 }

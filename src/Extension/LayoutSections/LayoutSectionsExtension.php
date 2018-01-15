@@ -22,17 +22,17 @@ final class LayoutSectionsExtension implements Plates\Extension
             $factories[] = LayoutRenderTemplate::factory();
             return $factories;
         });
-        $c->wrap('renderContext.func.funcs', function($funcs, $c) {
+        $plates->addFuncs(function($c) {
             $template_args = RenderContext\assertTemplateArgsFunc();
             $one_arg = RenderContext\assertArgsFunc(1);
 
-            return array_merge($funcs, [
+            return [
                 'layout' => [$template_args, layoutFunc()],
                 'section' => [$one_arg, sectionFunc()],
                 'start' => [$one_arg, startFunc()],
                 'push' => [$one_arg, startFunc(START_APPEND)],
                 'unshift' => [$one_arg, startFunc(START_PREPEND)],
-            ]);
+            ];
         });
     }
 }

@@ -26,16 +26,10 @@ final class RenderContextExtension implements Plates\Extension
         $c->add('renderContext.func.funcs', function($c) {
             $template_args = assertTemplateArgsFunc();
             $one_arg = assertArgsFunc(1);
-            $config = $c->get('config');
 
             return [
                 'insert' => [$template_args, insertFunc()],
-                'escape' => [
-                    $one_arg,
-                    isset($config['escape_flags'], $config['escape_encoding'])
-                        ? escapeFunc($config['escape_flags'], $config['escape_encoding'])
-                        : escapeFunc()
-                ],
+                'escape' => [$one_arg, escapeFunc($c->get('escape'))],
                 'data' => [assertArgsFunc(0, 1), templateDataFunc()],
                 'name' => [accessTemplatePropFunc('name')],
                 'context' => [accessTemplatePropFunc('context')],

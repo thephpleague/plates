@@ -25,6 +25,12 @@ final class Engine
         $this->container->add('fileExists', function($c) {
             return 'file_exists';
         });
+        $this->container->add('escape', function($c) {
+            $config = $c->get('config');
+            return isset($config['escape_flags'], $config['escape_encoding'])
+                ? Util\escape($config['escape_flags'], $config['escape_encoding'])
+                : Util\escape();
+        });
         $this->container->add('renderTemplate', function($c) {
             $rt = new RenderTemplate\FileSystemRenderTemplate([
                 [
@@ -74,6 +80,7 @@ final class Engine
         $this->register(new Extension\RenderContext\RenderContextExtension());
         $this->register(new Extension\LayoutSections\LayoutSectionsExtension());
         $this->register(new Extension\Folders\FoldersExtension());
+        $this->register(new Extension\AutoEscape\AutoEscapeExtension());
 
         $this->addConfig($config);
     }

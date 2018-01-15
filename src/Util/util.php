@@ -19,6 +19,12 @@ function phpEcho() {
     };
 }
 
+function escape($flags = ENT_COMPAT | ENT_HTML401, $encoding = 'UTF-8') {
+    return function($v) use ($flags, $encoding) {
+        return htmlspecialchars($v, $flags, $encoding);
+    };
+}
+
 /** stack a set of functions into each other and returns the stacked func */
 function stack(array $funcs) {
     return array_reduce(array_reverse($funcs), function($next, $func) {

@@ -109,9 +109,9 @@ function accessTemplatePropFunc($prop) {
     };
 }
 
-function escapeFunc($flags = ENT_COMPAT | ENT_HTML401, $encoding = 'UTF-8') {
-    return function(FuncArgs $args) use ($flags, $encoding) {
-        return htmlspecialchars($args->args[0], $flags, $encoding);
+function escapeFunc(callable $escape) {
+    return function(FuncArgs $args) use ($escape) {
+        return $escape($args->args[0]);
     };
 }
 

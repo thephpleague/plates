@@ -32,11 +32,11 @@ final class PathExtension implements Plates\Extension
                 'path.id' => idResolvePath(),
             ]);
         });
-        $c->wrapComposed('compose', function($composed, $c) {
-            return array_merge([
+        $plates->unshiftComposers(function($c) {
+            return [
                 'path.resolvePath' => resolvePathCompose($c->get('path.resolvePath')),
                 'path.normalizeName' => normalizeNameCompose($c->get('path.normalizeName'))
-            ], $composed);
+            ];
         });
     }
 }

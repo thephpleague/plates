@@ -43,7 +43,6 @@ final class Engine
             if ($c->get('config')['validate_paths']) {
                 $rt = new RenderTemplate\ValidatePathRenderTemplate($rt, $c->get('fileExists'));
             }
-            // $rt = new RenderTemplate\LayoutRenderTemplate($rt);
             $rt = array_reduce($c->get('renderTemplate.factories'), function($rt, $create) {
                 return $create($rt);
             }, $rt);
@@ -56,6 +55,20 @@ final class Engine
         $this->container->add('renderTemplate.factories', function() {
             return [];
         });
+
+        $this->addMethods([
+            'pushComposers' => function(Engine $e, $def_composer) {
+                $e->getContainer()->wrapComposed('compose', function($composed, $c) use ($def_composer) {
+                    return array_merge($composed, $def_composer($c));
+                });
+            },
+            'unshiftComposers' => function(Engine $e, $def_composer) {
+                $e->getContainer()->wrapComposed('compose', function($composed, $c) use ($def_composer) {
+                    return array_merge($def_composer($c), $composed);
+                });
+            },
+        ]);
+
         $this->register(new Extension\Data\DataExtension());
         $this->register(new Extension\Path\PathExtension());
         $this->register(new Extension\RenderContext\RenderContextExtension());

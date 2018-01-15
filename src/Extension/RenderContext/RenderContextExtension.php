@@ -36,7 +36,7 @@ final class RenderContextExtension implements Plates\Extension
                         ? escapeFunc($config['escape_flags'], $config['escape_encoding'])
                         : escapeFunc()
                 ],
-                'data' => [accessTemplatePropFunc('data')],
+                'data' => [assertArgsFunc(0, 1), templateDataFunc()],
                 'name' => [accessTemplatePropFunc('name')],
                 'context' => [accessTemplatePropFunc('context')],
                 'component' => [$template_args, componentFunc()],
@@ -62,5 +62,28 @@ final class RenderContextExtension implements Plates\Extension
                 $c->get('renderContext.func')
             );
         });
+
+        $plates->addMethods([
+            'registerFunction' => function(Plates\Engine $e, $name, callable $func, callable $assert_args = null, $simple = true) {
+                $c = $e->getContainer();
+                $func = $simple ? wrapSimpleFunc($func) : $func;
+
+                $c->wrap('renderContext.func.funcs', function($funcs, $c) use ($name, $func, $assert_args) {
+                    $funcs[$name] = $assert_args ? [$assert_args, $func] : [$func];
+                    return $funcs;
+                });
+            },
+            'addFuncs' => function(Plates\Engine $e, callable $add_funcs, $simple = false) {
+                $e->getContainer()->wrap('renderContext.func.funcs', function($funcs, $c) use ($add_funcs, $simple) {
+                    $new_funcs = $simple
+                        ? array_map(wrapSimpleFunc::class, $add_funcs($c))
+                        : $add_funcs($c);
+                    return array_merge($funcs, $new_funcs);
+                });
+            },
+            'wrapFuncs' => function(Plates\Engine $e, callable $wrap_funcs) {
+                $e->getContainer()->wrap('renderContext.func.funcs', $wrap_funcs);
+            }
+        ]);
     }
 }

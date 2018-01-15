@@ -85,6 +85,24 @@ function insertFunc($echo = null) {
     };
 }
 
+function templateDataFunc() {
+    return function(FuncArgs $args) {
+        list($data) = $args->args;
+        return array_merge($args->template()->data, $data);
+    };
+}
+
+/** Enables the backwards compatibility with the old extension functions */
+function wrapSimpleFunc(callable $func, $enable_bc = false) {
+    return function(FuncArgs $args) use ($func, $enable_bc) {
+        if ($enable_bc && is_array($func) && isset($func[0]) && $func[0] instanceof Plates\Extension\ExtensionInterface) {
+            $func[0]->template = $args->template();
+        }
+
+        return $func(...$args->args);
+    };
+}
+
 function accessTemplatePropFunc($prop) {
     return function(FuncArgs $args) use ($prop) {
         return $args->template()->{$prop};

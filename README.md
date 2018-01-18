@@ -1,8 +1,6 @@
 Plates
 ======
 
-**DISCLAIMER: v4 is in active development and is not in a shippable state yet**
-
 [![Maintainer](http://img.shields.io/badge/maintainer-@ragboyjr-blue.svg?style=flat-square)](https://twitter.com/ragboyjr)
 [![Source Code](http://img.shields.io/badge/source-league/plates-blue.svg?style=flat-square)](https://github.com/thephpleague/plates)
 [![Latest Version](https://img.shields.io/github/release/thephpleague/plates.svg?style=flat-square)](https://github.com/thephpleague/plates/releases)
@@ -18,15 +16,18 @@ Plates is a native PHP template system that's fast, easy to use and easy to exte
 
 - Native PHP templates, no new [syntax](http://platesphp.com/templates/syntax/) to learn
 - Plates is a template system, not a template language
-- Plates encourages the use of existing PHP functions
+- Plates encourages the use of existing PHP functions and conventions
 - Increase code reuse with template [layouts](http://platesphp.com/templates/layouts/) and [inheritance](http://platesphp.com/templates/inheritance/)
 - Template [folders](http://platesphp.com/engine/folders/) for grouping templates into namespaces
 - [Data](http://platesphp.com/templates/data/#preassigned-and-shared-data) sharing across templates
 - Preassign [data](http://platesphp.com/templates/data/#preassigned-and-shared-data) to specific templates
 - Built-in [escaping](http://platesphp.com/templates/escaping/) helpers
-- Easy to extend using [functions](http://platesphp.com/engine/functions/) and [extensions](http://platesphp.com/engine/extensions/)
+- Simple design crafted for extendability - most features are built as extensions
+- Everything is customizable, don't like the behavior of something, you can change it
+- Composable naming strategies allowing relative templates, folders, and dynamic base paths.
 - Framework-agnostic, will work with any project
 - Decoupled design makes templates easy to test
+- Supports non-php file rendering for img or svg files to include in your templates.
 - Composer ready and PSR-2 compliant
 
 ## Installation

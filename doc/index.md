@@ -4,6 +4,8 @@ permalink: /
 title: Introduction
 ---
 
+**NOTE: V4 docs are currently a work in progress.**
+
 Introduction
 ============
 
@@ -22,17 +24,20 @@ Plates is a native PHP template system that's fast, easy to use and easy to exte
 
 ## Highlights
 
-- Native PHP templates, no new [syntax](/templates/syntax/) to learn
+- Native PHP templates, no new [syntax](templates/syntax/) to learn
 - Plates is a template system, not a template language
-- Plates encourages the use of existing PHP functions
-- Increase code reuse with template [layouts](/templates/layouts/) and [inheritance](/templates/inheritance/)
-- Template [folders](/engine/folders/) for grouping templates into namespaces
-- [Data](/templates/data/#preassigned-and-shared-data) sharing across templates
-- Preassign [data](/templates/data/#preassigned-and-shared-data) to specific templates
-- Built-in [escaping](/templates/escaping/) helpers
-- Easy to extend using [functions](/engine/functions/) and [extensions](/engine/extensions/)
+- Plates encourages the use of existing PHP functions and conventions
+- Increase code reuse with template [layouts](templates/layouts/) and [inheritance](templates/inheritance/)
+- Template [folders](engine/folders/) for grouping templates into namespaces
+- [Data](templates/data/#preassigned-and-shared-data) sharing across templates
+- Preassign [data](http://platesphp.com/templates/data/#preassigned-and-shared-data) to specific templates
+- Built-in [escaping](http://platesphp.com/templates/escaping/) helpers
+- Simple design crafted for extendability - most features are built as extensions
+- Everything is customizable, don't like the behavior of something, you can change it
+- Composable naming strategies allowing relative templates, folders, and dynamic base paths.
 - Framework-agnostic, will work with any project
 - Decoupled design makes templates easy to test
+- Supports non-php file rendering for img or svg files to include in your templates.
 - Composer ready and PSR-2 compliant
 
 ## Questions?

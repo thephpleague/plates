@@ -12,21 +12,22 @@
     {% if site.data.project.description %}
         <meta name="description" content="{{ site.data.project.description }}">
     {% endif %}
-    {% if site.github.url %}
+    {% if site.github.url and jekyll.environment == "production" %}
         <base href="{{ site.github.url }}">
     {% endif %}
     {% if site.data.images.favicon %}
-        <link rel="icon" type="image/x-icon" href="{{ site.data.images.favicon }}" />
+        <link rel="icon" type="image/x-icon" href="/{{ site.data.versions.current_version }}{{ site.data.images.favicon }}" />
     {% else %}
         <link rel="icon" type="image/x-icon" href="http://theme.thephpleague.com/img/favicon.ico" />
     {% endif %}
     {% if site.data.images.apple_touch %}
-        <link rel="apple-touch-icon-precomposed" href="{{ site.data.images.apple_touch }}">
+        <link rel="apple-touch-icon-precomposed" href="/{{ site.data.versions.current_version }}{{ site.data.images.apple_touch }}">
     {% else %}
         <link rel="apple-touch-icon-precomposed" href="http://theme.thephpleague.com/img/apple-touch-icon-precomposed.png">
     {% endif %}
     <link rel="stylesheet" href="http://theme.thephpleague.com/css/all.css">
-    <link rel="stylesheet" href="/css/custom.css">
+    <link rel="stylesheet" href="/{{ site.data.versions.current_version }}/css/custom.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
 </head>
 <body>
 
@@ -48,7 +49,7 @@
     <a class="logo" href="/">
         {% if site.data.images.logo %}
             <span class="icon">
-                <img src="{{ site.data.images.logo }}" width="50" height="40" alt="{{ site.data.project.title }} - {{ site.data.project.tagline }}">
+                <img src="/{{ site.data.versions.current_version }}{{ site.data.images.logo }}" width="50" height="40" alt="{{ site.data.project.title }} - {{ site.data.project.tagline }}">
             </span>
         {% endif %}
         <span class="name">{{ site.data.project.title }}</span>
@@ -67,12 +68,27 @@
 
 <main>
     <menu>
+        {% if site.data.versions %}
+        <div class="version-select">
+            <select class="version-select select2" style="width: 100%" data-minimum-results-for-search="5">
+            {% for version in site.data.versions.versions %}
+                {% if version[0] == site.data.versions.current_version %}
+                <option value="{{ version[0] }}" selected="selected">
+                {% else %}
+                <option value="{{ version[0] }}">
+                {% endif %}
+                    {{ version[1] }}
+                </option>
+            {% endfor %}
+            </select>
+        </div>
+        {% endif %}
         {% for section in site.data.menu %}
             <h2>{{ section[0] }}</h2>
             <ul>
                 {% for link in section[1] %}
                     <li {% if page.url == link[1] %}class="selected"{% endif %}>
-                        <a href="{{ link[1] }}">{{ link[0] }}</a>
+                        <a href="/{{ site.data.versions.current_version }}{{ link[1] }}">{{ link[0] }}</a>
                     </li>
                 {% endfor %}
             </ul>
@@ -91,6 +107,14 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="http://theme.thephpleague.com/js/scripts.js"></script>
 <script src="http://theme.thephpleague.com/js/prism.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+<script>
+$('select.select2').select2().on('change', function(e) {
+    var pathParts = window.location.pathname.split("/");
+    pathParts[1] = e.currentTarget.value;
+    window.location.href = pathParts.join("/");
+});
+</script>
 
 {% if site.data.project.google_analytics_tracking_id %}
     <script>

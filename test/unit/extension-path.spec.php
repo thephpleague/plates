@@ -28,7 +28,7 @@ describe('Extension\Path', function() {
     describe('relativeResolvePath', function() {
         beforeEach(function() {
             $this->args->template = new Template('a', [], [], null, (new Template('b', [], ['path' => 'foo/b.phtml']))->reference);
-            $this->resolve = stack([relativeResolvePath(), idResolvePath()]);
+            $this->resolve = stack([idResolvePath(), relativeResolvePath()]);
         });
         it('resolves the name relative to the current_directory in context', function() {
             $resolve = $this->resolve;
@@ -54,9 +54,9 @@ describe('Extension\Path', function() {
     });
     describe('prefixResolvePath', function() {
         beforeEach(function() {
-            $this->resolve = stack([prefixResolvePath(['/foo', '/bar'], function() {
+            $this->resolve = stack([idResolvePath(), prefixResolvePath(['/foo', '/bar'], function() {
                 return true;
-            }), idResolvePath()]);
+            })]);
         });
         it('prefixes non absolute paths with a base path', function() {
             $path = ($this->resolve)($this->args->withPath('bar'));
@@ -71,12 +71,12 @@ describe('Extension\Path', function() {
     });
     describe('extResolvePath', function() {
         it('appends an extension to the name', function() {
-            $resolve = stack([extResolvePath('bar'), idResolvePath()]);
+            $resolve = stack([idResolvePath(), extResolvePath('bar')]);
             $path = $resolve($this->args->withPath('foo'));
             expect($path)->equal('foo.bar');
         });
         it('does not append the name if ext already exists', function() {
-            $resolve = stack([extResolvePath('bar'), idResolvePath()]);
+            $resolve = stack([idResolvePath(), extResolvePath('bar')]);
             $path = $resolve($this->args->withPath('foo.bar'));
             expect($path)->equal('foo.bar');
         });

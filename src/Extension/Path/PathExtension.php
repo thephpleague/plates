@@ -26,16 +26,16 @@ final class PathExtension implements Plates\Extension
             $config = $c->get('config');
             $prefixes = $c->get('path.resolvePath.prefixes');
             return array_filter([
-                'path.relative' =>relativeResolvePath(),
-                'path.ext' => isset($config['ext']) ? extResolvePath($config['ext']) : null,
-                'path.prefix' => $prefixes ? prefixResolvePath($prefixes, $c->get('fileExists')) : null,
                 'path.id' => idResolvePath(),
+                'path.prefix' => $prefixes ? prefixResolvePath($prefixes, $c->get('fileExists')) : null,
+                'path.ext' => isset($config['ext']) ? extResolvePath($config['ext']) : null,
+                'path.relative' => relativeResolvePath(),
             ]);
         });
-        $plates->unshiftComposers(function($c) {
+        $plates->pushComposers(function($c) {
             return [
+                'path.normalizeName' => normalizeNameCompose($c->get('path.normalizeName')),
                 'path.resolvePath' => resolvePathCompose($c->get('path.resolvePath')),
-                'path.normalizeName' => normalizeNameCompose($c->get('path.normalizeName'))
             ];
         });
     }

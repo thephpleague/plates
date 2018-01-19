@@ -21,7 +21,7 @@ function phpEcho() {
 
 /** stack a set of functions into each other and returns the stacked func */
 function stack(array $funcs) {
-    return array_reduce(array_reverse($funcs), function($next, $func) {
+    return array_reduce($funcs, function($next, $func) {
         return function(...$args) use ($next, $func) {
             $args[] = $next;
             return $func(...$args);
@@ -31,20 +31,11 @@ function stack(array $funcs) {
     });
 }
 
-/** takes a structured array and sorts them by priority. This allows for prioritized stacks.
-    The structure is just an associative array where the indexes are numeric and the values
-    are array of stack handlers. The array is sorted by key and then all inner arrays are merged
-    together */
-function sortStacks($stacks) {
-    ksort($stacks);
-    return array_merge(...$stacks);
-}
-
 function stackGroup(array $funcs) {
     $end_next = null;
-    $funcs[] = function(...$args) use (&$end_next) {
+    array_unshift($funcs, function(...$args) use (&$end_next) {
         return $end_next(...array_slice($args, 0, -1));
-    };
+    });
     $next = stack($funcs);
     return function(...$args) use ($next, &$end_next) {
         $end_next = end($args);
@@ -52,7 +43,13 @@ function stackGroup(array $funcs) {
     };
 }
 
+/** compose(f, g)(x) = f(g(x)) */
 function compose(...$funcs) {
+    return pipe(...array_reverse($funcs));
+}
+
+/** pipe(f, g)(x) = g(f(x)) */
+function pipe(...$funcs) {
     return function($arg) use ($funcs) {
         return array_reduce($funcs, function($acc, $func) {
             return $func($acc);

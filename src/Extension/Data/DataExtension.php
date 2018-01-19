@@ -13,11 +13,11 @@ final class DataExtension implements Plates\Extension
         $c->add('data.template_data', []);
         $c->merge('config', ['merge_parent_data' => true]);
 
-        $plates->unshiftComposers(function($c) {
+        $plates->pushComposers(function($c) {
             return array_filter([
-                'data.perTemplateData' => $c->get('data.template_data') ? perTemplateDataCompose($c->get('data.template_data')) : null,
-                'data.mergeParentData' => $c->get('config')['merge_parent_data'] ? mergeParentDataCompose() : null,
                 'data.addGlobals' => $c->get('data.globals') ? addGlobalsCompose($c->get('data.globals')) : null,
+                'data.mergeParentData' => $c->get('config')['merge_parent_data'] ? mergeParentDataCompose() : null,
+                'data.perTemplateData' => $c->get('data.template_data') ? perTemplateDataCompose($c->get('data.template_data')) : null,
             ]);
         });
 

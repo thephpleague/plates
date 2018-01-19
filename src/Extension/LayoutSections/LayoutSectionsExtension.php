@@ -11,8 +11,8 @@ final class LayoutSectionsExtension implements Plates\Extension
         $c = $plates->getContainer();
 
         $c->merge('config', ['default_layout_path' => null]);
-        $c->wrapComposed('compose', function($composed, $c) {
-            return array_merge($composed, ['layoutSections.sections' => sectionsCompose()]);
+        $plates->pushComposers(function($c) {
+            return ['layoutSections.sections' => sectionsCompose()];
         });
         $c->wrap('renderTemplate.factories', function($factories, $c) {
             $default_layout_path = $c->get('config')['default_layout_path'];
@@ -27,11 +27,11 @@ final class LayoutSectionsExtension implements Plates\Extension
             $one_arg = RenderContext\assertArgsFunc(1);
 
             return [
-                'layout' => [$template_args, layoutFunc()],
-                'section' => [$one_arg, sectionFunc()],
-                'start' => [$one_arg, startFunc()],
-                'push' => [$one_arg, startFunc(START_APPEND)],
-                'unshift' => [$one_arg, startFunc(START_PREPEND)],
+                'layout' => [layoutFunc(), $template_args],
+                'section' => [sectionFunc(), $one_arg],
+                'start' => [startFunc(), $one_arg],
+                'push' => [startFunc(START_APPEND), $one_arg],
+                'unshift' => [startFunc(START_PREPEND), $one_arg],
             ];
         });
     }

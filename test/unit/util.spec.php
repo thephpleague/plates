@@ -14,11 +14,9 @@ describe('Util', function() {
     describe('stack', function() {
         it('can stack a group of functions', function() {
             $handler = Util\stack([
+                Util\id(),
                 function($v, $next) {
                     return $next($v + 1) * 2;
-                },
-                function($v) {
-                    return $v;
                 }
             ]);
             expect($handler(2))->equal(6);
@@ -38,21 +36,11 @@ describe('Util', function() {
                 };
             };
             $group = Util\stackGroup([
+                $add(2),
                 $add(1),
-                $add(2)
             ]);
-            $stack = Util\stack([$group, Util\id()]);
+            $stack = Util\stack([Util\id(), $group]);
             expect($stack(0))->equal(3);
-        });
-    });
-    describe('prioritizeStacks', function() {
-        it('prioritizes stacks by index', function() {
-            $stacks = [
-                1 => [3],
-                -1 => [1],
-                0 => [2],
-            ];
-            expect(Util\sortStacks($stacks))->equal([1,2,3]);
         });
     });
     describe('joinPath', function() {

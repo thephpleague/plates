@@ -14,13 +14,13 @@ final class FoldersExtension implements Plates\Extension
         $c->add('folders.folders', []);
         $c->wrapStack('path.resolvePath', function($stack, $c) {
             $config = $c;
-            return array_merge([
+            return array_merge($stack, [
                 'folders' => foldersResolvePath(
                     $c->get('folders.folders'),
                     $c->get('config')['folder_separator'],
                     $c->get('fileExists')
                 )
-            ], $stack);
+            ]);
         });
         $c->wrapComposed('path.normalizeName', function($composed, $c) {
             return array_merge($composed, [

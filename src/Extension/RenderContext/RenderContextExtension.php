@@ -11,11 +11,11 @@ final class RenderContextExtension implements Plates\Extension
         $c = $plates->getContainer();
         $c->addStack('renderContext.func', function($c) {
             return [
-                'plates' => Plates\Util\stackGroup([
-                    aliasNameFunc($c->get('renderContext.func.aliases')),
-                    splitByNameFunc($c->get('renderContext.func.funcs'))
-                ]),
                 'notFound' => notFoundFunc(),
+                'plates' => Plates\Util\stackGroup([
+                    splitByNameFunc($c->get('renderContext.func.funcs')),
+                    aliasNameFunc($c->get('renderContext.func.aliases')),
+                ]),
             ];
         });
         $c->add('renderContext.func.aliases', [
@@ -29,29 +29,28 @@ final class RenderContextExtension implements Plates\Extension
             $config = $c->get('config');
 
             return [
-                'insert' => [$template_args, insertFunc()],
+                'insert' => [insertFunc(), $template_args],
                 'escape' => [
-                    $one_arg,
                     isset($config['escape_flags'], $config['escape_encoding'])
                         ? escapeFunc($config['escape_flags'], $config['escape_encoding'])
-                        : escapeFunc()
+                        : escapeFunc(),
+                    $one_arg,
                 ],
-                'data' => [assertArgsFunc(0, 1), templateDataFunc()],
+                'data' => [templateDataFunc(), assertArgsFunc(0, 1)],
                 'name' => [accessTemplatePropFunc('name')],
                 'context' => [accessTemplatePropFunc('context')],
-                'component' => [$template_args, componentFunc()],
-                'slot' => [$one_arg, slotFunc()],
+                'component' => [componentFunc(), $template_args],
+                'slot' => [slotFunc(), $one_arg],
                 'end' => [endFunc()]
             ];
         });
-
-        $c->wrapComposed('compose', function($composed, $c) {
-            return array_merge($composed, [
+        $plates->pushComposers(function($c) {
+            return [
                 'renderContext.renderContext' => renderContextCompose(
                     $c->get('renderContext.factory'),
                     $c->get('config')['render_context_var_name']
                 )
-            ]);
+            ];
         });
         $c->add('include.bind', function($c) {
             return renderContextBind($c->get('config')['render_context_var_name']);

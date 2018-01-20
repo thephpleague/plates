@@ -39,7 +39,7 @@ Plates is available via Composer:
 ~~~ javascript
 {
     "require": {
-        "league/plates": "dev-v4.0-dev",
+        "league/plates": "dev-master",
     },
     "minimum-stability": "dev",
     "prefer-stable": true

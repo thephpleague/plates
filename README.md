@@ -1,6 +1,8 @@
 Plates
 ======
 
+**NOTE: V4 docs are currently a work in progress. Contributions are welcome.**
+
 [![Maintainer](http://img.shields.io/badge/maintainer-@ragboyjr-blue.svg?style=flat-square)](https://twitter.com/ragboyjr)
 [![Source Code](http://img.shields.io/badge/source-league/plates-blue.svg?style=flat-square)](https://github.com/thephpleague/plates)
 [![Latest Version](https://img.shields.io/github/release/thephpleague/plates.svg?style=flat-square)](https://github.com/thephpleague/plates/releases)
@@ -34,9 +36,15 @@ Plates is a native PHP template system that's fast, easy to use and easy to exte
 
 Plates is available via Composer:
 
-```
-composer require league/plates
-```
+~~~ javascript
+{
+    "require": {
+        "league/plates": "dev-v4.0-dev",
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
+~~~
 
 ## Documentation
 

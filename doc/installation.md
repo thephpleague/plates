@@ -19,8 +19,10 @@ composer require league/plates
 ~~~ javascript
 {
     "require": {
-        "league/plates": "3.*"
-    }
+        "league/plates": "dev-v4.0-dev",
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
 ~~~
 

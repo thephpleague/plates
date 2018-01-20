@@ -4,7 +4,7 @@ permalink: /
 title: Introduction
 ---
 
-**NOTE: V4 docs are currently a work in progress.**
+**NOTE: V4 docs are currently a work in progress. Contributions are welcome.**
 
 Introduction
 ============

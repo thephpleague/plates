@@ -77,8 +77,9 @@ function buildDocs(DocsConfig $config, $branch, $version, $defaultLayout, $versi
     gitCheckout($branch);
     file_put_contents($config->defaultLayoutPath, $defaultLayout);
     file_put_contents($config->docPath . '/_data/versions.yml', $versionsYaml);
-    $cmd = sprintf('cd %s; bundle exec jekyll build -d %s',
+    $cmd = sprintf('cd %s; bundle exec jekyll build -b %s -d %s',
         $config->docPath,
+        '/' . $version,
         $dst . '/' . $version
     );
     shell_exec($cmd);

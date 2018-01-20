@@ -1,7 +1,7 @@
 {
     "defaultVersion": "v3",
     "versionsMap": {
-        "v4": ["v4.0-dev", "V4"],
+        "v4": ["v4.0-dev", "V4 Pre-alpha"],
         "v3": ["v3", "V3"]
     },
     "defaultLayoutPath": "doc/_layouts/default.html",

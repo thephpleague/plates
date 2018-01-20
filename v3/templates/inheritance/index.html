@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+        <title>Inheritance - Plates</title>
+    
+    
+        <meta name="description" content="Plates is a Twig inspired, native PHP template system that brings modern template language functionality to native PHP templates.">
+    
+    
+    
+        <link rel="icon" type="image/x-icon" href="/v3/favicon.ico" />
+    
+    
+        <link rel="apple-touch-icon-precomposed" href="/v3/apple-touch-icon-precomposed.png">
+    
+    <link rel="stylesheet" href="http://theme.thephpleague.com/css/all.css">
+    <link rel="stylesheet" href="/v3/css/custom.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+</head>
+<body>
+
+<a href="https://github.com/thephpleague/plates" class="github">
+    <img src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png">
+</a>
+
+<section class="all_packages">
+    <a href="http://thephpleague.com/">
+        <img src="http://theme.thephpleague.com/img/loep_logo.png" width="195" height="200" alt="The League of Extraordinary Packages">
+    </a>
+    <h2>Our Packages:</h2>
+    <ul>
+        <!-- Loaded via JavaScript -->
+    </ul>
+</section>
+
+<header>
+    <a class="logo" href="/">
+        
+            <span class="icon">
+                <img src="/v3/logo.png" width="50" height="40" alt="Plates - Native PHP Templates">
+            </span>
+        
+        <span class="name">Plates</span>
+        <span class="tagline">Native PHP Templates</span>
+    </a>
+    <a href="http://thephpleague.com/" class="league">
+        Presented by The League of Extraordinary Packages
+    </a>
+</header>
+
+<input type="checkbox" id="menu">
+<label for="menu" onclick>
+    <div class="closed">&#9776; Menu</div>
+    <div class="open">&#9776; Hide Menu</div>
+</label>
+
+<main>
+    <menu>
+        
+        <div class="version-select">
+            <select class="version-select select2" style="width: 100%" data-minimum-results-for-search="5">
+            
+                
+                <option value="v4">
+                
+                    V4 Pre-alpha
+                </option>
+            
+                
+                <option value="v3" selected="selected">
+                
+                    V3
+                </option>
+            
+            </select>
+        </div>
+        
+        
+            <h2>Getting Started</h2>
+            <ul>
+                
+                    <li >
+                        <a href="/v3/">Introduction</a>
+                    </li>
+                
+                    <li >
+                        <a href="/v3/simple-example/">Simple example</a>
+                    </li>
+                
+                    <li >
+                        <a href="/v3/installation/">Installation</a>
+                    </li>
+                
+                    <li >
+                        <a href="/v3/changelog/">Changelog</a>
+                    </li>
+                
+            </ul>
+        
+            <h2>The Engine</h2>
+            <ul>
+                
+                    <li >
+                        <a href="/v3/engine/">Overview</a>
+                    </li>
+                
+                    <li >
+                        <a href="/v3/engine/file-extensions/">File extensions</a>
+                    </li>
+                
+                    <li >
+                        <a href="/v3/engine/folders/">Folders</a>
+                    </li>
+                
+                    <li >
+                        <a href="/v3/engine/functions/">Functions</a>
+                    </li>
+                
+                    <li >
+                        <a href="/v3/engine/extensions/">Extensions</a>
+                    </li>
+                
+            </ul>
+        
+            <h2>Templates</h2>
+            <ul>
+                
+                    <li >
+                        <a href="/v3/templates/">Overview</a>
+                    </li>
+                
+                    <li >
+                        <a href="/v3/templates/data/">Data</a>
+                    </li>
+                
+                    <li >
+                        <a href="/v3/templates/functions/">Functions</a>
+                    </li>
+                
+                    <li >
+                        <a href="/v3/templates/nesting/">Nesting</a>
+                    </li>
+                
+                    <li >
+                        <a href="/v3/templates/layouts/">Layouts</a>
+                    </li>
+                
+                    <li >
+                        <a href="/v3/templates/sections/">Sections</a>
+                    </li>
+                
+                    <li class="selected">
+                        <a href="/v3/templates/inheritance/">Inheritance</a>
+                    </li>
+                
+                    <li >
+                        <a href="/v3/templates/escaping/">Escaping</a>
+                    </li>
+                
+                    <li >
+                        <a href="/v3/templates/syntax/">Syntax</a>
+                    </li>
+                
+            </ul>
+        
+            <h2>Extensions</h2>
+            <ul>
+                
+                    <li >
+                        <a href="/v3/extensions/asset/">Asset</a>
+                    </li>
+                
+                    <li >
+                        <a href="/v3/extensions/uri/">URI</a>
+                    </li>
+                
+                    <li >
+                        <a href="/v3/extensions/community/">Community</a>
+                    </li>
+                
+            </ul>
+        
+    </menu>
+    <article>
+        <h1 id="inheritance">Inheritance</h1>
+
+<p>By combining <a href="/v3/templates/layouts/">layouts</a> and <a href="/v3/templates/sections/">sections</a>, Plates allows you to “build up” your pages using predefined sections. This is best understand using an example:</p>
+
+<h2 id="inheritance-example">Inheritance example</h2>
+
+<p>The following example illustrates a pretty standard website. Start by creating a site template, which includes your header and footer as well as any predefined content <a href="/v3/templates/sections/">sections</a>. Notice how Plates makes it possible to even set default section content, in the event that a page doesn’t define it.</p>
+
+<div class="filename">template.php</div>
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;title&gt;</span><span class="cp">&lt;?=</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">e</span><span class="p">(</span><span class="nv">$title</span><span class="p">)</span><span class="cp">?&gt;</span><span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+
+<span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">"logo.png"</span><span class="nt">&gt;</span>
+
+<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"page"</span><span class="nt">&gt;</span>
+    <span class="cp">&lt;?=</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">section</span><span class="p">(</span><span class="s1">'page'</span><span class="p">)</span><span class="cp">?&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+
+<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"sidebar"</span><span class="nt">&gt;</span>
+    <span class="cp">&lt;?php</span> <span class="k">if</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">section</span><span class="p">(</span><span class="s1">'sidebar'</span><span class="p">))</span><span class="o">:</span> <span class="cp">?&gt;</span>
+        <span class="cp">&lt;?=</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">section</span><span class="p">(</span><span class="s1">'sidebar'</span><span class="p">)</span><span class="cp">?&gt;</span>
+    <span class="cp">&lt;?php</span> <span class="k">else</span><span class="o">:</span> <span class="cp">?&gt;</span>
+        <span class="cp">&lt;?=</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">fetch</span><span class="p">(</span><span class="s1">'default-sidebar'</span><span class="p">)</span><span class="cp">?&gt;</span>
+    <span class="cp">&lt;?php</span> <span class="k">endif</span> <span class="cp">?&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre></div></div>
+
+<p>With the template defined, any page can now “implement” this <a href="/v3/templates/layouts/">layout</a>. Notice how each section of content is defined between the <code class="highlighter-rouge">start()</code> and <code class="highlighter-rouge">end()</code> functions.</p>
+
+<div class="filename">profile.php</div>
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">layout</span><span class="p">(</span><span class="s1">'template'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'title'</span> <span class="o">=&gt;</span> <span class="s1">'User Profile'</span><span class="p">])</span> <span class="cp">?&gt;</span>
+
+<span class="cp">&lt;?php</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">start</span><span class="p">(</span><span class="s1">'page'</span><span class="p">)</span> <span class="cp">?&gt;</span>
+    <span class="nt">&lt;h1&gt;</span>Welcome!<span class="nt">&lt;/h1&gt;</span>
+    <span class="nt">&lt;p&gt;</span>Hello <span class="cp">&lt;?=</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">e</span><span class="p">(</span><span class="nv">$name</span><span class="p">)</span><span class="cp">?&gt;</span><span class="nt">&lt;/p&gt;</span>
+<span class="cp">&lt;?php</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">stop</span><span class="p">()</span> <span class="cp">?&gt;</span>
+
+<span class="cp">&lt;?php</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">start</span><span class="p">(</span><span class="s1">'sidebar'</span><span class="p">)</span> <span class="cp">?&gt;</span>
+    <span class="nt">&lt;ul&gt;</span>
+        <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">"/link"</span><span class="nt">&gt;</span>Example Link<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+        <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">"/link"</span><span class="nt">&gt;</span>Example Link<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+        <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">"/link"</span><span class="nt">&gt;</span>Example Link<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+        <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">"/link"</span><span class="nt">&gt;</span>Example Link<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+        <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">"/link"</span><span class="nt">&gt;</span>Example Link<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+    <span class="nt">&lt;/ul&gt;</span>
+<span class="cp">&lt;?php</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">stop</span><span class="p">()</span> <span class="cp">?&gt;</span>
+</code></pre></div></div>
+
+    </article>
+</main>
+
+<footer>
+    <span>&copy; Copyright <a href="http://thephpleague.com">The League of Extraordinary Packages</a>.</span>
+    <span>Site design by <a href="http://reinink.ca">Jonathan Reinink</a>.</span>
+</footer>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="http://theme.thephpleague.com/js/scripts.js"></script>
+<script src="http://theme.thephpleague.com/js/prism.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+<script>
+$('select.select2').select2().on('change', function(e) {
+    var pathParts = window.location.pathname.split("/");
+    pathParts[1] = e.currentTarget.value;
+    window.location.href = pathParts.join("/");
+});
+</script>
+
+
+    <script>
+        (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+        function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+        e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+        e.src='//www.google-analytics.com/analytics.js';
+        r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+        ga('create','UA-46050814-2');ga('send','pageview');
+    </script>
+
+
+</body>
+</html>

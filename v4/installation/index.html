@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+        <title>Installation - Plates</title>
+    
+    
+        <meta name="description" content="Plates is a Twig inspired, native PHP template system that brings modern template language functionality to native PHP templates.">
+    
+    
+    
+        <link rel="icon" type="image/x-icon" href="/v4/favicon.ico" />
+    
+    
+        <link rel="apple-touch-icon-precomposed" href="/v4/apple-touch-icon-precomposed.png">
+    
+    <link rel="stylesheet" href="http://theme.thephpleague.com/css/all.css">
+    <link rel="stylesheet" href="/v4/css/custom.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+</head>
+<body>
+
+<a href="https://github.com/thephpleague/plates" class="github">
+    <img src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png">
+</a>
+
+<section class="all_packages">
+    <a href="http://thephpleague.com/">
+        <img src="http://theme.thephpleague.com/img/loep_logo.png" width="195" height="200" alt="The League of Extraordinary Packages">
+    </a>
+    <h2>Our Packages:</h2>
+    <ul>
+        <!-- Loaded via JavaScript -->
+    </ul>
+</section>
+
+<header>
+    <a class="logo" href="/">
+        
+            <span class="icon">
+                <img src="/v4/logo.png" width="50" height="40" alt="Plates - Native PHP Templates">
+            </span>
+        
+        <span class="name">Plates</span>
+        <span class="tagline">Native PHP Templates</span>
+    </a>
+    <a href="http://thephpleague.com/" class="league">
+        Presented by The League of Extraordinary Packages
+    </a>
+</header>
+
+<input type="checkbox" id="menu">
+<label for="menu" onclick>
+    <div class="closed">&#9776; Menu</div>
+    <div class="open">&#9776; Hide Menu</div>
+</label>
+
+<main>
+    <menu>
+        
+        <div class="version-select">
+            <select class="version-select select2" style="width: 100%" data-minimum-results-for-search="5">
+            
+                
+                <option value="v4" selected="selected">
+                
+                    V4 Pre-alpha
+                </option>
+            
+                
+                <option value="v3">
+                
+                    V3
+                </option>
+            
+            </select>
+        </div>
+        
+        
+            <h2>Getting Started</h2>
+            <ul>
+                
+                    <li >
+                        <a href="/v4/">Introduction</a>
+                    </li>
+                
+                    <li class="selected">
+                        <a href="/v4/installation/">Installation</a>
+                    </li>
+                
+                    <li >
+                        <a href="/v4/changelog/">Changelog</a>
+                    </li>
+                
+            </ul>
+        
+    </menu>
+    <article>
+        <h1 id="installation">Installation</h1>
+
+<h2 id="using-composer">Using Composer</h2>
+
+<p>Plates is available on <a href="https://packagist.org/packages/league/plates">Packagist</a> and can be installed using <a href="https://getcomposer.org/">Composer</a>. This can be done by running the following command or by updating your <code class="highlighter-rouge">composer.json</code> file.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>composer require league/plates
+</code></pre></div></div>
+
+<div class="filename">composer.json</div>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span>
+    <span class="s2">"require"</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">"league/plates"</span><span class="p">:</span> <span class="s2">"dev-v4.0-dev"</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s2">"minimum-stability"</span><span class="p">:</span> <span class="s2">"dev"</span><span class="p">,</span>
+    <span class="s2">"prefer-stable"</span><span class="p">:</span> <span class="kc">true</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Be sure to also include your Composer autoload file in your project:</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">require</span> <span class="s1">'vendor/autoload.php'</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h2 id="downloading-zip-file">Downloading .zip file</h2>
+
+<p>This project is also available for download as a <code class="highlighter-rouge">.zip</code> file on GitHub. Visit the <a href="https://github.com/thephpleague/plates/releases">releases page</a>, select the version you want, and click the “Source code (zip)” download button.</p>
+
+    </article>
+</main>
+
+<footer>
+    <span>&copy; Copyright <a href="http://thephpleague.com">The League of Extraordinary Packages</a>.</span>
+    <span>Site design by <a href="http://reinink.ca">Jonathan Reinink</a>.</span>
+</footer>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="http://theme.thephpleague.com/js/scripts.js"></script>
+<script src="http://theme.thephpleague.com/js/prism.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+<script>
+$('select.select2').select2().on('change', function(e) {
+    var pathParts = window.location.pathname.split("/");
+    pathParts[1] = e.currentTarget.value;
+    window.location.href = pathParts.join("/");
+});
+</script>
+
+
+    <script>
+        (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+        function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+        e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+        e.src='//www.google-analytics.com/analytics.js';
+        r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+        ga('create','UA-46050814-2');ga('send','pageview');
+    </script>
+
+
+</body>
+</html>

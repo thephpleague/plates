@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+        <title>Asset extension - Plates</title>
+    
+    
+        <meta name="description" content="Plates is a Twig inspired, native PHP template system that brings modern template language functionality to native PHP templates.">
+    
+    
+    
+        <link rel="icon" type="image/x-icon" href="/v3/favicon.ico" />
+    
+    
+        <link rel="apple-touch-icon-precomposed" href="/v3/apple-touch-icon-precomposed.png">
+    
+    <link rel="stylesheet" href="http://theme.thephpleague.com/css/all.css">
+    <link rel="stylesheet" href="/v3/css/custom.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+</head>
+<body>
+
+<a href="https://github.com/thephpleague/plates" class="github">
+    <img src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png">
+</a>
+
+<section class="all_packages">
+    <a href="http://thephpleague.com/">
+        <img src="http://theme.thephpleague.com/img/loep_logo.png" width="195" height="200" alt="The League of Extraordinary Packages">
+    </a>
+    <h2>Our Packages:</h2>
+    <ul>
+        <!-- Loaded via JavaScript -->
+    </ul>
+</section>
+
+<header>
+    <a class="logo" href="/">
+        
+            <span class="icon">
+                <img src="/v3/logo.png" width="50" height="40" alt="Plates - Native PHP Templates">
+            </span>
+        
+        <span class="name">Plates</span>
+        <span class="tagline">Native PHP Templates</span>
+    </a>
+    <a href="http://thephpleague.com/" class="league">
+        Presented by The League of Extraordinary Packages
+    </a>
+</header>
+
+<input type="checkbox" id="menu">
+<label for="menu" onclick>
+    <div class="closed">&#9776; Menu</div>
+    <div class="open">&#9776; Hide Menu</div>
+</label>
+
+<main>
+    <menu>
+        
+        <div class="version-select">
+            <select class="version-select select2" style="width: 100%" data-minimum-results-for-search="5">
+            
+                
+                <option value="v4">
+                
+                    V4 Pre-alpha
+                </option>
+            
+                
+                <option value="v3" selected="selected">
+                
+                    V3
+                </option>
+            
+            </select>
+        </div>
+        
+        
+            <h2>Getting Started</h2>
+            <ul>
+                
+                    <li >
+                        <a href="/v3/">Introduction</a>
+                    </li>
+                
+                    <li >
+                        <a href="/v3/simple-example/">Simple example</a>
+                    </li>
+                
+                    <li >
+                        <a href="/v3/installation/">Installation</a>
+                    </li>
+                
+                    <li >
+                        <a href="/v3/changelog/">Changelog</a>
+                    </li>
+                
+            </ul>
+        
+            <h2>The Engine</h2>
+            <ul>
+                
+                    <li >
+                        <a href="/v3/engine/">Overview</a>
+                    </li>
+                
+                    <li >
+                        <a href="/v3/engine/file-extensions/">File extensions</a>
+                    </li>
+                
+                    <li >
+                        <a href="/v3/engine/folders/">Folders</a>
+                    </li>
+                
+                    <li >
+                        <a href="/v3/engine/functions/">Functions</a>
+                    </li>
+                
+                    <li >
+                        <a href="/v3/engine/extensions/">Extensions</a>
+                    </li>
+                
+            </ul>
+        
+            <h2>Templates</h2>
+            <ul>
+                
+                    <li >
+                        <a href="/v3/templates/">Overview</a>
+                    </li>
+                
+                    <li >
+                        <a href="/v3/templates/data/">Data</a>
+                    </li>
+                
+                    <li >
+                        <a href="/v3/templates/functions/">Functions</a>
+                    </li>
+                
+                    <li >
+                        <a href="/v3/templates/nesting/">Nesting</a>
+                    </li>
+                
+                    <li >
+                        <a href="/v3/templates/layouts/">Layouts</a>
+                    </li>
+                
+                    <li >
+                        <a href="/v3/templates/sections/">Sections</a>
+                    </li>
+                
+                    <li >
+                        <a href="/v3/templates/inheritance/">Inheritance</a>
+                    </li>
+                
+                    <li >
+                        <a href="/v3/templates/escaping/">Escaping</a>
+                    </li>
+                
+                    <li >
+                        <a href="/v3/templates/syntax/">Syntax</a>
+                    </li>
+                
+            </ul>
+        
+            <h2>Extensions</h2>
+            <ul>
+                
+                    <li class="selected">
+                        <a href="/v3/extensions/asset/">Asset</a>
+                    </li>
+                
+                    <li >
+                        <a href="/v3/extensions/uri/">URI</a>
+                    </li>
+                
+                    <li >
+                        <a href="/v3/extensions/community/">Community</a>
+                    </li>
+                
+            </ul>
+        
+    </menu>
+    <article>
+        <h1 id="asset">Asset</h1>
+
+<p>The asset extension can be used to quickly create “cache busted” asset URLs in your templates. This is particularly helpful for aggressively cached files that can potentially change in the future, such as CSS files, JavaScript files and images. It works by appending the timestamp of the file’s last update to its URL. For example, <code class="highlighter-rouge">/css/all.css</code> becomes <code class="highlighter-rouge">/css/all.1373577602.css</code>. As long as the file does not change, the timestamp remains the same and caching occurs. However, if the file is changed, a new URL is automatically generated with a new timestamp, and visitors receive the new file.</p>
+
+<h2 id="installing-the-asset-extension">Installing the asset extension</h2>
+
+<p>The asset extension comes packaged with Plates but is not enabled by default, as it requires extra parameters passed to it at instantiation.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Load asset extension
+</span><span class="nv">$engine</span><span class="o">-&gt;</span><span class="na">loadExtension</span><span class="p">(</span><span class="k">new</span> <span class="nx">League\Plates\Extension\Asset</span><span class="p">(</span><span class="s1">'/path/to/public/assets/'</span><span class="p">,</span> <span class="kc">true</span><span class="p">));</span>
+</code></pre></div></div>
+
+<p>The first constructor parameter is the file system path of the assets directory. The second is an optional <code class="highlighter-rouge">boolean</code> parameter that if set to true uses the filename caching method (ie. <code class="highlighter-rouge">file.1373577602.css</code>) instead of the default query string method (ie. <code class="highlighter-rouge">file.css?v=1373577602</code>).</p>
+
+<h2 id="filename-caching">Filename caching</h2>
+
+<p>To make filename caching work, some URL rewriting is required:</p>
+
+<h3 id="apache-example">Apache example</h3>
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;IfModule</span> <span class="na">mod_rewrite</span><span class="err">.</span><span class="na">c</span><span class="nt">&gt;</span>
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^(.+)\.(\d+)\.(js|css|png|jpg|gif)$ $1.$3 [L]
+<span class="nt">&lt;/IfModule&gt;</span>
+</code></pre></div></div>
+
+<h3 id="nginx-example">Nginx example</h3>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">location</span> <span class="o">~*</span> <span class="p">(</span><span class="o">.+</span><span class="p">)</span><span class="err">\</span><span class="o">.</span><span class="p">(</span><span class="o">?:</span><span class="nx">\d</span><span class="o">+</span><span class="p">)</span><span class="err">\</span><span class="o">.</span><span class="p">(</span><span class="nx">js</span><span class="o">|</span><span class="nx">css</span><span class="o">|</span><span class="nx">png</span><span class="o">|</span><span class="nx">jpg</span><span class="o">|</span><span class="nx">jpeg</span><span class="o">|</span><span class="nx">gif</span><span class="p">)</span><span class="err">$</span> <span class="p">{</span>
+   <span class="nx">try_files</span> <span class="nv">$uri</span> <span class="err">$</span><span class="mf">1.</span><span class="err">$</span><span class="mi">2</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="using-the-asset-extension">Using the asset extension</h2>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;title&gt;</span>Asset Extension Example<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">href=</span><span class="s">"</span><span class="cp">&lt;?=</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">asset</span><span class="p">(</span><span class="s1">'/css/all.css'</span><span class="p">)</span><span class="cp">?&gt;</span><span class="s">"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+
+<span class="nt">&lt;body&gt;</span>
+
+<span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">"</span><span class="cp">&lt;?=</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">asset</span><span class="p">(</span><span class="s1">'/img/logo.png'</span><span class="p">)</span><span class="cp">?&gt;</span><span class="s">"</span><span class="nt">&gt;</span>
+
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre></div></div>
+
+    </article>
+</main>
+
+<footer>
+    <span>&copy; Copyright <a href="http://thephpleague.com">The League of Extraordinary Packages</a>.</span>
+    <span>Site design by <a href="http://reinink.ca">Jonathan Reinink</a>.</span>
+</footer>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="http://theme.thephpleague.com/js/scripts.js"></script>
+<script src="http://theme.thephpleague.com/js/prism.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+<script>
+$('select.select2').select2().on('change', function(e) {
+    var pathParts = window.location.pathname.split("/");
+    pathParts[1] = e.currentTarget.value;
+    window.location.href = pathParts.join("/");
+});
+</script>
+
+
+    <script>
+        (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+        function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+        e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+        e.src='//www.google-analytics.com/analytics.js';
+        r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+        ga('create','UA-46050814-2');ga('send','pageview');
+    </script>
+
+
+</body>
+</html>

@@ -1,0 +1,9 @@
+{
+    "defaultVersion": "v3",
+    "versionsMap": {
+        "v4": ["v4.0-dev", "V4"],
+        "v3": ["tmp", "V3"]
+    },
+    "defaultLayoutPath": "doc/_layouts/default.html",
+    "docPath": "doc"
+}

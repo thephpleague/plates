@@ -22,15 +22,15 @@ Plates is a native PHP template system that's fast, easy to use and easy to exte
 
 ## Highlights
 
-- Native PHP templates, no new [syntax](/templates/syntax/) to learn
+- Native PHP templates, no new [syntax]({{ site.baseurl }}{% link templates/syntax.md %}) to learn
 - Plates is a template system, not a template language
 - Plates encourages the use of existing PHP functions
-- Increase code reuse with template [layouts](/templates/layouts/) and [inheritance](/templates/inheritance/)
-- Template [folders](/engine/folders/) for grouping templates into namespaces
-- [Data](/templates/data/#preassigned-and-shared-data) sharing across templates
-- Preassign [data](/templates/data/#preassigned-and-shared-data) to specific templates
-- Built-in [escaping](/templates/escaping/) helpers
-- Easy to extend using [functions](/engine/functions/) and [extensions](/engine/extensions/)
+- Increase code reuse with template [layouts]({{ site.baseurl }}{% link templates/layouts.md %}) and [inheritance]({{ site.baseurl }}{% link templates/inheritance.md %})
+- Template [folders]({{ site.baseurl }}{% link engine/folders.md %}) for grouping templates into namespaces
+- [Data]({{ site.baseurl }}/templates/data.md#preassigned-and-shared-data) sharing across templates
+- Preassign [data]({{ site.baseurl }}/templates/data#preassigned-and-shared-data) to specific templates
+- Built-in [escaping]({{ site.baseurl }}{% link templates/escaping.md %}) helpers
+- Easy to extend using [functions]({{ site.baseurl }}{% link engine/functions.md %}) and [extensions]({{ site.baseurl }}{% link engine/extensions.md %})
 - Framework-agnostic, will work with any project
 - Decoupled design makes templates easy to test
 - Composer ready and PSR-2 compliant

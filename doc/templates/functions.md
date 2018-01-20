@@ -16,7 +16,7 @@ Template functions in Plates are accessed using the `$this` pseudo-variable.
 
 ## Custom fuctions
 
-In addition to the functions included with Plates, it's also possible to add [one-off functions](/engine/functions/), or even groups of functions, known as [extensions](/engine/extensions/).
+In addition to the functions included with Plates, it's also possible to add [one-off functions]({{ site.baseurl }}{% link engine/functions.md %}), or even groups of functions, known as [extensions]({{ site.baseurl }}{% link engine/extensions.md %}).
 
 ## Batch function calls
 
@@ -30,7 +30,7 @@ Sometimes you need to apply more than function to a variable in your templates. 
 <p>Welcome <?=$this->batch($name, 'strip_tags|strtoupper|escape')?></p>
 ~~~
 
-The [escape](/templates/escaping/) functions also support batch function calls.
+The [escape]({{ site.baseurl }}{% link templates/escaping.md %}) functions also support batch function calls.
 
 ~~~ php
 <p>Welcome <?=$this->e($name, 'strip_tags|strtoupper')?></p>

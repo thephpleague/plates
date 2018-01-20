@@ -7,12 +7,12 @@ title: Inheritance
 Inheritance
 ===========
 
-By combining [layouts](/templates/layouts/) and [sections](/templates/sections/), Plates allows you to "build up" your pages using predefined sections. This is best understand using an example:
+By combining [layouts]({{ site.baseurl }}{% link templates/layouts.md %}) and [sections]({{ site.baseurl }}{% link templates/sections.md %}), Plates allows you to "build up" your pages using predefined sections. This is best understand using an example:
 
 
 ## Inheritance example
 
-The following example illustrates a pretty standard website. Start by creating a site template, which includes your header and footer as well as any predefined content [sections](/templates/sections/). Notice how Plates makes it possible to even set default section content, in the event that a page doesn't define it.
+The following example illustrates a pretty standard website. Start by creating a site template, which includes your header and footer as well as any predefined content [sections]({{ site.baseurl }}{% link templates/sections.md %}). Notice how Plates makes it possible to even set default section content, in the event that a page doesn't define it.
 
 <div class="filename">template.php</div>
 ~~~ php
@@ -40,7 +40,7 @@ The following example illustrates a pretty standard website. Start by creating a
 </html>
 ~~~
 
-With the template defined, any page can now "implement" this [layout](/templates/layouts/). Notice how each section of content is defined between the `start()` and `end()` functions.
+With the template defined, any page can now "implement" this [layout]({{ site.baseurl }}{% link templates/layouts.md %}). Notice how each section of content is defined between the `start()` and `end()` functions.
 
 <div class="filename">profile.php</div>
 ~~~ php

@@ -12,7 +12,7 @@ While the actual syntax you use in your templates is entirely your choice (it's 
 ## Guidelines
 
 - Always use HTML with inline PHP. Never use blocks of PHP.
-- Always escape potentially dangerous variables prior to outputting using the built-in escape functions. More on escaping [here](/templates/escaping/).
+- Always escape potentially dangerous variables prior to outputting using the built-in escape functions. More on escaping [here]({{ site.baseurl }}{% link templates/escaping.md %}).
 - Always use the short echo syntax (`<?=`) when outputting variables. For all other inline PHP code, use full the `<?php` tag. Do not use [short tags](http://us3.php.net/manual/en/ini.core.php#ini.short-open-tag).
 - Always use the [alternative syntax for control structures](http://php.net/manual/en/control-structures.alternative-syntax.php), which are designed to make templates more legible.
 - Never use PHP curly brackets.

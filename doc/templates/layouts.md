@@ -20,7 +20,7 @@ The `layout()` function can be called anywhere in a template, since the layout t
 <p>Hello, <?=$this->e($name)?></p>
 ~~~
 
-This function also works with [folders](/engine/folders/):
+This function also works with [folders]({{ site.baseurl }}{% link engine/folders.md %}):
 
 ~~~ php
 <?php $this->layout('shared::template') ?>
@@ -36,7 +36,7 @@ To assign data (variables) to a layout template, pass them as an array to the `l
 
 ## Accessing the content
 
-To access the rendered template content within the layout, use the `section()` function, passing `'content'` as the section name. This will return all outputted content from the template that hasn't been defined in a [section](/templates/sections/).
+To access the rendered template content within the layout, use the `section()` function, passing `'content'` as the section name. This will return all outputted content from the template that hasn't been defined in a [section]({{ site.baseurl }}{% link templates/sections.md %}).
 
 ~~~ php
 <html>

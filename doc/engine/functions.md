@@ -7,7 +7,7 @@ title: Functions
 Functions
 =========
 
-While [extensions](/engine/extensions/) are awesome for adding additional reusable functionality to Plates, sometimes it's easier to just create a one-off function for a specific use case. Plates makes this easy to do.
+While [extensions]({{ site.baseurl }}{% link engine/extensions.md %}) are awesome for adding additional reusable functionality to Plates, sometimes it's easier to just create a one-off function for a specific use case. Plates makes this easy to do.
 
 ## Registering functions
 
@@ -27,7 +27,7 @@ To use this function in a template, simply call it like any other function:
 <h1>Hello <?=$this->e($this->uppercase($name))</h1>
 ~~~
 
-It can also be used in a [batch](/templates/functions/#batch-function-calls) compatible function:
+It can also be used in a [batch]({{ site.baseurl }}/templates/functions/#batch-function-calls) compatible function:
 
 ~~~ php
 <h1>Hello <?=$this->e($name, 'uppercase')</h1>

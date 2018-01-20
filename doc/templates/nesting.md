@@ -17,7 +17,7 @@ Including another template into the current template is done using the `insert()
 <?php $this->insert('partials/footer') ?>
 ~~~
 
-The `insert()` function also works with [folders](/engine/folders/):
+The `insert()` function also works with [folders]({{ site.baseurl }}{% link engine/folders.md %}):
 
 ~~~ php
 <?php $this->insert('partials::header') ?>

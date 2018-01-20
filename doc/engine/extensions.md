@@ -7,7 +7,7 @@ title: Extensions
 Extensions
 ==========
 
-Creating extensions couldn't be easier, and can really make Plates sing for your specific project. Start by creating a class that implements `\League\Plates\Extension\ExtensionInterface`. Next, register your template [functions](/engine/functions/) within a `register()` method.
+Creating extensions couldn't be easier, and can really make Plates sing for your specific project. Start by creating a class that implements `\League\Plates\Extension\ExtensionInterface`. Next, register your template [functions]({{ site.baseurl }}{% link engine/functions.md %}) within a `register()` method.
 
 ## Simple extensions example
 
@@ -41,7 +41,7 @@ To use this extension in your template, simply call your new functions:
 <p>Hello, <?=$this->e($this->uppercase($name))?></p>
 ~~~
 
-They can also be used in a [batch](/templates/functions/#batch-function-calls) compatible function:
+They can also be used in a [batch]({{ site.baseurl }}/templates/functions/#batch-function-calls) compatible function:
 
 ~~~ php
 <h1>Hello <?=$this->e($name, 'uppercase')</h1>
@@ -87,7 +87,7 @@ To use this extension in your template, first call the primary function, then th
 
 ## Loading extensions
 
-To enable an extension, load it into the [engine](/engine/) object using the `loadExtension()` method.
+To enable an extension, load it into the [engine]({{ site.baseurl }}{% link engine/index.md %}) object using the `loadExtension()` method.
 
 ~~~ php
 $engine->loadExtension(new ChangeCase());

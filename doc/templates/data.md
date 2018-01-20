@@ -30,7 +30,7 @@ $template->data(['name' => 'Jonathan']);
 
 ## Accessing data
 
-Template data is available as locally scoped variables at the time of rendering. Continuing with the example above, here is how you would [escape](/templates/escaping/) and output the "name" value in a template:
+Template data is available as locally scoped variables at the time of rendering. Continuing with the example above, here is how you would [escape]({{ site.baseurl }}{% link templates/escaping.md %}) and output the "name" value in a template:
 
 ~~~ php
 <p>Hello <?=$this->e($name)?></p>

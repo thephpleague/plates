@@ -7,7 +7,7 @@ title: Sections
 Sections
 ========
 
-The `start()` and `stop` functions allow you to build sections (or blocks) of content within your template, and instead of them being rendered directly, they are saved for use elsewhere. For example, in your [layout](/templates/layouts/) template.
+The `start()` and `stop` functions allow you to build sections (or blocks) of content within your template, and instead of them being rendered directly, they are saved for use elsewhere. For example, in your [layout]({{ site.baseurl }}{% link templates/layouts.md %}) template.
 
 ## Creating sections
 

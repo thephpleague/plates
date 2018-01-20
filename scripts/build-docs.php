@@ -85,13 +85,14 @@ function buildDocs(DocsConfig $config, $branch, $version, $defaultLayout, $versi
 
     if ($version == $config->defaultVersion) {
         `cp $dst/$version/index.html $dst/index.html`;
+        `cp $dst/$version/CNAME $dst/CNAME`;
     }
 
     gitResetBranch();
 }
 
 function copyDocs($src) {
-    `mkdir -p $src`;
+    `mkdir -p .generated`;
     return `cp -r $src/* .generated`;
 }
 
@@ -112,6 +113,7 @@ function main($argv) {
     }
 
     $buildDir = createBuildDir();
+    printf("build dir: %s\n", $buildDir);
 
     $startingBranch = gitCurrentBranch();
     chdir(__DIR__ . '/..');

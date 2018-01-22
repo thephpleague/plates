@@ -21,6 +21,10 @@ final class DefaultLayoutRenderTemplate extends Plates\RenderTemplate\RenderTemp
         $ref = $template->reference;
         $contents = $this->render->renderTemplate($template, $rt ?: $this);
 
+        if ($ref()->get('layout')) {
+            return $contents;
+        }
+
         $layout = $ref()->fork($this->layout_path);
         $ref()->with('layout', $layout->reference);
 

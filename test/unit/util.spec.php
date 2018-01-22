@@ -59,4 +59,18 @@ describe('Util', function() {
             expect(Util\debugType(new stdClass()))->equal('object stdClass');
         });
     });
+    describe('when', function() {
+        it('invokes the callable with the argument if the predicate returns true', function() {
+            $maybeSquare = Util\when(function($v) { return $v > 5; }, function($v) {
+                return $v * $v;
+            });
+            expect($maybeSquare(6))->equal(36);
+        });
+        it('returns the value if the predicate returns false', function() {
+            $maybeSquare = Util\when(function($v) { return $v > 5; }, function($v) {
+                return $v * $v;
+            });
+            expect($maybeSquare(5))->equal(5);
+        });
+    });
 });

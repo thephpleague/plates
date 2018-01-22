@@ -78,3 +78,17 @@ describe('Template', function() {
         expect($t1->attributes)->equal(['a' => 2, 'b' => 1]);
     });
 });
+describe('Template Matchers', function() {
+    describe('matchName', function() {
+        it('matches off of the template normalized name', function() {
+            $match = Template\matchName('foo');
+            $t = new Template('', [], ['normalized_name' => 'foo']);
+            expect($match($t))->equal(true);
+        });
+        it('matches off of the template name if the normalized name is missing', function() {
+            $match = Template\matchName('foo');
+            $t = new Template('foo');
+            expect($match($t))->equal(true);
+        });
+    });
+});

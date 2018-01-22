@@ -125,3 +125,10 @@ function cachedFileExists(Psr\SimpleCache\CacheInterface $cache, $ttl = 3600, $f
         return $res;
     };
 }
+
+/** Invokes the callable if the predicate returns true. Returns the value otherwise. */
+function when(callable $predicate, callable $fn) {
+    return function($arg) use ($predicate, $fn) {
+        return $predicate($arg) ? $fn($arg) : $arg;
+    };
+}

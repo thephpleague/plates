@@ -10,6 +10,12 @@ function matchPathExtension(callable $match) {
     });
 }
 
+function matchName($name) {
+    return function(Template $template) use ($name) {
+        return $template->get('normalized_name', $template->name) == $name;
+    };
+}
+
 function matchExtensions(array $extensions) {
     return matchPathExtension(function($ext) use ($extensions) {
         return in_array($ext, $extensions);

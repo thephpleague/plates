@@ -25,4 +25,13 @@ html;
 html;
         expect($this->plates->render('main', [], ['no_layout' => true]))->equal($html);
     });
+    it('allows an override of the default layout', function() {
+        $html = <<<html
+<p>
+    <div>main - partial</div>
+</p>
+
+html;
+        expect($this->plates->render('main', ['override' => true]))->equal($html);
+    });
 });

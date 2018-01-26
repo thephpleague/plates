@@ -11,8 +11,8 @@ final class DataExtension implements Plates\Extension
         $c = $plates->getContainer();
         $c->add('data.globals', []);
         $c->add('data.template_data', []);
-        $c->merge('config', ['merge_parent_data' => true]);
 
+        $plates->defineConfig(['merge_parent_data' => true]);
         $plates->pushComposers(function($c) {
             return array_filter([
                 'data.addGlobals' => $c->get('data.globals') ? addGlobalsCompose($c->get('data.globals')) : null,

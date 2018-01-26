@@ -4,9 +4,7 @@ use League\Plates;
 
 describe('Path Extension', function() {
     it('will normalize any path type names', function() {
-        $plates = new Plates\Engine([
-            'base_dir' => __DIR__ . '/fixtures/normalize-name'
-        ]);
+        $plates = Plates\Engine::create(__DIR__ . '/fixtures/normalize-name');
         $plates->addGlobals(['name' => 'Bar']);
         $plates->assignTemplateData('main', ['name' => 'Foo']);
 

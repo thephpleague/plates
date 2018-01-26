@@ -8,9 +8,6 @@ final class FoldersExtension implements Plates\Extension
 {
     public function register(Plates\Engine $plates) {
         $c = $plates->getContainer();
-        $c->merge('config', [
-            'folder_separator' => '::',
-        ]);
         $c->add('folders.folders', []);
         $c->wrapStack('path.resolvePath', function($stack, $c) {
             $config = $c;
@@ -27,6 +24,10 @@ final class FoldersExtension implements Plates\Extension
                 'folders.stripFolders' => stripFoldersNormalizeName($c->get('folders.folders'))
             ]);
         });
+
+        $plates->defineConfig([
+            'folder_separator' => '::',
+        ]);
         $plates->addMethods([
             'addFolder' => function($plates, $folder, $prefixes, $fallback = false) {
                 $prefixes = is_string($prefixes) ? [$prefixes] : $prefixes;

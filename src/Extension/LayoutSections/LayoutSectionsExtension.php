@@ -10,10 +10,6 @@ final class LayoutSectionsExtension implements Plates\Extension
     public function register(Plates\Engine $plates) {
         $c = $plates->getContainer();
 
-        $c->merge('config', ['default_layout_path' => null]);
-        $plates->pushComposers(function($c) {
-            return ['layoutSections.sections' => sectionsCompose()];
-        });
         $c->wrap('renderTemplate.factories', function($factories, $c) {
             $default_layout_path = $c->get('config')['default_layout_path'];
             if ($default_layout_path) {
@@ -21,6 +17,11 @@ final class LayoutSectionsExtension implements Plates\Extension
             }
             $factories[] = LayoutRenderTemplate::factory();
             return $factories;
+        });
+
+        $plates->defineConfig(['default_layout_path' => null]);
+        $plates->pushComposers(function($c) {
+            return ['layoutSections.sections' => sectionsCompose()];
         });
         $plates->addFuncs(function($c) {
             $template_args = RenderContext\assertTemplateArgsFunc();

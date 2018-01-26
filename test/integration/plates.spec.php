@@ -4,7 +4,7 @@ use League\Plates\Engine;
 
 describe('Plates', function() {
     it('can render templates with layouts, sections, relative paths, absolute paths, and folders', function() {
-        $plates = new Engine(['base_dir' => __DIR__ . '/fixtures/standard']);
+        $plates = Engine::create(__DIR__ . '/fixtures/standard');
         $plates->addFolder('components', ['partials/components', '']);
         $res = $plates->render('main', [
             'name' => 'RJ & Emily',

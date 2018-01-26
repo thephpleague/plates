@@ -4,7 +4,7 @@ use League\Plates;
 
 describe('Layout Sections Extension', function() {
     beforeEach(function() {
-        $this->plates = new Plates\Engine([
+        $this->plates = Plates\Engine::createWithConfig([
             'base_dir' => __DIR__ . '/fixtures/default-layout',
             'default_layout_path' => './_layout',
         ]);

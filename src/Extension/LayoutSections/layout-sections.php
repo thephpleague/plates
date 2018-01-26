@@ -2,6 +2,7 @@
 
 namespace League\Plates\Extension\LayoutSections;
 
+use League\Plates;
 use League\Plates\Template;
 
 use League\Plates\Extension\RenderContext\FuncArgs;
@@ -26,8 +27,16 @@ function layoutFunc() {
 
 function sectionFunc() {
     return function(FuncArgs $args) {
-        list($name) = $args->args;
-        return $args->template()->get('sections')->get($name);
+        list($name, $else) = $args->args;
+
+        $res = $args->template()->get('sections')->get($name);
+        if ($res || !$else) {
+            return $res;
+        }
+
+        return is_callable($else)
+            ? Plates\Util\obWrap($else)
+            : (string) $else;
     };
 }
 

@@ -16,26 +16,15 @@ final class PhpRenderTemplate implements Plates\RenderTemplate
         $inc = self::createInclude();
         $inc = $this->bind ? ($this->bind)($inc, $template) : $inc;
 
-        $cur_level = ob_get_level();
-        try {
-            return $inc($template->get('path'), $template->data);
-        } catch (\Exception $e) {}
-          catch (\Throwable $e) {}
-
-        // clean the ob stack
-        while (ob_get_level() > $cur_level) {
-            ob_end_clean();
-        }
-
-        throw $e;
+        return Plates\Util\obWrap(function() use ($inc, $template) {
+            $inc($template->get('path'), $template->data);
+        });
     }
 
     private static function createInclude() {
         return function() {
-            ob_start();
             extract(func_get_arg(1));
             include func_get_arg(0);
-            return ob_get_clean();
         };
     }
 }

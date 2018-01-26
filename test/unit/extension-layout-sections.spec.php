@@ -14,7 +14,10 @@ use const League\Plates\Extension\LayoutSections\{
     START_PREPEND,
     START_REPLACE
 };
-use function League\Plates\Extension\LayoutSections\{startFunc};
+use function League\Plates\Extension\LayoutSections\{
+    startFunc,
+    sectionFunc
+};
 use function League\Plates\Extension\RenderContext\{endFunc};
 
 
@@ -80,8 +83,26 @@ describe('Extension\LayoutSections', function() {
         xdescribe('layoutFunc', function() {
             it('forks a template and sets the layout');
         });
-        xdescribe('sectionFunc', function() {
-            it('gets a section from the template sections');
+        describe('sectionFunc', function() {
+            it('gets a section from the template sections', function() {
+                ($this->template)()->get('sections')->add('foo', 'bar');
+                $res = sectionFunc()($this->args->withArgs(['foo', null]));
+                expect($res)->equal('bar');
+            });
+            it('returns an empty section if no else is defined', function() {
+                $res = sectionFunc()($this->args->withArgs(['foo', null]));
+                expect($res)->equal(null);
+            });
+            it('returns the else content if no section is defined', function() {
+                $res = sectionFunc()($this->args->withArgs(['foo', 'baz']));
+                expect($res)->equal('baz');
+            });
+            it('invokes the else callable if no section is defined', function() {
+                $res = sectionFunc()($this->args->withArgs(['foo', function() {
+                    echo 'baz';
+                }]));
+                expect($res)->equal('baz');
+            });
         });
         describe('startFunc', function() {
             $create_test = function($update_text, $update, $expected) {

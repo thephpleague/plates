@@ -2,6 +2,9 @@
 <html>
     <head>
         <title>Profile - <?=$name?></title>
+        <?=$v->section('meta', function() { ?>
+        <meta charset="UTF-8"/>
+        <?php }); ?>
     </head>
     <body>
         <?php $v->component('../alerts', ['type' => 'success']) ?>

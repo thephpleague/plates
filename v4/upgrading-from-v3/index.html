@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-        <title>Installation - Plates</title>
+        <title>Upgrading from V3 - Plates</title>
     
     
         <meta name="description" content="Plates is a Twig inspired, native PHP template system that brings modern template language functionality to native PHP templates.">
@@ -87,7 +87,7 @@
                         <a href="/v4/">Introduction</a>
                     </li>
                 
-                    <li class="selected">
+                    <li >
                         <a href="/v4/installation/">Installation</a>
                     </li>
                 
@@ -95,7 +95,7 @@
                         <a href="/v4/simple-example/">Simple example</a>
                     </li>
                 
-                    <li >
+                    <li class="selected">
                         <a href="/v4/upgrading-from-v3/">Upgrading from V3</a>
                     </li>
                 
@@ -124,33 +124,57 @@
         
     </menu>
     <article>
-        <h1 id="installation">Installation</h1>
+        <h1 id="upgrading-from-v3">Upgrading from V3</h1>
 
-<h2 id="using-composer">Using Composer</h2>
+<p>Version 4 of plates has been completely redesigned from the ground up. There are some significant differences that will need to be addressed if you are familiar with v3.</p>
 
-<p>Plates is available on <a href="https://packagist.org/packages/league/plates">Packagist</a> and can be installed using <a href="https://getcomposer.org/">Composer</a>. This can be done by running the following command or by updating your <code class="highlighter-rouge">composer.json</code> file.</p>
+<h2 id="creating-engines">Creating Engines</h2>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>composer require league/plates
+<p>The default constructor now longer accepts the templates path and extension. This has been moved over to the <code class="highlighter-rouge">create</code> static constructor. Also, the default extension for templates is <code class="highlighter-rouge">phtml</code> instead of <code class="highlighter-rouge">php</code>, so if you migrating an existing codebase, you’ll need to explicitly set the extension.</p>
+
+<div class="language-diff highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gd">- new League\Plates\Engine('/path/to/templates')
+</span><span class="gi">+ League\Plates\Engine::create('/path/to/templates', 'php')
+</span></code></pre></div></div>
+
+<h2 id="render-context">Render Context</h2>
+
+<p>Templates no longer rendered within the context of the <code class="highlighter-rouge">Template</code>. This has been replaced by the <code class="highlighter-rouge">RenderContext</code> which is just an object injected into each template. The default name for the render context is <code class="highlighter-rouge">$v</code>, but this is configurable.</p>
+
+<p>So in your templates, you’ll want to change:</p>
+
+<div class="language-diff highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gd">- &lt;?=$this-&gt;section()?&gt;
+</span><span class="gi">+ &lt;?=$v-&gt;section()?&gt;
+</span></code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">RenderContext</code> is more powerful and flexible than the original Template class because it’s completely configurable.</p>
+
+<p>For BC reasons, we are currently binding <code class="highlighter-rouge">$this</code> to the render context which means <code class="highlighter-rouge">$this === $v</code> when inside of your templates.</p>
+
+<h2 id="templates">Templates</h2>
+
+<p>The <code class="highlighter-rouge">Template</code> class is completely different and has been moved to <code class="highlighter-rouge">Leauge\Plates\Template</code>. In v3, the Template class was responsible for rendering the php files and providing context within the templates themselves. This behavior has been moved into the <code class="highlighter-rouge">RenderTemplate</code> implementations. Templates are now simply immutable value objects.</p>
+
+<p>So this means you can no longer manually create and render templates, you need a <code class="highlighter-rouge">RenderTemplate</code> to actuall render the template into a string.</p>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$renderTemplate</span> <span class="o">=</span> <span class="nx">League\Plates\Engine</span><span class="o">::</span><span class="na">create</span><span class="p">(</span><span class="s1">'/path/to/templates'</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">getContainer</span><span class="p">()</span>
+    <span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'renderTemplate'</span><span class="p">);</span>
+
+<span class="k">echo</span> <span class="nv">$renderTemplate</span><span class="o">-&gt;</span><span class="na">renderTemplate</span><span class="p">(</span>
+    <span class="k">new</span> <span class="nx">League\Plates\Template</span><span class="p">(</span><span class="s1">'profile'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'Jonathan'</span><span class="p">])</span>
+<span class="p">);</span>
 </code></pre></div></div>
 
-<div class="filename">composer.json</div>
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span>
-    <span class="s2">"require"</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">"league/plates"</span><span class="p">:</span> <span class="s2">"dev-master"</span><span class="p">,</span>
-    <span class="p">},</span>
-    <span class="s2">"minimum-stability"</span><span class="p">:</span> <span class="s2">"dev"</span><span class="p">,</span>
-    <span class="s2">"prefer-stable"</span><span class="p">:</span> <span class="kc">true</span>
-<span class="p">}</span>
-</code></pre></div></div>
+<p>However, this is exactly what the Engine render method does, so you might as well just refactor to use the Engine’s render method.</p>
 
-<p>Be sure to also include your Composer autoload file in your project:</p>
+<h2 id="extension-interface">Extension Interface</h2>
 
-<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">require</span> <span class="s1">'vendor/autoload.php'</span><span class="p">;</span>
-</code></pre></div></div>
+<p>The new interface is located here: <code class="highlighter-rouge">League\Plates\Extension</code>. The contents of the interface are exactly the same. We’ve kept the <code class="highlighter-rouge">League\Plates\Extension\ExtensionInterface</code> around as an alias to the former, but it is deprecated and will be removed in v4.1.</p>
 
-<h2 id="downloading-zip-file">Downloading .zip file</h2>
+<h2 id="bc-extension">BC Extension</h2>
 
-<p>This project is also available for download as a <code class="highlighter-rouge">.zip</code> file on GitHub. Visit the <a href="https://github.com/thephpleague/plates/releases">releases page</a>, select the version you want, and click the “Source code (zip)” download button.</p>
+<p>To do - reference the <a href="https://github.com/thephpleague/plates/issues/214">BCExtension</a> once it gets built.</p>
+
 
     </article>
 </main>

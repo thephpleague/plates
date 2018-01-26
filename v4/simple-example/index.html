@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-        <title>Installation - Plates</title>
+        <title>Simple example - Plates</title>
     
     
         <meta name="description" content="Plates is a Twig inspired, native PHP template system that brings modern template language functionality to native PHP templates.">
@@ -87,11 +87,11 @@
                         <a href="/v4/">Introduction</a>
                     </li>
                 
-                    <li class="selected">
+                    <li >
                         <a href="/v4/installation/">Installation</a>
                     </li>
                 
-                    <li >
+                    <li class="selected">
                         <a href="/v4/simple-example/">Simple example</a>
                     </li>
                 
@@ -124,33 +124,49 @@
         
     </menu>
     <article>
-        <h1 id="installation">Installation</h1>
+        <h1 id="simple-example">Simple example</h1>
 
-<h2 id="using-composer">Using Composer</h2>
+<p>Here is a simple example of how to use Plates. We will assume the following directory stucture:</p>
 
-<p>Plates is available on <a href="https://packagist.org/packages/league/plates">Packagist</a> and can be installed using <a href="https://getcomposer.org/">Composer</a>. This can be done by running the following command or by updating your <code class="highlighter-rouge">composer.json</code> file.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>composer require league/plates
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`-- path
+    `-- to
+        `-- templates
+            |-- template.phtml
+            |-- profile.phtml
 </code></pre></div></div>
 
-<div class="filename">composer.json</div>
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span>
-    <span class="s2">"require"</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">"league/plates"</span><span class="p">:</span> <span class="s2">"dev-master"</span><span class="p">,</span>
-    <span class="p">},</span>
-    <span class="s2">"minimum-stability"</span><span class="p">:</span> <span class="s2">"dev"</span><span class="p">,</span>
-    <span class="s2">"prefer-stable"</span><span class="p">:</span> <span class="kc">true</span>
-<span class="p">}</span>
+<h2 id="render-a-template">Render a template</h2>
+
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Create new Plates instance
+</span><span class="nv">$templates</span> <span class="o">=</span> <span class="nx">League\Plates\Engine</span><span class="o">::</span><span class="na">create</span><span class="p">(</span><span class="s1">'/path/to/templates'</span><span class="p">);</span>
+
+<span class="c1">// Render a template
+</span><span class="k">echo</span> <span class="nv">$templates</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">(</span><span class="s1">'profile'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'name'</span> <span class="o">=&gt;</span> <span class="s1">'Jonathan'</span><span class="p">]);</span>
 </code></pre></div></div>
 
-<p>Be sure to also include your Composer autoload file in your project:</p>
+<h2 id="the-page-template">The page template</h2>
 
-<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">require</span> <span class="s1">'vendor/autoload.php'</span><span class="p">;</span>
+<div class="filename">profile.phtml</div>
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span> <span class="nv">$v</span><span class="o">-&gt;</span><span class="na">layout</span><span class="p">(</span><span class="s1">'template'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'title'</span> <span class="o">=&gt;</span> <span class="s1">'User Profile'</span><span class="p">])</span> <span class="cp">?&gt;</span>
+
+<span class="nt">&lt;h1&gt;</span>User Profile<span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;p&gt;</span>Hello, <span class="cp">&lt;?=</span><span class="nv">$v</span><span class="p">(</span><span class="nv">$name</span><span class="p">)</span> <span class="c1">// escape the $name variable ?&gt;&lt;/p&gt;
+</span></code></pre></div></div>
+
+<h2 id="the-layout-template">The layout template</h2>
+
+<div class="filename">template.phtml</div>
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;title&gt;</span><span class="cp">&lt;?=</span><span class="nv">$v</span><span class="p">(</span><span class="nv">$title</span><span class="p">)</span><span class="cp">?&gt;</span><span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+
+<span class="cp">&lt;?=</span><span class="nv">$v</span><span class="o">-&gt;</span><span class="na">section</span><span class="p">(</span><span class="s1">'content'</span><span class="p">)</span><span class="cp">?&gt;</span>
+
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
 </code></pre></div></div>
-
-<h2 id="downloading-zip-file">Downloading .zip file</h2>
-
-<p>This project is also available for download as a <code class="highlighter-rouge">.zip</code> file on GitHub. Visit the <a href="https://github.com/thephpleague/plates/releases">releases page</a>, select the version you want, and click the “Source code (zip)” download button.</p>
 
     </article>
 </main>

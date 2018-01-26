@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-        <title>Installation - Plates</title>
+        <title>Extensions - Plates</title>
     
     
         <meta name="description" content="Plates is a Twig inspired, native PHP template system that brings modern template language functionality to native PHP templates.">
@@ -87,7 +87,7 @@
                         <a href="/v4/">Introduction</a>
                     </li>
                 
-                    <li class="selected">
+                    <li >
                         <a href="/v4/installation/">Installation</a>
                     </li>
                 
@@ -112,7 +112,7 @@
                         <a href="/v4/engine/">Overview</a>
                     </li>
                 
-                    <li >
+                    <li class="selected">
                         <a href="/v4/engine/extensions/">Extensions</a>
                     </li>
                 
@@ -124,33 +124,9 @@
         
     </menu>
     <article>
-        <h1 id="installation">Installation</h1>
+        <h1 id="extensions">Extensions</h1>
 
-<h2 id="using-composer">Using Composer</h2>
-
-<p>Plates is available on <a href="https://packagist.org/packages/league/plates">Packagist</a> and can be installed using <a href="https://getcomposer.org/">Composer</a>. This can be done by running the following command or by updating your <code class="highlighter-rouge">composer.json</code> file.</p>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>composer require league/plates
-</code></pre></div></div>
-
-<div class="filename">composer.json</div>
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span>
-    <span class="s2">"require"</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">"league/plates"</span><span class="p">:</span> <span class="s2">"dev-master"</span><span class="p">,</span>
-    <span class="p">},</span>
-    <span class="s2">"minimum-stability"</span><span class="p">:</span> <span class="s2">"dev"</span><span class="p">,</span>
-    <span class="s2">"prefer-stable"</span><span class="p">:</span> <span class="kc">true</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<p>Be sure to also include your Composer autoload file in your project:</p>
-
-<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">require</span> <span class="s1">'vendor/autoload.php'</span><span class="p">;</span>
-</code></pre></div></div>
-
-<h2 id="downloading-zip-file">Downloading .zip file</h2>
-
-<p>This project is also available for download as a <code class="highlighter-rouge">.zip</code> file on GitHub. Visit the <a href="https://github.com/thephpleague/plates/releases">releases page</a>, select the version you want, and click the “Source code (zip)” download button.</p>
+<p>Todo - discuss how to create a custom extension, the power of extensions and the IoC container, engine methods, stacks and composers.</p>
 
     </article>
 </main>

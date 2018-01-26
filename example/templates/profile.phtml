@@ -1,0 +1,12 @@
+<?php $v->layout('layout', ['title' => 'User Profile']) ?>
+
+<h1>User Profile</h1>
+<p>Hello, <?=$v($name)?>!</p>
+
+<?php $v->insert('sidebar') ?>
+
+<?php $v->push('scripts') ?>
+    <script>
+        // Some JavaScript
+    </script>
+<?php $v->end() ?>

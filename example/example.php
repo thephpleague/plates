@@ -1,9 +1,9 @@
 <?php
 
-include '../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 // Create new Plates instance
-$templates = new League\Plates\Engine('templates');
+$templates = League\Plates\Engine::create(__DIR__ . '/templates');
 
 // Preassign data to the layout
 $templates->addData(['company' => 'The Company Name'], 'layout');

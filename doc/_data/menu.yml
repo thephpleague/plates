@@ -1,4 +1,10 @@
 Getting Started:
     Introduction: '/'
     Installation: '/installation/'
+    Simple example: '/simple-example/'
+    Upgrading from V3: '/upgrading-from-v3/'
     Changelog: '/changelog/'
+The Engine:
+    Overview: '/engine/'
+    Extensions: '/engine/extensions/'
+    Framework Integration: '/engine/framework-integration/'

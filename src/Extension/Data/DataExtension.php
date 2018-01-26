@@ -29,7 +29,11 @@ final class DataExtension implements Plates\Extension
             'addGlobal' => function(Plates\Engine $e, $name, $value) {
                 $e->getContainer()->merge('data.globals', [$name => $value]);
             },
-            'assignTemplateData' => function(Plates\Engine $e, $name, $data) {
+            'addData' => function(Plates\Engine $e, $data, $name = null) {
+                if (!$name) {
+                    return $e->addGlobals($data);
+                }
+
                 $template_data = $e->getContainer()->get('data.template_data');
                 if (!isset($template_data[$name])) {
                     $template_data[$name] = [];

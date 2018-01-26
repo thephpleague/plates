@@ -28,7 +28,7 @@ final class LayoutSectionsExtension implements Plates\Extension
 
             return [
                 'layout' => [layoutFunc(), $template_args],
-                'section' => [sectionFunc(), $one_arg],
+                'section' => [sectionFunc(), RenderContext\assertArgsFunc(1, 1)],
                 'start' => [startFunc(), $one_arg],
                 'push' => [startFunc(START_APPEND), $one_arg],
                 'unshift' => [startFunc(START_PREPEND), $one_arg],

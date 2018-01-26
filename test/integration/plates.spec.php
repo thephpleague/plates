@@ -15,7 +15,8 @@ describe('Plates', function() {
 <html>
     <head>
         <title>Profile - RJ & Emily</title>
-    </head>
+                <meta charset="UTF-8"/>
+            </head>
     <body>
         <div class="alert success">
             <p>Success!</p>

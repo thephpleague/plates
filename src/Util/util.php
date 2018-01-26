@@ -11,6 +11,26 @@ function id() {
     };
 }
 
+/** wraps a closure in output buffering and returns the buffered
+    content. */
+function obWrap(callable $wrap) {
+    $cur_level = ob_get_level();
+
+    try {
+        ob_start();
+        $wrap();
+        return ob_get_clean();
+    } catch (\Exception $e) {}
+      catch (\Throwable $e) {}
+
+    // clean the ob stack
+    while (ob_get_level() > $cur_level) {
+        ob_end_clean();
+    }
+
+    throw $e;
+}
+
 /** simple utility that wraps php echo which allows for stubbing out the
     echo func for testing */
 function phpEcho() {

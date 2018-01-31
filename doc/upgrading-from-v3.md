@@ -55,6 +55,10 @@ However, this is exactly what the Engine render method does, so you might as wel
 
 The new interface is located here: `League\Plates\Extension`. The contents of the interface are exactly the same. We've kept the `League\Plates\Extension\ExtensionInterface` around as an alias to the former, but it is deprecated and will be removed in v4.1.
 
+## Accessing the engine and template in Extensions
+
+This paradigm no longer exists with v4 due to how template functions work now. Functions in v4 now accept the `League\Plates\Extension\RenderContext\FuncArgs` as the only argument which has access to the RenderTemplate and curren template instance. Since v4 also utilizes an IoC container, any dependencies needed can be injected into the function constructor. So instead of a func having access to the entire engine, they can just receive the deps they need.
+
 ## BC Extension
 
 To do - reference the [BCExtension](https://github.com/thephpleague/plates/issues/214) once it gets built.

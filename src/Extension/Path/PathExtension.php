@@ -32,6 +32,10 @@ final class PathExtension implements Plates\Extension
                 'path.relative' => relativeResolvePath(),
             ]);
         });
+        $plates->defineConfig([
+            'ext' => 'phtml',
+            'base_dir' => null,
+        ]);
         $plates->pushComposers(function($c) {
             return [
                 'path.normalizeName' => normalizeNameCompose($c->get('path.normalizeName')),

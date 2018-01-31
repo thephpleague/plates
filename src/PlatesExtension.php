@@ -8,11 +8,6 @@ final class PlatesExtension implements Extension
         $c = $plates->getContainer();
 
         $c->add('config', [
-            'render_context_var_name' => 'v',
-            'ext' => 'phtml',
-            'base_dir' => null,
-            'escape_encoding' => null,
-            'escape_flags' => null,
             'validate_paths' => true,
             'php_extensions' => ['php', 'phtml'],
             'image_extensions' => ['png', 'jpg'],

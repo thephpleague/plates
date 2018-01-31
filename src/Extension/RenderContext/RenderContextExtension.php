@@ -44,14 +44,6 @@ final class RenderContextExtension implements Plates\Extension
                 'end' => [endFunc()]
             ];
         });
-        $plates->pushComposers(function($c) {
-            return [
-                'renderContext.renderContext' => renderContextCompose(
-                    $c->get('renderContext.factory'),
-                    $c->get('config')['render_context_var_name']
-                )
-            ];
-        });
         $c->add('include.bind', function($c) {
             return renderContextBind($c->get('config')['render_context_var_name']);
         });
@@ -60,6 +52,20 @@ final class RenderContextExtension implements Plates\Extension
                 function() use ($c) { return $c->get('renderTemplate'); },
                 $c->get('renderContext.func')
             );
+        });
+
+        $plates->defineConfig([
+            'render_context_var_name' => 'v',
+            'escape_encoding' => null,
+            'escape_flags' => null,
+        ]);
+        $plates->pushComposers(function($c) {
+            return [
+                'renderContext.renderContext' => renderContextCompose(
+                    $c->get('renderContext.factory'),
+                    $c->get('config')['render_context_var_name']
+                )
+            ];
         });
 
         $plates->addMethods([

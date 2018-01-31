@@ -36,15 +36,9 @@ Plates is a native PHP template system that's fast, easy to use and easy to exte
 
 Plates is available via Composer:
 
-~~~ javascript
-{
-    "require": {
-        "league/plates": "dev-master",
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
-}
-~~~
+```bash
+composer require league/plates:v4.0.0-alpha
+```
 
 ## Documentation
 

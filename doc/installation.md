@@ -12,18 +12,7 @@ Installation
 Plates is available on [Packagist](https://packagist.org/packages/league/plates) and can be installed using [Composer](https://getcomposer.org/). This can be done by running the following command or by updating your `composer.json` file.
 
 ~~~ bash
-composer require league/plates
-~~~
-
-<div class="filename">composer.json</div>
-~~~ javascript
-{
-    "require": {
-        "league/plates": "dev-master",
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
-}
+composer require league/plates:v4.0.0-alpha
 ~~~
 
 Be sure to also include your Composer autoload file in your project:

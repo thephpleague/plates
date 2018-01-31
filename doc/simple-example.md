@@ -23,7 +23,7 @@ Here is a simple example of how to use Plates. We will assume the following dire
 // Create new Plates instance
 $templates = League\Plates\Engine::create('/path/to/templates');
 
-// Render a template
+// Render a template with the given data
 echo $templates->render('profile', ['name' => 'Jonathan']);
 ~~~
 

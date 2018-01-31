@@ -36,7 +36,7 @@ final class Engine
     }
 
     /** @return string */
-    public function render($template_name, array $data = [], array $attributes = []) {
+    public function render(string $template_name, array $data = [], array $attributes = []): string {
         return $this->container->get('renderTemplate')->renderTemplate(new Template(
             $template_name,
             $data,
@@ -56,10 +56,6 @@ final class Engine
         throw new \BadMethodCallException("No method {$method} found for engine.");
     }
 
-    /** @deprecated kept for bc */
-    public function loadExtension(Extension $extension) {
-        $this->register($extension);
-    }
     public function register(Extension $extension) {
         $extension->register($this);
     }

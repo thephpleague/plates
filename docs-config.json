@@ -2,7 +2,7 @@
     "defaultVersion": "v3",
     "versionsMap": {
         "master": ["master", "Master"],
-        "v4-alpha": ["v4-alpha", "V4 Alpha"],
+        "v4-alpha": ["v4.0.0-alpha", "V4 Alpha"],
         "v3": ["v3", "V3"]
     },
     "defaultLayoutPath": "doc/_layouts/default.html",

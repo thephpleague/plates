@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+        <title>Extensions - Plates</title>
+    
+    
+        <meta name="description" content="Plates is a Twig inspired, native PHP template system that brings modern template language functionality to native PHP templates.">
+    
+    
+    
+        <link rel="icon" type="image/x-icon" href="/v4-alpha/favicon.ico" />
+    
+    
+        <link rel="apple-touch-icon-precomposed" href="/v4-alpha/apple-touch-icon-precomposed.png">
+    
+    <link rel="stylesheet" href="http://theme.thephpleague.com/css/all.css">
+    <link rel="stylesheet" href="/v4-alpha/css/custom.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+</head>
+<body>
+
+<a href="https://github.com/thephpleague/plates" class="github">
+    <img src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png">
+</a>
+
+<section class="all_packages">
+    <a href="http://thephpleague.com/">
+        <img src="http://theme.thephpleague.com/img/loep_logo.png" width="195" height="200" alt="The League of Extraordinary Packages">
+    </a>
+    <h2>Our Packages:</h2>
+    <ul>
+        <!-- Loaded via JavaScript -->
+    </ul>
+</section>
+
+<header>
+    <a class="logo" href="/">
+        
+            <span class="icon">
+                <img src="/v4-alpha/logo.png" width="50" height="40" alt="Plates - Native PHP Templates">
+            </span>
+        
+        <span class="name">Plates</span>
+        <span class="tagline">Native PHP Templates</span>
+    </a>
+    <a href="http://thephpleague.com/" class="league">
+        Presented by The League of Extraordinary Packages
+    </a>
+</header>
+
+<input type="checkbox" id="menu">
+<label for="menu" onclick>
+    <div class="closed">&#9776; Menu</div>
+    <div class="open">&#9776; Hide Menu</div>
+</label>
+
+<main>
+    <menu>
+        
+        <div class="version-select">
+            <select class="version-select select2" style="width: 100%" data-minimum-results-for-search="5">
+            
+                
+                <option value="master">
+                
+                    Master
+                </option>
+            
+                
+                <option value="v4-alpha" selected="selected">
+                
+                    V4 Alpha
+                </option>
+            
+                
+                <option value="v3">
+                
+                    V3
+                </option>
+            
+            </select>
+        </div>
+        
+        
+            <h2>Getting Started</h2>
+            <ul>
+                
+                    <li >
+                        <a href="/v4-alpha/">Introduction</a>
+                    </li>
+                
+                    <li >
+                        <a href="/v4-alpha/installation/">Installation</a>
+                    </li>
+                
+                    <li >
+                        <a href="/v4-alpha/simple-example/">Simple example</a>
+                    </li>
+                
+                    <li >
+                        <a href="/v4-alpha/upgrading-from-v3/">Upgrading from V3</a>
+                    </li>
+                
+                    <li >
+                        <a href="/v4-alpha/changelog/">Changelog</a>
+                    </li>
+                
+            </ul>
+        
+            <h2>The Engine</h2>
+            <ul>
+                
+                    <li >
+                        <a href="/v4-alpha/engine/">Overview</a>
+                    </li>
+                
+                    <li class="selected">
+                        <a href="/v4-alpha/engine/extensions/">Extensions</a>
+                    </li>
+                
+                    <li >
+                        <a href="/v4-alpha/engine/framework-integration/">Framework Integration</a>
+                    </li>
+                
+            </ul>
+        
+    </menu>
+    <article>
+        <h1 id="extensions">Extensions</h1>
+
+<p>Extensions in Plates are first class citizens. In fact, all of the functionality of plates is implemented via extensions. This enables very powerful customizations and features that are completely opt-in.</p>
+
+<p>Every extension implements the <code class="highlighter-rouge">League\Plates\Extension</code> interface which is defined as:</p>
+
+<div class="filename">src/Extension.php</div>
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="k">namespace</span> <span class="nx">League\Plates</span><span class="p">;</span>
+
+<span class="k">interface</span> <span class="nx">Extension</span> <span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">register</span><span class="p">(</span><span class="nx">Engine</span> <span class="nv">$plates</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Extensions can do any/all of the following:</p>
+
+<ol>
+  <li>Configure the engine</li>
+  <li>Define services in the IoC container</li>
+  <li>Define engine methods</li>
+</ol>
+
+<p>Extensions use a combination of these techniques to add features to plates.</p>
+
+<h2 id="case-study">Case Study</h2>
+
+<p>Probably the easiest way to learn about the features of extensions is by a case study looking at how we would implement certain features into plates using extensions. These examples are taken from the actual Plates source code and already exist in documented extensions, but these will provide a great understanding to how the system works so that you can build your own great extensions!</p>
+
+<h3 id="changing-the-escape-charset">Changing the Escape Charset</h3>
+
+<p>Let’s look at an extension that will simply use the <code class="highlighter-rouge">ISO-8859-1</code> charset when escaping data with the <code class="highlighter-rouge">$v()</code> func.</p>
+
+<div class="filename">src/Docs/ChangeEscapeCharset/ChangeEscapeCharsetExtension.php</div>
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="cp">&lt;?php</span>
+
+<span class="k">namespace</span> <span class="nx">League\Plates\Docs\ChangeEscapeCharset</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">League\Plates</span><span class="p">;</span>
+
+<span class="k">final</span> <span class="k">class</span> <span class="nc">ChangeEscapeCharsetExtension</span> <span class="k">implements</span> <span class="nx">Plates\Extension</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">register</span><span class="p">(</span><span class="nx">Plates\Engine</span> <span class="nv">$plates</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$plates</span><span class="o">-&gt;</span><span class="na">addConfig</span><span class="p">([</span>
+            <span class="s1">'escape_encoding'</span> <span class="o">=&gt;</span> <span class="s1">'ISO-8859-1'</span> <span class="c1">// defined in the RenderContextExtension
+</span>        <span class="p">]);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Luckily, the RenderContextExtension exposes a configuration flag for setting the charset.</p>
+
+<h3 id="adding-global-data">Adding Global Data</h3>
+
+<p>In this example, we want to create an extension that allows us to add global values into our templates.</p>
+
+<p>We want to add a func like:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$plates-&gt;addGlobal('varName', 'value');
+</code></pre></div></div>
+
+<p>So that in any of our templates, we can access <code class="highlighter-rouge">$varName</code>.</p>
+
+<p>The best way to implement something like this would be via a <a href="#">Template Composer</a>.</p>
+
+<div class="filename">src/Docs/GlobalData/GlobalDataExtension.php</div>
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="k">namespace</span> <span class="nx">League\Plates\Docs\GlobalData</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">League\Plates</span><span class="p">;</span>
+
+<span class="k">final</span> <span class="k">class</span> <span class="nc">GlobalDataExtension</span> <span class="k">implements</span> <span class="nx">Plates\Extension</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">register</span><span class="p">(</span><span class="nx">Plates\Engine</span> <span class="nv">$plates</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$c</span> <span class="o">=</span> <span class="nv">$plates</span><span class="o">-&gt;</span><span class="na">getContainer</span><span class="p">();</span> <span class="c1">// 1. access the ioc container
+</span>        <span class="nv">$c</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'globalData.globals'</span><span class="p">,</span> <span class="p">[]);</span> <span class="c1">// 2. define an empty array in the container to store globals
+</span>
+        <span class="c1">// 3. define a method for adding globals
+</span>        <span class="nv">$plates</span><span class="o">-&gt;</span><span class="na">addMethods</span><span class="p">([</span>
+            <span class="s1">'addGlobal'</span> <span class="o">=&gt;</span> <span class="k">function</span><span class="p">(</span><span class="nx">Plates\Engine</span> <span class="nv">$e</span><span class="p">,</span> <span class="nv">$name</span><span class="p">,</span> <span class="nv">$value</span><span class="p">)</span> <span class="p">{</span>
+                <span class="c1">// 4. merge the new array with the globalData.globals definition
+</span>                <span class="nv">$e</span><span class="o">-&gt;</span><span class="na">getContainer</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">merge</span><span class="p">(</span><span class="s1">'globalData.globals'</span><span class="p">,</span> <span class="p">[</span><span class="nv">$name</span> <span class="o">=&gt;</span> <span class="nv">$value</span><span class="p">]);</span>
+            <span class="p">},</span>
+        <span class="p">]);</span>
+
+        <span class="c1">// 5. push a new composer onto the stack (will execute first)
+</span>        <span class="nv">$plates</span><span class="o">-&gt;</span><span class="na">pushComposers</span><span class="p">(</span><span class="k">function</span><span class="p">(</span><span class="nv">$c</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="p">[</span>
+                <span class="c1">// 6. create the new composer and pass in the globals array
+</span>                <span class="s1">'globalData.assignGlobals'</span> <span class="o">=&gt;</span> <span class="nx">assignGlobalsComposer</span><span class="p">(</span><span class="nv">$c</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">'globalData.globals'</span><span class="p">))</span>
+            <span class="p">];</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<div class="filename">src/Docs/GlobalData/global-data.php</div>
+<div class="language-php highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?php</span>
+
+<span class="k">namespace</span> <span class="nx">League\Plates\Docs\GlobalData</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">League\Plates\Template</span><span class="p">;</span>
+
+<span class="k">function</span> <span class="nf">assignGlobalsComposer</span><span class="p">(</span><span class="k">array</span> <span class="nv">$globals</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">function</span><span class="p">(</span><span class="nx">Template</span> <span class="nv">$t</span><span class="p">)</span> <span class="k">use</span> <span class="p">(</span><span class="nv">$globals</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// 7. merge the globals with the original template data so that any template defined vars overwrite globals if conflict
+</span>        <span class="k">return</span> <span class="nv">$t</span><span class="o">-&gt;</span><span class="na">withData</span><span class="p">(</span><span class="nb">array_merge</span><span class="p">(</span>
+            <span class="nv">$globals</span><span class="p">,</span>
+            <span class="nv">$t</span><span class="o">-&gt;</span><span class="na">data</span>
+        <span class="p">));</span>
+    <span class="p">};</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Now this introduced quite a few more concepts than the last example, so let’s break down by point:</p>
+
+<ol>
+  <li>The IoC Container is just a simple service container similar to Laravel Service Container or Pimple. It stores service definitions lazily so that you can configure services and later retrieve them with minimal hassle.</li>
+  <li>We want want to store a simple value in the container. This will be stored as is and no processing will be done to it. It’s just a simple array.</li>
+  <li>We are adding a new engine onto the method which will give users the ability to call <code class="highlighter-rouge">$plates-&gt;addGlobal('varName', 'value')</code>.</li>
+  <li><code class="highlighter-rouge">$container-&gt;merge</code> is just a simple alias for retrieving the array from the container and then calling array_merge and then updating the said container.</li>
+  <li>The Plates Standard Extension defines composers which are just functions that transform the <code class="highlighter-rouge">League\Plates\Template</code> instance. They receive one argument of a Template and return a Template always.</li>
+  <li>We return a keyed array because this allows us to easily override other composers if we use the same name. The naming convention with values in the container are <code class="highlighter-rouge">extensionName.value</code>.</li>
+  <li>Here are implementing the composer which merges in the global data with the templates current data.</li>
+</ol>
+
+    </article>
+</main>
+
+<footer>
+    <span>&copy; Copyright <a href="http://thephpleague.com">The League of Extraordinary Packages</a>.</span>
+    <span>Site design by <a href="http://reinink.ca">Jonathan Reinink</a>.</span>
+</footer>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="http://theme.thephpleague.com/js/scripts.js"></script>
+<script src="http://theme.thephpleague.com/js/prism.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+<script>
+$('select.select2').select2().on('change', function(e) {
+    var pathParts = window.location.pathname.split("/");
+    pathParts[1] = e.currentTarget.value;
+    window.location.href = pathParts.join("/");
+});
+</script>
+
+
+    <script>
+        (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+        function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+        e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+        e.src='//www.google-analytics.com/analytics.js';
+        r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+        ga('create','UA-46050814-2');ga('send','pageview');
+    </script>
+
+
+</body>
+</html>

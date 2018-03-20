@@ -15,7 +15,7 @@ Plates uses a central object called the `Engine`, which is used to store the env
 // Create new Plates engine
 $templates = new League\Plates\Engine('/path/to/templates');
 
-// Add any any additional folders
+// Add any additional folders
 $templates->addFolder('emails', '/path/to/emails');
 
 // Load any additional extensions

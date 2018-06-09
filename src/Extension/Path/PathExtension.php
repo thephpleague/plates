@@ -9,12 +9,7 @@ final class PathExtension implements Plates\Extension
     public function register(Plates\Engine $plates) {
         $c = $plates->getContainer();
         $c->add('path.resolvePath.prefixes', function($c) {
-            $config = $c->get('config');
-
-            // wrap base dir in an array if not already
-            $base_dir = isset($config['base_dir']) ? $config['base_dir'] : null;
-            $base_dir = $base_dir ? (is_string($base_dir) ? [$base_dir] : $base_dir) : $base_dir;
-            return $base_dir;
+            return (array) ($c->get('config')['base_dir'] ?? []);
         });
         $c->addComposed('path.normalizeName', function($c) {
             return [

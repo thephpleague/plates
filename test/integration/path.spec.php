@@ -11,4 +11,8 @@ describe('Path Extension', function() {
         $expected = "name: Foo";
         expect($plates->render(__DIR__ . '/fixtures/normalize-name/main'))->equal($expected);
     });
+    it('allows empty basedir', function() {
+        $plates = Plates\Engine::createWithConfig([]);
+        expect($plates->render(__DIR__ . '/fixtures/simple/main'))->equal("foo\n");
+    });
 });

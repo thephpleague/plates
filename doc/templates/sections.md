@@ -50,7 +50,7 @@ In situations where a page doesn't implement a particular section, it's helpful 
 
 ### Defining it inline
 
-If the default content can be defined in a single line of code, it's best to simply pass it as the second parameter of the `content()` function.
+If the default content can be defined in a single line of code, it's best to simply pass it as the second parameter of the `section()` function.
 
 ~~~ php
 <div id="sidebar">

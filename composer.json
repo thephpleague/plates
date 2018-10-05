@@ -30,7 +30,7 @@
         "peridot-php/leo": "^1.6",
         "peridot-php/peridot": "^1.19",
         "peridot-php/peridot-code-coverage-reporters": "^3.0",
-        "squizlabs/php_codesniffer": "~1.5"
+        "squizlabs/php_codesniffer": "^3.3"
     },
     "autoload": {
         "psr-4": {

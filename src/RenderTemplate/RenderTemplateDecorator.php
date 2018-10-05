@@ -8,7 +8,8 @@ abstract class RenderTemplateDecorator implements Plates\RenderTemplate
 {
     protected $render;
 
-    public function __construct(Plates\RenderTemplate $render) {
+    public function __construct(Plates\RenderTemplate $render)
+    {
         $this->render = $render;
     }
 

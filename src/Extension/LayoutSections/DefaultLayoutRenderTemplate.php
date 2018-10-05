@@ -8,12 +8,14 @@ final class DefaultLayoutRenderTemplate extends Plates\RenderTemplate\RenderTemp
 {
     private $layout_path;
 
-    public function __construct(Plates\RenderTemplate $render, $layout_path) {
+    public function __construct(Plates\RenderTemplate $render, $layout_path)
+    {
         parent::__construct($render);
         $this->layout_path = $layout_path;
     }
 
-    public function renderTemplate(Plates\Template $template, Plates\RenderTemplate $rt = null) {
+    public function renderTemplate(Plates\Template $template, Plates\RenderTemplate $rt = null)
+    {
         if ($template->parent || $template->get('no_layout')) {
             return $this->render->renderTemplate($template, $rt ?: $this);
         }
@@ -31,8 +33,9 @@ final class DefaultLayoutRenderTemplate extends Plates\RenderTemplate\RenderTemp
         return $contents;
     }
 
-    public static function factory($layout_path) {
-        return function(Plates\RenderTemplate $rt) use ($layout_path) {
+    public static function factory($layout_path)
+    {
+        return function (Plates\RenderTemplate $rt) use ($layout_path) {
             return new self($rt, $layout_path);
         };
     }

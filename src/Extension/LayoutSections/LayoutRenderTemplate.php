@@ -6,7 +6,8 @@ use League\Plates;
 
 final class LayoutRenderTemplate extends Plates\RenderTemplate\RenderTemplateDecorator
 {
-    public function renderTemplate(Plates\Template $template, Plates\RenderTemplate $rt = null) {
+    public function renderTemplate(Plates\Template $template, Plates\RenderTemplate $rt = null)
+    {
         $ref = $template->reference;
         $content = $this->render->renderTemplate($template, $rt ?: $this);
 
@@ -21,8 +22,9 @@ final class LayoutRenderTemplate extends Plates\RenderTemplate\RenderTemplateDec
         return ($rt ?: $this)->renderTemplate($layout);
     }
 
-    public static function factory() {
-        return function(Plates\RenderTemplate $render) {
+    public static function factory()
+    {
+        return function (Plates\RenderTemplate $render) {
             return new static($render);
         };
     }

@@ -37,7 +37,7 @@ For BC reasons, we are currently binding `$this` to the render context which mea
 
 The `Template` class is completely different and has been moved to `Leauge\Plates\Template`. In v3, the Template class was responsible for rendering the php files and providing context within the templates themselves. This behavior has been moved into the `RenderTemplate` implementations. Templates are now simply immutable value objects.
 
-So this means you can no longer manually create and render templates, you need a `RenderTemplate` to actuall render the template into a string.
+So this means you can no longer manually create and render templates, you need a `RenderTemplate` to actually render the template into a string.
 
 ```php
 $renderTemplate = League\Plates\Engine::create('/path/to/templates')

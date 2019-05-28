@@ -1,3 +1,6 @@
+<?php  echo "This file is peridot.php";?>
+
+
 <?php
 
 use Evenement\EventEmitterInterface;

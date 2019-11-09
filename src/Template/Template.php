@@ -216,7 +216,7 @@ class Template
     }
 
     /**
-     * Start a new append section block in APPEND mode.
+     * Start a new section block in APPEND mode.
      * @param  string $name
      * @return null
      */
@@ -227,11 +227,11 @@ class Template
     }
 
     /**
-     * Start a new append section block in PREPEND mode.
+     * Start a new section block in PREPEND mode.
      * @param  string $name
      * @return null
      */
-    public function shift($name)
+    public function unshift($name)
     {
         $this->sectionMode = self::SECTION_MODE_PREPEND;
         $this->start($name);

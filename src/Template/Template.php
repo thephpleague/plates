@@ -48,6 +48,13 @@ class Template
     protected $sectionName;
 
     /**
+     * Whether the section should be appended or not.
+     * @deprecated stayed for backward compatibility, use $sectionMode instead
+     * @var boolean
+     */
+    protected $appendSection;
+
+    /**
      * The name of the template layout.
      * @var string
      */
@@ -222,6 +229,7 @@ class Template
      */
     public function push($name)
     {
+        $this->appendSection = true; // for backward compatibility
         $this->sectionMode = self::SECTION_MODE_APPEND;
         $this->start($name);
     }
@@ -233,6 +241,7 @@ class Template
      */
     public function unshift($name)
     {
+        $this->appendSection = false; // for backward compatibility
         $this->sectionMode = self::SECTION_MODE_PREPEND;
         $this->start($name);
     }
@@ -270,6 +279,7 @@ class Template
         }
         $this->sectionName = null;
         $this->sectionMode = self::SECTION_MODE_REWRITE;
+        $this->appendSection = false; // for backward compatibility
     }
 
     /**

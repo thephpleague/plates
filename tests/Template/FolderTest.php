@@ -1,14 +1,17 @@
 <?php
 
-namespace League\Plates\Template;
+declare(strict_types=1);
 
+namespace League\Plates\Tests\Template;
+
+use League\Plates\Template\Folder;
 use org\bovigo\vfs\vfsStream;
 
-class FolderTest extends \PHPUnit_Framework_TestCase
+class FolderTest extends \PHPUnit\Framework\TestCase
 {
-    private $folder;
+    private Folder $folder;
 
-    public function setUp()
+    protected function setUp(): void
     {
         vfsStream::setup('templates');
 
@@ -17,13 +20,13 @@ class FolderTest extends \PHPUnit_Framework_TestCase
 
     public function testCanCreateInstance()
     {
-        $this->assertInstanceOf('League\Plates\Template\Folder', $this->folder);
+        $this->assertInstanceOf(Folder::class, $this->folder);
     }
 
     public function testSetAndGetName()
     {
         $this->folder->setName('name');
-        $this->assertEquals($this->folder->getName(), 'name');
+        $this->assertSame('name', $this->folder->getName());
     }
 
     public function testSetAndGetPath()
@@ -35,19 +38,20 @@ class FolderTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->folder->setPath(vfsStream::url('templates/folder'));
-        $this->assertEquals($this->folder->getPath(), vfsStream::url('templates/folder'));
+        $this->assertSame(vfsStream::url('templates/folder'), $this->folder->getPath());
     }
 
     public function testSetInvalidPath()
     {
-        $this->setExpectedException('LogicException', 'The specified directory path "vfs://does/not/exist" does not exist.');
+        // The specified directory path "vfs://does/not/exist" does not exist.
+        $this->expectException(\LogicException::class);
         $this->folder->setPath(vfsStream::url('does/not/exist'));
     }
 
     public function testSetAndGetFallback()
     {
-        $this->assertEquals($this->folder->getFallback(), false);
+        $this->assertFalse($this->folder->getFallback());
         $this->folder->setFallback(true);
-        $this->assertEquals($this->folder->getFallback(), true);
+        $this->assertTrue($this->folder->getFallback());
     }
 }

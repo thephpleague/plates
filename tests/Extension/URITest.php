@@ -1,14 +1,18 @@
 <?php
 
-namespace League\Plates\Extension;
+declare(strict_types=1);
+
+namespace League\Plates\Tests\Extension;
 
 use League\Plates\Engine;
+use League\Plates\Extension\URI;
+use PHPUnit\Framework\TestCase;
 
-class URITest extends \PHPUnit_Framework_TestCase
+class URITest extends TestCase
 {
-    private $extension;
+    private URI $extension;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->extension = new URI('/green/red/blue');
     }
@@ -23,7 +27,7 @@ class URITest extends \PHPUnit_Framework_TestCase
         $engine = new Engine();
         $extension = new URI('/green/red/blue');
         $extension->register($engine);
-        $this->assertEquals($engine->doesFunctionExist('uri'), true);
+        $this->assertTrue($engine->doesFunctionExist('uri'));
     }
 
     public function testGetUrl()
@@ -81,7 +85,8 @@ class URITest extends \PHPUnit_Framework_TestCase
 
     public function testInvalidCall()
     {
-        $this->setExpectedException('LogicException', 'Invalid use of the uri function.');
+        // Invalid use of the uri function.
+        $this->expectException(\LogicException::class);
 
         $this->extension->runUri(array());
     }

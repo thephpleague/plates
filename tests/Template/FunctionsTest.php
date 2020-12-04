@@ -1,58 +1,66 @@
 <?php
 
-namespace League\Plates\Template;
+declare(strict_types=1);
 
-class FunctionsTest extends \PHPUnit_Framework_TestCase
+namespace League\Plates\Tests\Template;
+
+use League\Plates\Template\Functions;
+use PHPUnit\Framework\TestCase;
+
+class FunctionsTest extends TestCase
 {
-    private $functions;
+    private Functions $functions;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->functions = new Functions();
     }
 
     public function testCanCreateInstance()
     {
-        $this->assertInstanceOf('League\Plates\Template\Functions', $this->functions);
+        $this->assertInstanceOf(Functions::class, $this->functions);
     }
 
     public function testAddAndGetFunction()
     {
-        $this->assertInstanceOf('League\Plates\Template\Functions', $this->functions->add('upper', 'strtoupper'));
-        $this->assertEquals($this->functions->get('upper')->getCallback(), 'strtoupper');
+        $this->assertInstanceOf(Functions::class, $this->functions->add('upper', 'strtoupper'));
+        $this->assertSame('strtoupper', $this->functions->get('upper')->getCallback());
     }
 
     public function testAddFunctionConflict()
     {
-        $this->setExpectedException('LogicException', 'The template function name "upper" is already registered.');
+        // The template function name "upper" is already registered.
+        $this->expectException(\LogicException::class);
         $this->functions->add('upper', 'strtoupper');
         $this->functions->add('upper', 'strtoupper');
     }
 
     public function testGetNonExistentFunction()
     {
-        $this->setExpectedException('LogicException', 'The template function "foo" was not found.');
+        // The template function "foo" was not found.
+        $this->expectException(\LogicException::class);
         $this->functions->get('foo');
     }
 
     public function testRemoveFunction()
     {
         $this->functions->add('upper', 'strtoupper');
-        $this->assertEquals($this->functions->exists('upper'), true);
+        $this->assertTrue($this->functions->exists('upper'));
         $this->functions->remove('upper');
-        $this->assertEquals($this->functions->exists('upper'), false);
+        $this->assertFalse($this->functions->exists('upper'));
     }
 
     public function testRemoveNonExistentFunction()
     {
-        $this->setExpectedException('LogicException', 'The template function "foo" was not found.');
+        // The template function "foo" was not found.
+        $this->expectException(\LogicException::class);
         $this->functions->remove('foo');
     }
 
     public function testFunctionExists()
     {
-        $this->assertEquals($this->functions->exists('upper'), false);
+        $this->assertFalse($this->functions->exists('upper'));
         $this->functions->add('upper', 'strtoupper');
-        $this->assertEquals($this->functions->exists('upper'), true);
+        $this->assertTrue($this->functions->exists('upper'));
     }
 }

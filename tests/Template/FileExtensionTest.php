@@ -1,12 +1,17 @@
 <?php
 
-namespace League\Plates\Template;
+declare(strict_types=1);
 
-class FileExtensionTest extends \PHPUnit_Framework_TestCase
+namespace League\Plates\Tests\Template;
+
+use League\Plates\Template\FileExtension;
+use PHPUnit\Framework\TestCase;
+
+class FileExtensionTest extends TestCase
 {
-    private $fileExtension;
+    private FileExtension $fileExtension;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->fileExtension = new FileExtension();
     }
@@ -19,17 +24,17 @@ class FileExtensionTest extends \PHPUnit_Framework_TestCase
     public function testSetFileExtension()
     {
         $this->assertInstanceOf('League\Plates\Template\FileExtension', $this->fileExtension->set('tpl'));
-        $this->assertEquals($this->fileExtension->get(), 'tpl');
+        $this->assertSame('tpl', $this->fileExtension->get());
     }
 
     public function testSetNullFileExtension()
     {
         $this->assertInstanceOf('League\Plates\Template\FileExtension', $this->fileExtension->set(null));
-        $this->assertEquals($this->fileExtension->get(), null);
+        $this->assertNull($this->fileExtension->get());
     }
 
     public function testGetFileExtension()
     {
-        $this->assertEquals($this->fileExtension->get(), 'php');
+        $this->assertSame('php', $this->fileExtension->get());
     }
 }

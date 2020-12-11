@@ -24,11 +24,15 @@ You define the name of the section with the `start()` function. To end a section
 
 ## Stacking section content
 
-By default, when you render a section its content will overwrite any existing content for that section. However, it's possible to append (or stack) the content instead using the `push()` method. This can be useful for specifying any JavaScript libraries required by your child views.
+By default, when you render a section its content will overwrite any existing content for that section. However, it's possible to append/prepend (or stack) the content instead using the `push()` or `unshift()` method respectively. This can be useful for specifying any JavaScript libraries or CSS files required by your child views.
 
 ~~~ php
 <?php $this->push('scripts') ?>
     <script src="example.js"></script>
+<?php $this->end() ?>
+
+<?php $this->unshift('styles') ?>
+    <link rel="stylesheet" href="example.css" />
 <?php $this->end() ?>
 ~~~
 

@@ -1,6 +1,6 @@
 {
-    "name": "league/plates",
-    "description": "Plates, the native PHP template system that's fast, easy to use and easy to extend.",
+    "name": "codexsoft/plates",
+    "description": "Fork of League/Plates, the native PHP template system that's fast, easy to use and easy to extend.",
     "keywords": [
         "league",
         "package",
@@ -23,7 +23,7 @@
         }
     ],
     "require" : {
-        "php": "^5.3 | ^7.0 | ^8.0"
+        "php": "^7.0 | ^8.0"
     },
     "require-dev": {
         "mikey179/vfsStream": "^1.4",

@@ -23,10 +23,10 @@
         }
     ],
     "require" : {
-        "php": "^5.3 | ^7.0"
+        "php": "^5.3 | ^7.0 | ^8.0"
     },
     "require-dev": {
-        "mikey179/vfsStream": "^1.4",
+        "mikey179/vfsstream": "^1.4",
         "phpunit/phpunit": "~4.0",
         "squizlabs/php_codesniffer": "~1.5"
     },

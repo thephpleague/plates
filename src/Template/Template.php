@@ -228,7 +228,7 @@ class Template
      */
     public function push($name)
     {
-        $this->appendSection = false; /* for backward compatibility */
+        $this->appendSection = true; /* for backward compatibility */
         $this->sectionMode = self::SECTION_MODE_APPEND;
         $this->start($name);
     }

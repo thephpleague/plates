@@ -12,6 +12,16 @@ use Throwable;
  */
 class Template
 {
+    const SECTION_MODE_REWRITE = 1;
+    const SECTION_MODE_PREPEND = 2;
+    const SECTION_MODE_APPEND = 3;
+
+    /**
+     * Set section content mode: rewrite/append/prepend
+     * @var int
+     */
+    protected $sectionMode = self::SECTION_MODE_REWRITE;
+
     /**
      * Instance of the template engine.
      * @var Engine
@@ -44,6 +54,7 @@ class Template
 
     /**
      * Whether the section should be appended or not.
+     * @deprecated stayed for backward compatibility, use $sectionMode instead
      * @var boolean
      */
     protected $appendSection;
@@ -211,14 +222,26 @@ class Template
     }
 
     /**
-     * Start a new append section block.
+     * Start a new section block in APPEND mode.
      * @param  string $name
      * @return null
      */
     public function push($name)
     {
-        $this->appendSection = true;
+        $this->appendSection = true; /* for backward compatibility */
+        $this->sectionMode = self::SECTION_MODE_APPEND;
+        $this->start($name);
+    }
 
+    /**
+     * Start a new section block in PREPEND mode.
+     * @param  string $name
+     * @return null
+     */
+    public function unshift($name)
+    {
+        $this->appendSection = false; /* for backward compatibility */
+        $this->sectionMode = self::SECTION_MODE_PREPEND;
         $this->start($name);
     }
 
@@ -238,9 +261,24 @@ class Template
             $this->sections[$this->sectionName] = '';
         }
 
-        $this->sections[$this->sectionName] = $this->appendSection ? $this->sections[$this->sectionName] . ob_get_clean() : ob_get_clean();
+        switch ($this->sectionMode) {
+
+            case self::SECTION_MODE_REWRITE:
+                $this->sections[$this->sectionName] = ob_get_clean();
+                break;
+
+            case self::SECTION_MODE_APPEND:
+                $this->sections[$this->sectionName] .= ob_get_clean();
+                break;
+
+            case self::SECTION_MODE_PREPEND:
+                $this->sections[$this->sectionName] = ob_get_clean().$this->sections[$this->sectionName];
+                break;
+
+        }
         $this->sectionName = null;
-        $this->appendSection = false;
+        $this->sectionMode = self::SECTION_MODE_REWRITE;
+        $this->appendSection = false; /* for backward compatibility */
     }
 
     /**

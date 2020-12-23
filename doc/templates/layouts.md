@@ -75,7 +75,7 @@ Plates allows stacking of layouts, allowing even further simplification and orga
 
 <div class="filename">blog.php</div>
 ~~~ php
-<?php $this->layout('template') ?>
+<?php $this->layout('template', ['title' => $title]) ?>
 
 <h1>The Blog</h1>
 

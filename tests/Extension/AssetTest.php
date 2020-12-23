@@ -1,13 +1,17 @@
 <?php
 
-namespace League\Plates\Extension;
+declare(strict_types=1);
+
+namespace League\Plates\Tests\Extension;
 
 use League\Plates\Engine;
+use League\Plates\Extension\Asset;
 use org\bovigo\vfs\vfsStream;
+use PHPUnit\Framework\TestCase;
 
-class AssetTest extends \PHPUnit_Framework_TestCase
+class AssetTest extends TestCase
 {
-    public function setUp()
+    protected function setUp(): void
     {
         vfsStream::setup('assets');
     }
@@ -24,7 +28,7 @@ class AssetTest extends \PHPUnit_Framework_TestCase
         $engine = new Engine();
         $extension = new Asset(vfsStream::url('assets'));
         $extension->register($engine);
-        $this->assertEquals($engine->doesFunctionExist('asset'), true);
+        $this->assertTrue($engine->doesFunctionExist('asset'));
     }
 
     public function testCachedAssetUrl()
@@ -68,7 +72,8 @@ class AssetTest extends \PHPUnit_Framework_TestCase
 
     public function testFileNotFoundException()
     {
-        $this->setExpectedException('LogicException', 'Unable to locate the asset "styles.css" in the "' . vfsStream::url('assets') . '" directory.');
+        // Unable to locate the asset "styles.css" in the @assets directory.
+        $this->expectException(\LogicException::class);
 
         $extension = new Asset(vfsStream::url('assets'));
         $extension->cachedAssetUrl('styles.css');

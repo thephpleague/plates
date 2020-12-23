@@ -1,14 +1,18 @@
 <?php
 
-namespace League\Plates\Template;
+declare(strict_types=1);
 
+namespace League\Plates\Tests\Template;
+
+use League\Plates\Template\Directory;
 use org\bovigo\vfs\vfsStream;
+use PHPUnit\Framework\TestCase;
 
-class DirectoryTest extends \PHPUnit_Framework_TestCase
+class DirectoryTest extends TestCase
 {
-    private $directory;
+    private Directory $directory;
 
-    public function setUp()
+    protected function setUp(): void
     {
         vfsStream::setup('templates');
 
@@ -23,23 +27,24 @@ class DirectoryTest extends \PHPUnit_Framework_TestCase
     public function testSetDirectory()
     {
         $this->assertInstanceOf('League\Plates\Template\Directory', $this->directory->set(vfsStream::url('templates')));
-        $this->assertEquals($this->directory->get(), vfsStream::url('templates'));
+        $this->assertSame($this->directory->get(), vfsStream::url('templates'));
     }
 
     public function testSetNullDirectory()
     {
         $this->assertInstanceOf('League\Plates\Template\Directory', $this->directory->set(null));
-        $this->assertEquals($this->directory->get(), null);
+        $this->assertNull($this->directory->get());
     }
 
     public function testSetInvalidDirectory()
     {
-        $this->setExpectedException('LogicException', 'The specified path "vfs://does/not/exist" does not exist.');
+        // The specified path "vfs://does/not/exist" does not exist.
+        $this->expectException(\LogicException::class);
         $this->directory->set(vfsStream::url('does/not/exist'));
     }
 
     public function testGetDirectory()
     {
-        $this->assertEquals($this->directory->get(), null);
+        $this->assertNull($this->directory->get());
     }
 }

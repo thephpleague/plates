@@ -1,6 +1,7 @@
 build
 composer.lock
 vendor
-doc/_site
-doc/_data/versions.yml
+doc/public
+doc/data/versions.json
 .generated
+.phpunit.result.cache

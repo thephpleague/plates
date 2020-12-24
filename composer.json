@@ -18,7 +18,7 @@
         },
         {
             "name": "RJ Garcia",
-            "email": "rj@bighead.net",
+            "email": "ragboyjr@icloud.com",
             "role": "Developer"
         }
     ],
@@ -46,6 +46,7 @@
         }
     },
     "scripts": {
-        "test": "phpunit"
+        "test": "phpunit --testdox",
+        "docs": "hugo -s doc server"
     }
 }

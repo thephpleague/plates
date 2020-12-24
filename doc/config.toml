@@ -1,0 +1,15 @@
+baseURL = "https://platesphp.com/"
+languageCode = "en-us"
+title = "Plates"
+
+pygmentsUseClasses = true
+
+googleAnalytics = "UA-46050814-2"
+
+[params]
+  tagline = "Native PHP Templates"
+  description = "Plates is a Twig inspired, native PHP template system that brings modern template language functionality to native PHP templates."
+  [params.images]
+    favicon = "favicon/favicon.ico"
+    appleTouch = "favicon/apple-touch-icon-precomposed.png"
+    logo = "images/logo.png"

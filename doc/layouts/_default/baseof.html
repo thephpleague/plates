@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.Language.Lang }}">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {{ if .IsHome }}
+        <title>{{ .Site.Title }} - {{ .Site.Params.tagline }}</title>
+    {{ else }}
+        <title>{{ partial "title" . }} | {{ .Site.Title -}}</title>
+    {{ end }}
+    {{ if .Site.Params.description }}
+        <meta name="description" content="{{ .Site.Params.description }}">
+    {{ end }}
+    {{ if .Site.Params.Images.favicon }}
+        <link rel="icon" type="image/x-icon" href="{{ .Site.Params.Images.favicon | relURL }}" />
+    {{ else }}
+        <link rel="icon" type="image/x-icon" href="https://theme.thephpleague.com/img/favicon.ico" />
+    {{ end }}
+    {{ if .Site.Params.Images.appleTouch }}
+        <link rel="apple-touch-icon-precomposed" href="{{ .Site.Params.Images.appleTouch | relURL }}">
+    {{ else }}
+        <link rel="apple-touch-icon-precomposed" href="https://theme.thephpleague.com/img/apple-touch-icon-precomposed.png">
+    {{ end }}
+    <link rel="stylesheet" href="https://theme.thephpleague.com/css/all.css">
+    <link rel="stylesheet" href="{{ "css/custom.css" | relURL }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+</head>
+<body>
+
+<a href="https://github.com/thephpleague/plates" class="github">
+    <img src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png">
+</a>
+
+<section class="all_packages">
+    <a href="https://thephpleague.com/">
+        <img src="https://theme.thephpleague.com/img/loep_logo.png" width="195" height="200" alt="The League of Extraordinary Packages">
+    </a>
+    <h2>Our Packages:</h2>
+    <ul>
+        <!-- Loaded via JavaScript -->
+    </ul>
+</section>
+
+<header>
+    <a class="logo" href="/">
+        {{ if .Site.Params.Images.logo }}
+            <span class="icon">
+                <img src="{{ .Site.Params.Images.logo | relURL }}" width="50" height="40" alt="{{ .Site.Title }} - {{ .Site.Params.tagline }}">
+            </span>
+        {{ end }}
+        <span class="name">{{ .Site.Title }}</span>
+        <span class="tagline">{{ .Site.Params.tagline }}</span>
+    </a>
+    <a href="https://thephpleague.com/" class="league">
+        Presented by The League of Extraordinary Packages
+    </a>
+</header>
+
+<input type="checkbox" id="menu">
+<label for="menu" onclick>
+    <div class="closed">&#9776; Menu</div>
+    <div class="open">&#9776; Hide Menu</div>
+</label>
+
+<main>
+    <menu>
+        {{ $currentPage := . }}
+        {{ range .Site.Menus.main }}
+            <h2>{{ .Name }}</h2>
+            <ul>
+                {{ range .Children }}
+                <li class="{{ if $currentPage.IsMenuCurrent "main" . }}selected{{ end }}">
+                    <a href="{{ .URL }}">{{ .Page.Title }}</a>
+                </li>
+                {{ end }}
+            </ul>
+        {{ end }}
+    </menu>
+    <article>
+        {{ template "main" . }}
+    </article>
+</main>
+
+<footer>
+    <span>&copy; Copyright <a href="https://thephpleague.com">The League of Extraordinary Packages</a>.</span>
+    <span>Site design by <a href="https://reinink.ca">Jonathan Reinink</a>.</span>
+</footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="https://theme.thephpleague.com/js/scripts.js"></script>
+<script src="https://theme.thephpleague.com/js/prism.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<script>
+$('select.select2').select2().on('change', function(e) {
+    var pathParts = window.location.pathname.split("/");
+    pathParts[1] = e.currentTarget.value;
+    window.location.href = pathParts.join("/");
+});
+</script>
+
+{{ if .Site.GoogleAnalytics }}
+    <script>
+        (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+        function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+        e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+        e.src='//www.google-analytics.com/analytics.js';
+        r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+        ga('create','{{ .Site.GoogleAnalytics }}');ga('send','pageview');
+    </script>
+{{ end }}
+
+</body>
+</html>

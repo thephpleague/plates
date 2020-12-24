@@ -19,4 +19,11 @@ We accept contributions via Pull Requests on [Github](https://github.com/thephpl
 ``` bash
 $ phpunit
 ```
+
+## Docs
+
+Docs are served with hugo running on version 0.79 or later.
+
+You can view the docs locally with `hugo -s doc server`
+
 **Happy coding**!

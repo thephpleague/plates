@@ -51,7 +51,7 @@ Please see [CONTRIBUTING](https://github.com/thephpleague/plates/blob/master/CON
 
 ## Security
 
-If you discover any security related issues, please email rj@bighead.net instead of using the issue tracker.
+If you discover any security related issues, please email ragboyjr@icloud.com instead of using the issue tracker.
 
 ## Credits
 

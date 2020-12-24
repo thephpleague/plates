@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta name="generator" content="Hugo 0.79.1" />
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-        <title>Plates - Native PHP Templates</title>
+        <title>Data | Plates</title>
     
     
         <meta name="description" content="Plates is a Twig inspired, native PHP template system that brings modern template language functionality to native PHP templates.">
@@ -65,7 +64,7 @@
             <h2>Getting Started</h2>
             <ul>
                 
-                <li class="selected">
+                <li class="">
                     <a href="/">Introduction</a>
                 </li>
                 
@@ -111,7 +110,7 @@
                     <a href="/templates/overview/">Overview</a>
                 </li>
                 
-                <li class="">
+                <li class="selected">
                     <a href="/templates/data/">Data</a>
                 </li>
                 
@@ -165,34 +164,34 @@
     </menu>
     <article>
         
-  <h1>Introduction</h1>
-  <p><a href="https://twitter.com/reinink"><img src="http://img.shields.io/badge/maintainer-@ragboyjr-blue.svg?style=flat-square" alt="Maintainer"></a>
-<a href="https://github.com/thephpleague/plates"><img src="http://img.shields.io/badge/source-league/plates-blue.svg?style=flat-square" alt="Source Code"></a>
-<a href="https://github.com/thephpleague/plates/releases"><img src="https://img.shields.io/github/release/thephpleague/plates.svg?style=flat-square" alt="Latest Version"></a>
-<a href="https://github.com/thephpleague/plates/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square" alt="Software License"></a><!-- raw HTML omitted -->
-<a href="https://travis-ci.org/thephpleague/plates"><img src="https://img.shields.io/travis/thephpleague/plates/master.svg?style=flat-square" alt="Build Status"></a>
-<a href="https://scrutinizer-ci.com/g/thephpleague/plates/code-structure"><img src="https://img.shields.io/scrutinizer/coverage/g/thephpleague/plates.svg?style=flat-square" alt="Coverage Status"></a>
-<a href="https://scrutinizer-ci.com/g/thephpleague/plates"><img src="https://img.shields.io/scrutinizer/g/thephpleague/plates.svg?style=flat-square" alt="Quality Score"></a>
-<a href="https://packagist.org/packages/league/plates"><img src="https://img.shields.io/packagist/dt/league/plates.svg?style=flat-square" alt="Total Downloads"></a></p>
-<h2 id="about">About</h2>
-<p>Plates is a native PHP template system that&rsquo;s fast, easy to use and easy to extend. It&rsquo;s inspired by the excellent <a href="http://twig.sensiolabs.org/">Twig</a> template engine and strives to bring modern template language functionality to native PHP templates. Plates is designed for developers who prefer to use native PHP templates over compiled template languages, such as Twig or Smarty.</p>
-<h2 id="highlights">Highlights</h2>
-<ul>
-<li>Native PHP templates, no new <a href="/templates/syntax/">syntax</a> to learn</li>
-<li>Plates is a template system, not a template language</li>
-<li>Plates encourages the use of existing PHP functions</li>
-<li>Increase code reuse with template <a href="/templates/layouts/">layouts</a> and <a href="/templates/inheritance/">inheritance</a></li>
-<li>Template <a href="/engine/folders/">folders</a> for grouping templates into namespaces</li>
-<li><a href="/templates/data/#preassigned-and-shared-data">Data</a> sharing across templates</li>
-<li>Preassign <a href="/templates/data/#preassigned-and-shared-data">data</a> to specific templates</li>
-<li>Built-in <a href="/templates/escaping/">escaping</a> helpers</li>
-<li>Easy to extend using <a href="/engine/functions/">functions</a> and <a href="/engine/extensions/">extensions</a></li>
-<li>Framework-agnostic, will work with any project</li>
-<li>Decoupled design makes templates easy to test</li>
-<li>Composer ready and PSR-2 compliant</li>
-</ul>
-<h2 id="questions">Questions?</h2>
-<p>Plates is maintained by <a href="https://twitter.com/ragboyjr">RJ Garcia</a> and originally created by <a href="https://twitter.com/reinink">Jonathan Reinink</a>. Submit issues to <a href="https://github.com/thephpleague/plates/issues">Github</a>.</p>
+  <h1>Data</h1>
+  <p>It&rsquo;s very common to share application data (variables) with a template. Data can be whatever you want: strings, arrays, objects, etc. Plates allows you set both template specific data as well as shared template data.</p>
+<h2 id="assign-data">Assign data</h2>
+<p>Assigning data is done from within your application code, such as a controller. There are a number of ways to assign the data, depending on how you structure your objects.</p>
+<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="c1">// Create new Plates instance
+</span><span class="c1"></span><span class="nv">$templates</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">League\Plates\Engine</span><span class="p">(</span><span class="s1">&#39;/path/to/templates&#39;</span><span class="p">);</span>
+
+<span class="c1">// Assign via the engine&#39;s render method
+</span><span class="c1"></span><span class="k">echo</span> <span class="nv">$templates</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">(</span><span class="s1">&#39;profile&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Jonathan&#39;</span><span class="p">]);</span>
+
+<span class="c1">// Assign via the engine&#39;s make method
+</span><span class="c1"></span><span class="nv">$template</span> <span class="o">=</span> <span class="nv">$templates</span><span class="o">-&gt;</span><span class="na">make</span><span class="p">(</span><span class="s1">&#39;profile&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Jonathan&#39;</span><span class="p">]);</span>
+
+<span class="c1">// Assign directly to a template object
+</span><span class="c1"></span><span class="nv">$template</span> <span class="o">=</span> <span class="nv">$templates</span><span class="o">-&gt;</span><span class="na">make</span><span class="p">(</span><span class="s1">&#39;profile&#39;</span><span class="p">);</span>
+<span class="nv">$template</span><span class="o">-&gt;</span><span class="na">data</span><span class="p">([</span><span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Jonathan&#39;</span><span class="p">]);</span>
+</code></pre></div><h2 id="accessing-data">Accessing data</h2>
+<p>Template data is available as locally scoped variables at the time of rendering. Continuing with the example above, here is how you would <a href="/templates/escaping/">escape</a> and output the &ldquo;name&rdquo; value in a template:</p>
+<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="nx">Hello</span> <span class="o">&lt;?=</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">e</span><span class="p">(</span><span class="nv">$name</span><span class="p">)</span><span class="cp">?&gt;</span><span class="err">&lt;/p&gt;
+</span></code></pre></div><!-- raw HTML omitted -->
+<h2 id="preassigned-and-shared-data">Preassigned and shared data</h2>
+<p>If you have data that you want assigned to a specific template each time that template is rendered throughout your application, the <code>addData()</code> function can help organize that code in one place.</p>
+<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="nv">$templates</span><span class="o">-&gt;</span><span class="na">addData</span><span class="p">([</span><span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Jonathan&#39;</span><span class="p">],</span> <span class="s1">&#39;emails::welcome&#39;</span><span class="p">);</span>
+</code></pre></div><p>You can pressaign data to more than one template by passing an array of templates:</p>
+<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="nv">$templates</span><span class="o">-&gt;</span><span class="na">addData</span><span class="p">([</span><span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Jonathan&#39;</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;login&#39;</span><span class="p">,</span> <span class="s1">&#39;template&#39;</span><span class="p">]);</span>
+</code></pre></div><p>To assign data to ALL templates, simply omit the second parameter:</p>
+<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="nv">$templates</span><span class="o">-&gt;</span><span class="na">addData</span><span class="p">([</span><span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Jonathan&#39;</span><span class="p">]);</span>
+</code></pre></div><p>Keep in mind that shared data is assigned to a template when it&rsquo;s first created, meaning any conflicting data assigned that&rsquo;s afterwards to a specific template will overwrite the shared data. This is generally desired behavior.</p>
 
 
     </article>

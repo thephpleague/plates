@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta name="generator" content="Hugo 0.79.1" />
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-        <title>Plates - Native PHP Templates</title>
+        <title>Folders | Plates</title>
     
     
         <meta name="description" content="Plates is a Twig inspired, native PHP template system that brings modern template language functionality to native PHP templates.">
@@ -65,7 +64,7 @@
             <h2>Getting Started</h2>
             <ul>
                 
-                <li class="selected">
+                <li class="">
                     <a href="/">Introduction</a>
                 </li>
                 
@@ -90,7 +89,7 @@
                     <a href="/engine/file-extensions/">File Extensions</a>
                 </li>
                 
-                <li class="">
+                <li class="selected">
                     <a href="/engine/folders/">Folders</a>
                 </li>
                 
@@ -165,35 +164,30 @@
     </menu>
     <article>
         
-  <h1>Introduction</h1>
-  <p><a href="https://twitter.com/reinink"><img src="http://img.shields.io/badge/maintainer-@ragboyjr-blue.svg?style=flat-square" alt="Maintainer"></a>
-<a href="https://github.com/thephpleague/plates"><img src="http://img.shields.io/badge/source-league/plates-blue.svg?style=flat-square" alt="Source Code"></a>
-<a href="https://github.com/thephpleague/plates/releases"><img src="https://img.shields.io/github/release/thephpleague/plates.svg?style=flat-square" alt="Latest Version"></a>
-<a href="https://github.com/thephpleague/plates/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square" alt="Software License"></a><!-- raw HTML omitted -->
-<a href="https://travis-ci.org/thephpleague/plates"><img src="https://img.shields.io/travis/thephpleague/plates/master.svg?style=flat-square" alt="Build Status"></a>
-<a href="https://scrutinizer-ci.com/g/thephpleague/plates/code-structure"><img src="https://img.shields.io/scrutinizer/coverage/g/thephpleague/plates.svg?style=flat-square" alt="Coverage Status"></a>
-<a href="https://scrutinizer-ci.com/g/thephpleague/plates"><img src="https://img.shields.io/scrutinizer/g/thephpleague/plates.svg?style=flat-square" alt="Quality Score"></a>
-<a href="https://packagist.org/packages/league/plates"><img src="https://img.shields.io/packagist/dt/league/plates.svg?style=flat-square" alt="Total Downloads"></a></p>
-<h2 id="about">About</h2>
-<p>Plates is a native PHP template system that&rsquo;s fast, easy to use and easy to extend. It&rsquo;s inspired by the excellent <a href="http://twig.sensiolabs.org/">Twig</a> template engine and strives to bring modern template language functionality to native PHP templates. Plates is designed for developers who prefer to use native PHP templates over compiled template languages, such as Twig or Smarty.</p>
-<h2 id="highlights">Highlights</h2>
-<ul>
-<li>Native PHP templates, no new <a href="/templates/syntax/">syntax</a> to learn</li>
-<li>Plates is a template system, not a template language</li>
-<li>Plates encourages the use of existing PHP functions</li>
-<li>Increase code reuse with template <a href="/templates/layouts/">layouts</a> and <a href="/templates/inheritance/">inheritance</a></li>
-<li>Template <a href="/engine/folders/">folders</a> for grouping templates into namespaces</li>
-<li><a href="/templates/data/#preassigned-and-shared-data">Data</a> sharing across templates</li>
-<li>Preassign <a href="/templates/data/#preassigned-and-shared-data">data</a> to specific templates</li>
-<li>Built-in <a href="/templates/escaping/">escaping</a> helpers</li>
-<li>Easy to extend using <a href="/engine/functions/">functions</a> and <a href="/engine/extensions/">extensions</a></li>
-<li>Framework-agnostic, will work with any project</li>
-<li>Decoupled design makes templates easy to test</li>
-<li>Composer ready and PSR-2 compliant</li>
-</ul>
-<h2 id="questions">Questions?</h2>
-<p>Plates is maintained by <a href="https://twitter.com/ragboyjr">RJ Garcia</a> and originally created by <a href="https://twitter.com/reinink">Jonathan Reinink</a>. Submit issues to <a href="https://github.com/thephpleague/plates/issues">Github</a>.</p>
+  <h1>Folders</h1>
+  <p>Folders make it really easy to organize and access your templates. Folders allow you to group your templates under different namespaces, each of which having their own file system path.</p>
+<h2 id="creating-folders">Creating folders</h2>
+<p>To create folders, use the <code>addFolder()</code> method:</p>
+<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="c1">// Create new Plates instance
+</span><span class="c1"></span><span class="nv">$templates</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">League\Plates\Engine</span><span class="p">();</span>
 
+<span class="c1">// Add folders
+</span><span class="c1"></span><span class="nv">$templates</span><span class="o">-&gt;</span><span class="na">addFolder</span><span class="p">(</span><span class="s1">&#39;admin&#39;</span><span class="p">,</span> <span class="s1">&#39;/path/to/admin/templates&#39;</span><span class="p">);</span>
+<span class="nv">$templates</span><span class="o">-&gt;</span><span class="na">addFolder</span><span class="p">(</span><span class="s1">&#39;emails&#39;</span><span class="p">,</span> <span class="s1">&#39;/path/to/email/templates&#39;</span><span class="p">);</span>
+</code></pre></div><h2 id="using-folders">Using folders</h2>
+<p>To use the folders you created within your project simply append the folder name with two colons before the template name. For example, to render a welcome email:</p>
+<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="nv">$email</span> <span class="o">=</span> <span class="nv">$templates</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">(</span><span class="s1">&#39;emails::welcome&#39;</span><span class="p">);</span>
+</code></pre></div><p>This works with template functions as well, such as layouts or nested templates. For example:</p>
+<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">layout</span><span class="p">(</span><span class="s1">&#39;shared::template&#39;</span><span class="p">)</span> <span class="cp">?&gt;</span><span class="err">
+</span></code></pre></div><h2 id="folder-fallbacks">Folder fallbacks</h2>
+<p>When enabled, if a folder template is missing, Plates will automatically fallback and look for a template with the <strong>same</strong> name in the default folder. This can be helpful when using folders to manage themes. To enable fallbacks, simply pass <code>true</code> as the third parameter in the <code>addFolders()</code> method.</p>
+<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="c1">// Create new Plates engine
+</span><span class="c1"></span><span class="nv">$templates</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\League\Plates\Engine</span><span class="p">(</span><span class="s1">&#39;/path/to/default/theme&#39;</span><span class="p">);</span>
+
+<span class="c1">// Add themes
+</span><span class="c1"></span><span class="nv">$templates</span><span class="o">-&gt;</span><span class="na">addFolder</span><span class="p">(</span><span class="s1">&#39;theme1&#39;</span><span class="p">,</span> <span class="s1">&#39;/path/to/theme/1&#39;</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
+<span class="nv">$templates</span><span class="o">-&gt;</span><span class="na">addFolder</span><span class="p">(</span><span class="s1">&#39;theme2&#39;</span><span class="p">,</span> <span class="s1">&#39;/path/to/theme/2&#39;</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
+</code></pre></div>
 
     </article>
 </main>

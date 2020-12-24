@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta name="generator" content="Hugo 0.79.1" />
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-        <title>Plates - Native PHP Templates</title>
+        <title>Layouts | Plates</title>
     
     
         <meta name="description" content="Plates is a Twig inspired, native PHP template system that brings modern template language functionality to native PHP templates.">
@@ -65,7 +64,7 @@
             <h2>Getting Started</h2>
             <ul>
                 
-                <li class="selected">
+                <li class="">
                     <a href="/">Introduction</a>
                 </li>
                 
@@ -123,7 +122,7 @@
                     <a href="/templates/nesting/">Nesting</a>
                 </li>
                 
-                <li class="">
+                <li class="selected">
                     <a href="/templates/layouts/">Layouts</a>
                 </li>
                 
@@ -165,34 +164,44 @@
     </menu>
     <article>
         
-  <h1>Introduction</h1>
-  <p><a href="https://twitter.com/reinink"><img src="http://img.shields.io/badge/maintainer-@ragboyjr-blue.svg?style=flat-square" alt="Maintainer"></a>
-<a href="https://github.com/thephpleague/plates"><img src="http://img.shields.io/badge/source-league/plates-blue.svg?style=flat-square" alt="Source Code"></a>
-<a href="https://github.com/thephpleague/plates/releases"><img src="https://img.shields.io/github/release/thephpleague/plates.svg?style=flat-square" alt="Latest Version"></a>
-<a href="https://github.com/thephpleague/plates/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square" alt="Software License"></a><!-- raw HTML omitted -->
-<a href="https://travis-ci.org/thephpleague/plates"><img src="https://img.shields.io/travis/thephpleague/plates/master.svg?style=flat-square" alt="Build Status"></a>
-<a href="https://scrutinizer-ci.com/g/thephpleague/plates/code-structure"><img src="https://img.shields.io/scrutinizer/coverage/g/thephpleague/plates.svg?style=flat-square" alt="Coverage Status"></a>
-<a href="https://scrutinizer-ci.com/g/thephpleague/plates"><img src="https://img.shields.io/scrutinizer/g/thephpleague/plates.svg?style=flat-square" alt="Quality Score"></a>
-<a href="https://packagist.org/packages/league/plates"><img src="https://img.shields.io/packagist/dt/league/plates.svg?style=flat-square" alt="Total Downloads"></a></p>
-<h2 id="about">About</h2>
-<p>Plates is a native PHP template system that&rsquo;s fast, easy to use and easy to extend. It&rsquo;s inspired by the excellent <a href="http://twig.sensiolabs.org/">Twig</a> template engine and strives to bring modern template language functionality to native PHP templates. Plates is designed for developers who prefer to use native PHP templates over compiled template languages, such as Twig or Smarty.</p>
-<h2 id="highlights">Highlights</h2>
-<ul>
-<li>Native PHP templates, no new <a href="/templates/syntax/">syntax</a> to learn</li>
-<li>Plates is a template system, not a template language</li>
-<li>Plates encourages the use of existing PHP functions</li>
-<li>Increase code reuse with template <a href="/templates/layouts/">layouts</a> and <a href="/templates/inheritance/">inheritance</a></li>
-<li>Template <a href="/engine/folders/">folders</a> for grouping templates into namespaces</li>
-<li><a href="/templates/data/#preassigned-and-shared-data">Data</a> sharing across templates</li>
-<li>Preassign <a href="/templates/data/#preassigned-and-shared-data">data</a> to specific templates</li>
-<li>Built-in <a href="/templates/escaping/">escaping</a> helpers</li>
-<li>Easy to extend using <a href="/engine/functions/">functions</a> and <a href="/engine/extensions/">extensions</a></li>
-<li>Framework-agnostic, will work with any project</li>
-<li>Decoupled design makes templates easy to test</li>
-<li>Composer ready and PSR-2 compliant</li>
-</ul>
-<h2 id="questions">Questions?</h2>
-<p>Plates is maintained by <a href="https://twitter.com/ragboyjr">RJ Garcia</a> and originally created by <a href="https://twitter.com/reinink">Jonathan Reinink</a>. Submit issues to <a href="https://github.com/thephpleague/plates/issues">Github</a>.</p>
+  <h1>Layouts</h1>
+  <p>The <code>layout()</code> function allows you to define a layout template that a template will implement. It&rsquo;s like having separate header and footer templates in one file.</p>
+<h2 id="define-a-layout">Define a layout</h2>
+<p>The <code>layout()</code> function can be called anywhere in a template, since the layout template is actually rendered second. Typically it&rsquo;s placed at the top of the file.</p>
+<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">layout</span><span class="p">(</span><span class="s1">&#39;template&#39;</span><span class="p">)</span> <span class="cp">?&gt;</span><span class="err">
+</span><span class="err">
+</span><span class="err">&lt;h1&gt;User Profile&lt;/h1&gt;
+</span><span class="err">&lt;p&gt;Hello, &lt;?=$this-&gt;e($name)?&gt;&lt;/p&gt;
+</span></code></pre></div><p>This function also works with <a href="/engine/folders/">folders</a>:</p>
+<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">layout</span><span class="p">(</span><span class="s1">&#39;shared::template&#39;</span><span class="p">)</span> <span class="cp">?&gt;</span><span class="err">
+</span></code></pre></div><h2 id="assign-data">Assign data</h2>
+<p>To assign data (variables) to a layout template, pass them as an array to the <code>layout()</code> function. This data will then be available as locally scoped variables within the layout template.</p>
+<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">layout</span><span class="p">(</span><span class="s1">&#39;template&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;title&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;User Profile&#39;</span><span class="p">])</span> <span class="cp">?&gt;</span><span class="err">
+</span></code></pre></div><h2 id="accessing-the-content">Accessing the content</h2>
+<p>To access the rendered template content within the layout, use the <code>section()</code> function, passing <code>'content'</code> as the section name. This will return all outputted content from the template that hasn&rsquo;t been defined in a <a href="/templates/sections/">section</a>.</p>
+<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;</span><span class="nx">html</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="nx">head</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">title</span><span class="o">&gt;&lt;?=</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">e</span><span class="p">(</span><span class="nv">$title</span><span class="p">)</span><span class="cp">?&gt;</span><span class="err">&lt;/title&gt;
+</span><span class="err">&lt;/head&gt;
+</span><span class="err">&lt;body&gt;
+</span><span class="err">
+</span><span class="err">&lt;?=$this-&gt;section(&#39;content&#39;)?&gt;
+</span><span class="err">
+</span><span class="err">&lt;/body&gt;
+</span><span class="err">&lt;/html&gt;
+</span></code></pre></div><h2 id="stacked-layouts">Stacked layouts</h2>
+<p>Plates allows stacking of layouts, allowing even further simplification and organization of templates. Instead of just using one main layout, it&rsquo;s possible to break templates into more specific layouts, which themselves implement a main layout. Consider this example:</p>
+<h3 id="the-main-site-layout">The main site layout</h3>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<h3 id="the-blog-layout">The blog layout</h3>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<h3 id="a-blog-article">A blog article</h3>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
 
 
     </article>

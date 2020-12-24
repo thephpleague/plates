@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Extensions on Plates</title>
+    <link>https://platesphp.com/extensions/</link>
+    <description>Recent content in Extensions on Plates</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language><atom:link href="https://platesphp.com/extensions/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Asset</title>
+      <link>https://platesphp.com/extensions/asset/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://platesphp.com/extensions/asset/</guid>
+      <description>The asset extension can be used to quickly create &amp;ldquo;cache busted&amp;rdquo; asset URLs in your templates. This is particularly helpful for aggressively cached files that can potentially change in the future, such as CSS files, JavaScript files and images. It works by appending the timestamp of the file&amp;rsquo;s last update to its URL. For example, /css/all.css becomes /css/all.1373577602.css. As long as the file does not change, the timestamp remains the same and caching occurs.</description>
+    </item>
+    
+    <item>
+      <title>Community</title>
+      <link>https://platesphp.com/extensions/community/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://platesphp.com/extensions/community/</guid>
+      <description>This is a list of all the known community extensions for the Plates library. Please feel free to submit a Pull Request to add your extension to this list.
+ Laravel Provider Attributes Rendering - Transforms arrays into html tag attributes. Includer - Include your assets in an expert way. Tapestry - A blog aware, Plates based static site generator.  </description>
+    </item>
+    
+    <item>
+      <title>URI</title>
+      <link>https://platesphp.com/extensions/uri/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://platesphp.com/extensions/uri/</guid>
+      <description>The URI extension is designed to make URI checks within templates easier. The most common use is marking the current page in a menu as &amp;ldquo;selected&amp;rdquo;. It only has one function, uri(), but can do a number of helpful tasks depending on the parameters passed to it.
+Installing the URI extension The URI extension comes packaged with Plates but is not enabled by default, as it requires an extra parameter passed to it at instantiation.</description>
+    </item>
+    
+  </channel>
+</rss>

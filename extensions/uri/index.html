@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+        <title>URI | Plates</title>
+    
+    
+        <meta name="description" content="Plates is a Twig inspired, native PHP template system that brings modern template language functionality to native PHP templates.">
+    
+    
+        <link rel="icon" type="image/x-icon" href="/favicon/favicon.ico" />
+    
+    
+        <link rel="apple-touch-icon-precomposed" href="/favicon/apple-touch-icon-precomposed.png">
+    
+    <link rel="stylesheet" href="https://theme.thephpleague.com/css/all.css">
+    <link rel="stylesheet" href="/css/custom.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+</head>
+<body>
+
+<a href="https://github.com/thephpleague/plates" class="github">
+    <img src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png">
+</a>
+
+<section class="all_packages">
+    <a href="https://thephpleague.com/">
+        <img src="https://theme.thephpleague.com/img/loep_logo.png" width="195" height="200" alt="The League of Extraordinary Packages">
+    </a>
+    <h2>Our Packages:</h2>
+    <ul>
+        
+    </ul>
+</section>
+
+<header>
+    <a class="logo" href="/">
+        
+            <span class="icon">
+                <img src="/images/logo.png" width="50" height="40" alt="Plates - Native PHP Templates">
+            </span>
+        
+        <span class="name">Plates</span>
+        <span class="tagline">Native PHP Templates</span>
+    </a>
+    <a href="https://thephpleague.com/" class="league">
+        Presented by The League of Extraordinary Packages
+    </a>
+</header>
+
+<input type="checkbox" id="menu">
+<label for="menu" onclick>
+    <div class="closed">&#9776; Menu</div>
+    <div class="open">&#9776; Hide Menu</div>
+</label>
+
+<main>
+    <menu>
+        
+        
+            <h2>Getting Started</h2>
+            <ul>
+                
+                <li class="">
+                    <a href="/">Introduction</a>
+                </li>
+                
+                <li class="">
+                    <a href="/getting-started/simple-example/">Simple Example</a>
+                </li>
+                
+                <li class="">
+                    <a href="/getting-started/installation/">Installation</a>
+                </li>
+                
+            </ul>
+        
+            <h2>The Engine</h2>
+            <ul>
+                
+                <li class="">
+                    <a href="/engine/overview/">Overview</a>
+                </li>
+                
+                <li class="">
+                    <a href="/engine/file-extensions/">File Extensions</a>
+                </li>
+                
+                <li class="">
+                    <a href="/engine/folders/">Folders</a>
+                </li>
+                
+                <li class="">
+                    <a href="/engine/functions/">Functions</a>
+                </li>
+                
+                <li class="">
+                    <a href="/engine/extensions/">Extensions</a>
+                </li>
+                
+            </ul>
+        
+            <h2>Templates</h2>
+            <ul>
+                
+                <li class="">
+                    <a href="/templates/overview/">Overview</a>
+                </li>
+                
+                <li class="">
+                    <a href="/templates/data/">Data</a>
+                </li>
+                
+                <li class="">
+                    <a href="/templates/functions/">Functions</a>
+                </li>
+                
+                <li class="">
+                    <a href="/templates/nesting/">Nesting</a>
+                </li>
+                
+                <li class="">
+                    <a href="/templates/layouts/">Layouts</a>
+                </li>
+                
+                <li class="">
+                    <a href="/templates/sections/">Sections</a>
+                </li>
+                
+                <li class="">
+                    <a href="/templates/inheritance/">Inheritance</a>
+                </li>
+                
+                <li class="">
+                    <a href="/templates/escaping/">Escaping</a>
+                </li>
+                
+                <li class="">
+                    <a href="/templates/syntax/">Syntax</a>
+                </li>
+                
+            </ul>
+        
+            <h2>Extensions</h2>
+            <ul>
+                
+                <li class="">
+                    <a href="/extensions/asset/">Asset</a>
+                </li>
+                
+                <li class="selected">
+                    <a href="/extensions/uri/">URI</a>
+                </li>
+                
+                <li class="">
+                    <a href="/extensions/community/">Community</a>
+                </li>
+                
+            </ul>
+        
+    </menu>
+    <article>
+        
+  <h1>URI</h1>
+  <p>The URI extension is designed to make URI checks within templates easier. The most common use is marking the current page in a menu as &ldquo;selected&rdquo;. It only has one function, <code>uri()</code>, but can do a number of helpful tasks depending on the parameters passed to it.</p>
+<h2 id="installing-the-uri-extension">Installing the URI extension</h2>
+<p>The URI extension comes packaged with Plates but is not enabled by default, as it requires an extra parameter passed to it at instantiation.</p>
+<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="c1">// Load URI extension using global variable
+</span><span class="c1"></span><span class="nv">$engine</span><span class="o">-&gt;</span><span class="na">loadExtension</span><span class="p">(</span><span class="k">new</span> <span class="nx">League\Plates\Extension\URI</span><span class="p">(</span><span class="nv">$_SERVER</span><span class="p">[</span><span class="s1">&#39;PATH_INFO&#39;</span><span class="p">]));</span>
+
+<span class="c1">// Load URI extension using a HttpFoundation&#39;s request object
+</span><span class="c1"></span><span class="nv">$engine</span><span class="o">-&gt;</span><span class="na">loadExtension</span><span class="p">(</span><span class="k">new</span> <span class="nx">League\Plates\Extension\URI</span><span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="na">getPathInfo</span><span class="p">()));</span>
+</code></pre></div><h2 id="uri-example">URI example</h2>
+<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;</span><span class="nx">ul</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">li</span> <span class="o">&lt;?=</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">uri</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="s1">&#39;class=&#34;selected&#34;&#39;</span><span class="p">)</span><span class="cp">?&gt;</span><span class="err">&gt;&lt;a href=&#34;/&#34;&gt;Home&lt;/a&gt;&lt;/li&gt;
+</span><span class="err">    &lt;li &lt;?=$this-&gt;uri(&#39;/about&#39;, &#39;class=&#34;selected&#34;&#39;)?&gt;&gt;&lt;a href=&#34;/about&#34;&gt;About&lt;/a&gt;&lt;/li&gt;
+</span><span class="err">    &lt;li &lt;?=$this-&gt;uri(&#39;/products&#39;, &#39;class=&#34;selected&#34;&#39;)?&gt;&gt;&lt;a href=&#34;/products&#34;&gt;Products&lt;/a&gt;&lt;/li&gt;
+</span><span class="err">    &lt;li &lt;?=$this-&gt;uri(&#39;/contact&#39;, &#39;class=&#34;selected&#34;&#39;)?&gt;&gt;&lt;a href=&#34;/contact&#34;&gt;Contact&lt;/a&gt;&lt;/li&gt;
+</span><span class="err">&lt;/ul&gt;
+</span></code></pre></div><h2 id="using-the-uri-extension">Using the URI extension</h2>
+<p>Get the whole URI.</p>
+<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?=</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">uri</span><span class="p">()</span><span class="cp">?&gt;</span><span class="err">
+</span></code></pre></div><p>Get a specified segment of the URI.</p>
+<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?=</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">uri</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="cp">?&gt;</span><span class="err">
+</span></code></pre></div><p>Check if a specific segment of the URI (first parameter) equals a given string (second parameter). Returns <code>true</code> on success or <code>false</code> on failure.</p>
+<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span> <span class="k">if</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">uri</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;home&#39;</span><span class="p">))</span><span class="o">:</span> <span class="cp">?&gt;</span><span class="err">
+</span></code></pre></div><p>Check if a specific segment of the URI (first parameter) equals a given string (second parameter). Returns string (third parameter) on success or <code>false</code> on failure.</p>
+<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?=</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">uri</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;home&#39;</span><span class="p">,</span> <span class="s1">&#39;success&#39;</span><span class="p">)</span><span class="cp">?&gt;</span><span class="err">
+</span></code></pre></div><p>Check if a specific segment of the URI (first parameter) equals a given string (second parameter). Returns string (third parameter) on success or string (fourth parameter) on failure.</p>
+<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?=</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">uri</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;home&#39;</span><span class="p">,</span> <span class="s1">&#39;success&#39;</span><span class="p">,</span> <span class="s1">&#39;fail&#39;</span><span class="p">)</span><span class="cp">?&gt;</span><span class="err">
+</span></code></pre></div><p>Check if a regular expression string matches the current URI. Returns <code>true</code> on success or <code>false</code> on failure.</p>
+<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span> <span class="k">if</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">uri</span><span class="p">(</span><span class="s1">&#39;/home&#39;</span><span class="p">))</span><span class="o">:</span> <span class="cp">?&gt;</span><span class="err">
+</span></code></pre></div><p>Check if a regular expression string (first parameter) matches the current URI. Returns string (second parameter) on success or <code>false</code> on failure.</p>
+<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?=</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">uri</span><span class="p">(</span><span class="s1">&#39;/home&#39;</span><span class="p">,</span> <span class="s1">&#39;success&#39;</span><span class="p">)</span><span class="cp">?&gt;</span><span class="err">
+</span></code></pre></div><p>Check if a regular expression string (first parameter) matches the current URI. Returns string (second parameter) on success or string (third parameter) on failure.</p>
+<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?=</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">uri</span><span class="p">(</span><span class="s1">&#39;/home&#39;</span><span class="p">,</span> <span class="s1">&#39;success&#39;</span><span class="p">,</span> <span class="s1">&#39;fail&#39;</span><span class="p">)</span><span class="cp">?&gt;</span><span class="err">
+</span></code></pre></div>
+
+    </article>
+</main>
+
+<footer>
+    <span>&copy; Copyright <a href="https://thephpleague.com">The League of Extraordinary Packages</a>.</span>
+    <span>Site design by <a href="https://reinink.ca">Jonathan Reinink</a>.</span>
+</footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="https://theme.thephpleague.com/js/scripts.js"></script>
+<script src="https://theme.thephpleague.com/js/prism.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<script>
+$('select.select2').select2().on('change', function(e) {
+    var pathParts = window.location.pathname.split("/");
+    pathParts[1] = e.currentTarget.value;
+    window.location.href = pathParts.join("/");
+});
+</script>
+
+
+    <script>
+        (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+        function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+        e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+        e.src='//www.google-analytics.com/analytics.js';
+        r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+        ga('create','UA-46050814-2');ga('send','pageview');
+    </script>
+
+
+</body>
+</html>

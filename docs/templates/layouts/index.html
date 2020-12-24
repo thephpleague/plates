@@ -193,16 +193,39 @@
 <p>Plates allows stacking of layouts, allowing even further simplification and organization of templates. Instead of just using one main layout, it&rsquo;s possible to break templates into more specific layouts, which themselves implement a main layout. Consider this example:</p>
 <h3 id="the-main-site-layout">The main site layout</h3>
 <!-- raw HTML omitted -->
+<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;</span><span class="nx">html</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="nx">head</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">title</span><span class="o">&gt;&lt;?=</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">e</span><span class="p">(</span><span class="nv">$title</span><span class="p">)</span><span class="cp">?&gt;</span><span class="err">&lt;/title&gt;
+</span><span class="err">&lt;/head&gt;
+</span><span class="err">&lt;body&gt;
+</span><span class="err">
+</span><span class="err">&lt;?=$this-&gt;section(&#39;content&#39;)?&gt;
+</span><span class="err">
+</span><span class="err">&lt;/body&gt;
+</span><span class="err">&lt;/html&gt;
+</span></code></pre></div><h3 id="the-blog-layout">The blog layout</h3>
 <!-- raw HTML omitted -->
+<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">layout</span><span class="p">(</span><span class="s1">&#39;template&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;title&#39;</span> <span class="o">=&gt;</span> <span class="nv">$title</span><span class="p">])</span> <span class="cp">?&gt;</span><span class="err">
+</span><span class="err">
+</span><span class="err">&lt;h1&gt;The Blog&lt;/h1&gt;
+</span><span class="err">
+</span><span class="err">&lt;section&gt;
+</span><span class="err">    &lt;article&gt;
+</span><span class="err">        &lt;?=$this-&gt;section(&#39;content&#39;)?&gt;
+</span><span class="err">    &lt;/article&gt;
+</span><span class="err">    &lt;aside&gt;
+</span><span class="err">        &lt;?=$this-&gt;insert(&#39;blog/sidebar&#39;)?&gt;
+</span><span class="err">    &lt;/aside&gt;
+</span><span class="err">&lt;/section&gt;
+</span></code></pre></div><h3 id="a-blog-article">A blog article</h3>
 <!-- raw HTML omitted -->
-<h3 id="the-blog-layout">The blog layout</h3>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<h3 id="a-blog-article">A blog article</h3>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-
+<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">layout</span><span class="p">(</span><span class="s1">&#39;blog&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;title&#39;</span> <span class="o">=&gt;</span> <span class="nv">$article</span><span class="o">-&gt;</span><span class="na">title</span><span class="p">])</span> <span class="cp">?&gt;</span><span class="err">
+</span><span class="err">
+</span><span class="err">&lt;h2&gt;&lt;?=$this-&gt;e($article-&gt;title)?&gt;&lt;/h2&gt;
+</span><span class="err">&lt;article&gt;
+</span><span class="err">    &lt;?=$this-&gt;e($article-&gt;content)?&gt;
+</span><span class="err">&lt;/article&gt;
+</span></code></pre></div>
 
     </article>
 </main>

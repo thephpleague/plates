@@ -95,7 +95,7 @@ require &amp;#39;vendor/autoload.php&amp;#39;; Downloading .zip file This projec
       
       <guid>https://platesphp.com/getting-started/simple-example/</guid>
       <description>Here is a simple example of how to use Plates. We will assume the following directory stucture:
-`-- path `-- to `-- templates |-- template.php |-- profile.php Within your controller // Create new Plates instance $templates = new League\Plates\Engine(&amp;#39;/path/to/templates&amp;#39;); // Render a template echo $templates-&amp;gt;render(&amp;#39;profile&amp;#39;, [&amp;#39;name&amp;#39; =&amp;gt; &amp;#39;Jonathan&amp;#39;]); The page template The layout template </description>
+`-- path `-- to `-- templates |-- template.php |-- profile.php Within your controller // Create new Plates instance $templates = new League\Plates\Engine(&amp;#39;/path/to/templates&amp;#39;); // Render a template echo $templates-&amp;gt;render(&amp;#39;profile&amp;#39;, [&amp;#39;name&amp;#39; =&amp;gt; &amp;#39;Jonathan&amp;#39;]); The page template &amp;lt;?php $this-&amp;gt;layout(&amp;#39;template&amp;#39;, [&amp;#39;title&amp;#39; =&amp;gt; &amp;#39;User Profile&amp;#39;]) ?&amp;gt;&amp;lt;h1&amp;gt;User Profile&amp;lt;/h1&amp;gt; &amp;lt;p&amp;gt;Hello, &amp;lt;?=$this-&amp;gt;e($name)?&amp;gt;&amp;lt;/p&amp;gt; The layout template &amp;lt;html&amp;gt; &amp;lt;head&amp;gt; &amp;lt;title&amp;gt;&amp;lt;?=$this-&amp;gt;e($title)?&amp;gt;&amp;lt;/title&amp;gt; &amp;lt;/head&amp;gt; &amp;lt;body&amp;gt; &amp;lt;?=$this-&amp;gt;section(&amp;#39;content&amp;#39;)?&amp;gt; &amp;lt;/body&amp;gt; &amp;lt;/html&amp;gt; </description>
     </item>
     
     <item>

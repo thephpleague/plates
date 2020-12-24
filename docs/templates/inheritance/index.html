@@ -169,28 +169,47 @@
 <h2 id="inheritance-example">Inheritance example</h2>
 <p>The following example illustrates a pretty standard website. Start by creating a site template, which includes your header and footer as well as any predefined content <a href="/templates/sections/">sections</a>. Notice how Plates makes it possible to even set default section content, in the event that a page doesn&rsquo;t define it.</p>
 <!-- raw HTML omitted -->
+<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;</span><span class="nx">html</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="nx">head</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">title</span><span class="o">&gt;&lt;?=</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">e</span><span class="p">(</span><span class="nv">$title</span><span class="p">)</span><span class="cp">?&gt;</span><span class="err">&lt;/title&gt;
+</span><span class="err">&lt;/head&gt;
+</span><span class="err">&lt;body&gt;
+</span><span class="err">
+</span><span class="err">&lt;img src=&#34;logo.png&#34;&gt;
+</span><span class="err">
+</span><span class="err">&lt;div id=&#34;page&#34;&gt;
+</span><span class="err">    &lt;?=$this-&gt;section(&#39;page&#39;)?&gt;
+</span><span class="err">&lt;/div&gt;
+</span><span class="err">
+</span><span class="err">&lt;div id=&#34;sidebar&#34;&gt;
+</span><span class="err">    &lt;?php if ($this-&gt;section(&#39;sidebar&#39;)): ?&gt;
+</span><span class="err">        &lt;?=$this-&gt;section(&#39;sidebar&#39;)?&gt;
+</span><span class="err">    &lt;?php else: ?&gt;
+</span><span class="err">        &lt;?=$this-&gt;fetch(&#39;default-sidebar&#39;)?&gt;
+</span><span class="err">    &lt;?php endif ?&gt;
+</span><span class="err">&lt;/div&gt;
+</span><span class="err">
+</span><span class="err">&lt;/body&gt;
+</span><span class="err">&lt;/html&gt;
+</span></code></pre></div><p>With the template defined, any page can now &ldquo;implement&rdquo; this <a href="/templates/layouts/">layout</a>. Notice how each section of content is defined between the <code>start()</code> and <code>end()</code> functions.</p>
 <!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<p>With the template defined, any page can now &ldquo;implement&rdquo; this <a href="/templates/layouts/">layout</a>. Notice how each section of content is defined between the <code>start()</code> and <code>end()</code> functions.</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<pre><code>&lt;h1&gt;Welcome!&lt;/h1&gt;
-&lt;p&gt;Hello &lt;?=$this-&gt;e($name)?&gt;&lt;/p&gt;
-</code></pre>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
-<pre><code>&lt;ul&gt;
-    &lt;li&gt;&lt;a href=&quot;/link&quot;&gt;Example Link&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href=&quot;/link&quot;&gt;Example Link&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href=&quot;/link&quot;&gt;Example Link&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href=&quot;/link&quot;&gt;Example Link&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href=&quot;/link&quot;&gt;Example Link&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</code></pre>
-<!-- raw HTML omitted -->
-<pre><code></code></pre>
+<div class="highlight"><pre class="chroma"><code class="language-php" data-lang="php"><span class="o">&lt;?</span><span class="nx">php</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">layout</span><span class="p">(</span><span class="s1">&#39;template&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;title&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;User Profile&#39;</span><span class="p">])</span> <span class="cp">?&gt;</span><span class="err">
+</span><span class="err">
+</span><span class="err">&lt;?php $this-&gt;start(&#39;page&#39;) ?&gt;
+</span><span class="err">    &lt;h1&gt;Welcome!&lt;/h1&gt;
+</span><span class="err">    &lt;p&gt;Hello &lt;?=$this-&gt;e($name)?&gt;&lt;/p&gt;
+</span><span class="err">&lt;?php $this-&gt;stop() ?&gt;
+</span><span class="err">
+</span><span class="err">&lt;?php $this-&gt;start(&#39;sidebar&#39;) ?&gt;
+</span><span class="err">    &lt;ul&gt;
+</span><span class="err">        &lt;li&gt;&lt;a href=&#34;/link&#34;&gt;Example Link&lt;/a&gt;&lt;/li&gt;
+</span><span class="err">        &lt;li&gt;&lt;a href=&#34;/link&#34;&gt;Example Link&lt;/a&gt;&lt;/li&gt;
+</span><span class="err">        &lt;li&gt;&lt;a href=&#34;/link&#34;&gt;Example Link&lt;/a&gt;&lt;/li&gt;
+</span><span class="err">        &lt;li&gt;&lt;a href=&#34;/link&#34;&gt;Example Link&lt;/a&gt;&lt;/li&gt;
+</span><span class="err">        &lt;li&gt;&lt;a href=&#34;/link&#34;&gt;Example Link&lt;/a&gt;&lt;/li&gt;
+</span><span class="err">    &lt;/ul&gt;
+</span><span class="err">&lt;?php $this-&gt;stop() ?&gt;
+</span></code></pre></div>
 
     </article>
 </main>

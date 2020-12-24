@@ -9,7 +9,7 @@ use org\bovigo\vfs\vfsStream;
 
 class FoldersTest extends \PHPUnit\Framework\TestCase
 {
-    private Folders $folders;
+    private $folders;
 
     protected function setUp(): void
     {

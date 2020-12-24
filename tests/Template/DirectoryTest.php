@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 class DirectoryTest extends TestCase
 {
-    private Directory $directory;
+    private $directory;
 
     protected function setUp(): void
     {

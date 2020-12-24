@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 class TemplateTest extends TestCase
 {
-    private Template $template;
+    private $template;
 
     protected function setUp(): void
     {

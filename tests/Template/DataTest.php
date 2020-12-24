@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class DataTest extends TestCase
 {
-    private Data $template_data;
+    private $template_data;
 
     protected function setUp(): void
     {

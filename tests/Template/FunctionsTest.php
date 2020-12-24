@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class FunctionsTest extends TestCase
 {
-    private Functions $functions;
+    private $functions;
 
     protected function setUp(): void
     {

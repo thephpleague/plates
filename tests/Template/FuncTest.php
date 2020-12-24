@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 class FuncTest extends TestCase
 {
-    private Func $function;
+    private $function;
 
     protected function setUp(): void
     {

@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 class NameTest extends TestCase
 {
-    private Engine $engine;
+    private $engine;
 
     protected function setUp(): void
     {

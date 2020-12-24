@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class FileExtensionTest extends TestCase
 {
-    private FileExtension $fileExtension;
+    private $fileExtension;
 
     protected function setUp(): void
     {

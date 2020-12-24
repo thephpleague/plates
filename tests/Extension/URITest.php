@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 class URITest extends TestCase
 {
-    private URI $extension;
+    private $extension;
 
     protected function setUp(): void
     {

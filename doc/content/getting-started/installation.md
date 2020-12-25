@@ -13,7 +13,7 @@ Plates is available on [Packagist](https://packagist.org/packages/league/plates)
 composer require league/plates
 ~~~
 
-<div class="filename">composer.json</div>
+{{< code-filename composer.json >}}
 ~~~ javascript
 {
     "require": {

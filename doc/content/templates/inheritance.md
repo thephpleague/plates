@@ -12,7 +12,7 @@ By combining [layouts]({{< relref "templates/layouts.md" >}}) and [sections]({{<
 
 The following example illustrates a pretty standard website. Start by creating a site template, which includes your header and footer as well as any predefined content [sections]({{< relref "templates/sections.md" >}}). Notice how Plates makes it possible to even set default section content, in the event that a page doesn't define it.
 
-<div class="filename">template.php</div>
+{{< code-filename template.php >}}
 
 ~~~ php
 <html>
@@ -41,7 +41,7 @@ The following example illustrates a pretty standard website. Start by creating a
 
 With the template defined, any page can now "implement" this [layout]({{< relref "templates/layouts.md" >}}). Notice how each section of content is defined between the `start()` and `end()` functions.
 
-<div class="filename">profile.php</div>
+{{< code-filename profile.php >}}
 
 ~~~ php
 <?php $this->layout('template', ['title' => 'User Profile']) ?>

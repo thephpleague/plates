@@ -56,7 +56,7 @@ Plates allows stacking of layouts, allowing even further simplification and orga
 
 ### The main site layout
 
-<div class="filename">template.php</div>
+{{< code-filename template.php >}}
 
 ~~~ php
 <html>
@@ -73,7 +73,7 @@ Plates allows stacking of layouts, allowing even further simplification and orga
 
 ### The blog layout
 
-<div class="filename">blog.php</div>
+{{< code-filename blog.php >}}
 
 ~~~ php
 <?php $this->layout('template', ['title' => $title]) ?>
@@ -92,7 +92,7 @@ Plates allows stacking of layouts, allowing even further simplification and orga
 
 ### A blog article
 
-<div class="filename">blog-article.php</div>
+{{< code-filename blog-article.php >}}
 
 ~~~ php
 <?php $this->layout('blog', ['title' => $article->title]) ?>

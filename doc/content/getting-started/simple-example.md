@@ -27,8 +27,7 @@ echo $templates->render('profile', ['name' => 'Jonathan']);
 
 ## The page template
 
-<div class="filename">profile.php</div>
-
+{{< code-filename profile.php >}}
 ~~~ php
 <?php $this->layout('template', ['title' => 'User Profile']) ?>
 
@@ -38,17 +37,14 @@ echo $templates->render('profile', ['name' => 'Jonathan']);
 
 ## The layout template
 
-<div class="filename">template.php</div>
-
+{{< code-filename template.php >}}
 ~~~ php
 <html>
-<head>
+  <head>
     <title><?=$this->e($title)?></title>
-</head>
-<body>
-
-<?=$this->section('content')?>
-
-</body>
+  </head>
+  <body>
+    <?=$this->section('content')?>
+  </body>
 </html>
 ~~~

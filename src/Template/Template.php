@@ -4,6 +4,7 @@ namespace League\Plates\Template;
 
 use Exception;
 use League\Plates\Engine;
+use League\Plates\Exception\TemplateNotFound;
 use LogicException;
 use Throwable;
 
@@ -126,7 +127,12 @@ class Template
      */
     public function exists()
     {
-        return $this->name->doesPathExist();
+        try {
+            ($this->engine->getResolveTemplatePath())($this->name);
+            return true;
+        } catch (TemplateNotFound $e) {
+            return false;
+        }
     }
 
     /**
@@ -135,7 +141,11 @@ class Template
      */
     public function path()
     {
-        return $this->name->getPath();
+        try {
+            return ($this->engine->getResolveTemplatePath())($this->name);
+        } catch (TemplateNotFound $e) {
+            return $e->paths()[0];
+        }
     }
 
     /**
@@ -151,17 +161,13 @@ class Template
         unset($data);
         extract($this->data);
 
-        if (!$this->exists()) {
-            throw new LogicException(
-                'The template "' . $this->name->getName() . '" could not be found at "' . $this->path() . '".'
-            );
-        }
+        $path = ($this->engine->getResolveTemplatePath())($this->name);
 
         try {
             $level = ob_get_level();
             ob_start();
 
-            include $this->path();
+            include $path;
 
             $content = ob_get_clean();
 
@@ -173,12 +179,6 @@ class Template
 
             return $content;
         } catch (Throwable $e) {
-            while (ob_get_level() > $level) {
-                ob_end_clean();
-            }
-
-            throw $e;
-        } catch (Exception $e) {
             while (ob_get_level() > $level) {
                 ob_end_clean();
             }

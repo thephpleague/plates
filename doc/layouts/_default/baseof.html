@@ -71,7 +71,12 @@
             <ul>
                 {{ range .Children }}
                 <li class="{{ if $currentPage.IsMenuCurrent "main" . }}selected{{ end }}">
-                    <a href="{{ .URL }}">{{ .Page.Title }}</a>
+                    <a href="{{ .URL }}">
+                        {{ .Page.Title }}
+                        {{ with .Params.badge }}
+                            <sup class="menu-badge">{{ . }}</sup>
+                        {{ end }}
+                    </a>
                 </li>
                 {{ end }}
             </ul>

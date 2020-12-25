@@ -46,7 +46,7 @@
         }
     },
     "scripts": {
-        "test": "phpunit --testdox",
+        "test": "phpunit --testdox --colors=always",
         "docs": "hugo -s doc server"
     }
 }

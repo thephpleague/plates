@@ -10,7 +10,9 @@ use League\Plates\Template\Folders;
 use League\Plates\Template\Func;
 use League\Plates\Template\Functions;
 use League\Plates\Template\Name;
+use League\Plates\Template\ResolveTemplatePath;
 use League\Plates\Template\Template;
+use League\Plates\Template\Theme;
 
 /**
  * Template API and environment settings storage.
@@ -47,6 +49,9 @@ class Engine
      */
     protected $data;
 
+    /** @var ResolveTemplatePath */
+    private $resolveTemplatePath;
+
     /**
      * Create new Engine instance.
      * @param string $directory
@@ -59,6 +64,25 @@ class Engine
         $this->folders = new Folders();
         $this->functions = new Functions();
         $this->data = new Data();
+        $this->resolveTemplatePath = new ResolveTemplatePath\NameAndFolderResolveTemplatePath();
+    }
+
+    public static function fromTheme(Theme $theme, string $fileExtension = 'php'): self {
+        $engine = new self(null, $fileExtension);
+        $engine->setResolveTemplatePath(new ResolveTemplatePath\ThemeResolveTemplatePath($theme));
+        return $engine;
+    }
+
+    public function setResolveTemplatePath(ResolveTemplatePath $resolveTemplatePath)
+    {
+        $this->resolveTemplatePath = $resolveTemplatePath;
+
+        return $this;
+    }
+
+    public function getResolveTemplatePath(): ResolveTemplatePath
+    {
+        return $this->resolveTemplatePath;
     }
 
     /**

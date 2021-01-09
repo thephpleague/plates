@@ -42,7 +42,7 @@ Full documentation can be found at [platesphp.com](https://platesphp.com/).
 ## Testing
 
 ```bash
-phpunit
+composer test
 ```
 
 ## Contributing

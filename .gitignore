@@ -1,3 +1,5 @@
+.idea
+
 build
 composer.lock
 vendor

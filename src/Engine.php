@@ -258,26 +258,26 @@ class Engine
 
     /**
      * Get a template path.
-     * @param  string $name
+     * @param  string|Name $name
      * @return string
      */
     public function path($name)
     {
-        $name = new Name($this, $name);
+        $name = $name instanceof Name ? $name : new Name($this, $name);
 
-        return $name->getPath();
+        return $this->getResolveTemplatePath()->resolvePath($name);
     }
 
     /**
      * Check if a template exists.
-     * @param  string  $name
+     * @param  string|Name  $name
      * @return boolean
      */
     public function exists($name)
     {
-        $name = new Name($this, $name);
+        $name = $name instanceof Name ? $name : new Name($this, $name);
 
-        return $name->doesPathExist();
+        return $this->getResolveTemplatePath()->exists($name);
     }
 
     /**

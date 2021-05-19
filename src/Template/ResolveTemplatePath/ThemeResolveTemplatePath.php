@@ -38,4 +38,14 @@ final class ThemeResolveTemplatePath implements ResolveTemplatePath
             )
         );
     }
+
+    public function exists(Name $name): bool
+    {
+        try {
+            $this($name);
+            return true;
+        } catch (TemplateNotFound $exception) {
+            return false;
+        }
+    }
 }

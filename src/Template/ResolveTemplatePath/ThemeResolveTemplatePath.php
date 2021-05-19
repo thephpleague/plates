@@ -1,8 +1,8 @@
 <?php
-
 namespace League\Plates\Template\ResolveTemplatePath;
 
-use League\Plates\Exception\TemplateNotFound;
+use
+ League\Plates\Exception\TemplateNotFound;
 use League\Plates\Template\Name;
 use League\Plates\Template\ResolveTemplatePath;
 use League\Plates\Template\Theme;
@@ -37,5 +37,15 @@ final class ThemeResolveTemplatePath implements ResolveTemplatePath
                 }, $searchedPaths))
             )
         );
+    }
+
+    public function exists(Name $name): bool
+    {
+        try {
+            $this($name);
+            return true;
+        } catch (TemplateNotFound $exception) {
+            return false;
+        }
     }
 }

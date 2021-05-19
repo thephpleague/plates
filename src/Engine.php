@@ -137,7 +137,9 @@ class Engine
     public function addFolder($name, $directory, $fallback = false)
     {
         $this->folders->add($name, $directory, $fallback);
-
+        if (method_exists($this->getResolveTemplatePath(), 'addPath')) {
+            $this->getResolveTemplatePath()->addPath($directory, $name);
+        }
         return $this;
     }
 
@@ -258,26 +260,26 @@ class Engine
 
     /**
      * Get a template path.
-     * @param  string $name
+     * @param  string|Name $name
      * @return string
      */
     public function path($name)
     {
-        $name = new Name($this, $name);
+        $name = $name instanceof Name ? $name : new Name($this, $name);
 
-        return $name->getPath();
+        return $this->getResolveTemplatePath()->resolvePath($name);
     }
 
     /**
      * Check if a template exists.
-     * @param  string  $name
+     * @param  string|Name  $name
      * @return boolean
      */
     public function exists($name)
     {
-        $name = new Name($this, $name);
+        $name = $name instanceof Name ? $name : new Name($this, $name);
 
-        return $name->doesPathExist();
+        return $this->getResolveTemplatePath()->exists($name);
     }
 
     /**

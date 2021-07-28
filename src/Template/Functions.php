@@ -18,7 +18,7 @@ class Functions
     /**
      * Add a new template function.
      * @param  string    $name;
-     * @param  callback  $callback;
+     * @param  callable  $callback;
      * @return Functions
      */
     public function add($name, $callback)

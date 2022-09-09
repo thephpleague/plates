@@ -368,7 +368,7 @@ class Template
             $string = $this->batch($string, $functions);
         }
 
-        return htmlspecialchars($string, $flags, 'UTF-8');
+        return htmlspecialchars($string ?? '', $flags, 'UTF-8');
     }
 
     /**

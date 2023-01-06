@@ -39,6 +39,17 @@ class TemplateTest extends TestCase
         $this->assertSame('JONATHAN', $this->template->render());
     }
 
+    public function testCleanEnvironment()
+    {
+        vfsStream::create(
+            array(
+                'template.php' => '<?= count(get_defined_vars()) ?>',
+            )
+        );
+
+        $this->assertSame('0', $this->template->render());
+    }
+
     public function testAssignData()
     {
         vfsStream::create(

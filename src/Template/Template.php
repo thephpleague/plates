@@ -73,6 +73,12 @@ class Template
     protected $layoutData;
 
     /**
+     * The output buffering level when rendering.
+     * @var int
+     */
+    private $level;
+
+    /**
      * Create new Template instance.
      * @param Engine $engine
      * @param string $name
@@ -161,13 +167,11 @@ class Template
         unset($data);
         extract($this->data);
 
-        $path = ($this->engine->getResolveTemplatePath())($this->name);
-
         try {
-            $level = ob_get_level();
+            $this->level = ob_get_level();
             ob_start();
 
-            include $path;
+            include ($this->engine->getResolveTemplatePath())($this->name);
 
             $content = ob_get_clean();
 
@@ -179,7 +183,7 @@ class Template
 
             return $content;
         } catch (Throwable $e) {
-            while (ob_get_level() > $level) {
+            while (ob_get_level() > $this->level) {
                 ob_end_clean();
             }
 

@@ -28,8 +28,3 @@ jobs:
       run: composer install
     - name: Run Tests
       run: phpunit --testdox --coverage-text --coverage-clover=coverage.clover
-    - name: Upload Scrutinzer
-      continue-on-error: true
-      run: |
-        wget https://scrutinizer-ci.com/ocular.phar
-        php ocular.phar code-coverage:upload --format=php-clover coverage.clover

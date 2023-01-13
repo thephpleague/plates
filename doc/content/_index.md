@@ -11,7 +11,6 @@ weight = 1
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://github.com/thephpleague/plates/blob/master/LICENSE)
 {{<html>}}<br/>{{</html>}}
 [![Build Status](https://img.shields.io/github/workflow/status/thephpleague/plates/PHP/v3?style=flat-square)](https://github.com/thephpleague/plates/actions?query=workflow%3APHP+branch%3Av3)
-[![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/thephpleague/plates.svg?style=flat-square)](https://scrutinizer-ci.com/g/thephpleague/plates/code-structure)
 [![Quality Score](https://img.shields.io/scrutinizer/g/thephpleague/plates.svg?style=flat-square)](https://scrutinizer-ci.com/g/thephpleague/plates)
 [![Total Downloads](https://img.shields.io/packagist/dt/league/plates.svg?style=flat-square)](https://packagist.org/packages/league/plates)
 

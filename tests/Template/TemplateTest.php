@@ -134,6 +134,16 @@ class TemplateTest extends TestCase
         var_dump($this->template->render());
     }
 
+    public function testRenderDoesNotLeakVariables() {
+        vfsStream::create(
+            array(
+                'template.php' => '<?=json_encode(get_defined_vars())?>',
+            )
+        );
+
+        $this->assertSame('[]', $this->template->render());
+    }
+
     public function testLayout()
     {
         vfsStream::create(

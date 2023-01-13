@@ -242,6 +242,19 @@ class EngineTest extends \PHPUnit\Framework\TestCase
         $this->assertInstanceOf('League\Plates\Template\Template', $this->engine->make('template'));
     }
 
+    public function testMakeTemplateWithData()
+    {
+        vfsStream::create(
+            array(
+                'template.php' => '',
+            )
+        );
+
+        $template = $this->engine->make('template', array('name' => 'Jonathan'));
+        $this->assertInstanceOf('League\Plates\Template\Template', $template);
+        $this->assertSame(array('name' => 'Jonathan'), $template->data());
+    }
+
     public function testRenderTemplate()
     {
         vfsStream::create(

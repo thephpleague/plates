@@ -5,7 +5,7 @@ Plates
 [![Source Code](http://img.shields.io/badge/source-league/plates-blue.svg?style=flat-square)](https://github.com/thephpleague/plates)
 [![Latest Version](https://img.shields.io/github/release/thephpleague/plates.svg?style=flat-square)](https://github.com/thephpleague/plates/releases)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
-[![Build Status](https://img.shields.io/github/workflow/status/thephpleague/plates/PHP/v3?style=flat-square)](https://github.com/thephpleague/plates/actions?query=workflow%3APHP+branch%3Av3)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/thephpleague/plates/php.yml?style=flat-square)](https://github.com/thephpleague/plates/actions?query=workflow%3APHP+branch%3Av3)
 [![Quality Score](https://img.shields.io/scrutinizer/g/thephpleague/plates.svg?style=flat-square)](https://scrutinizer-ci.com/g/thephpleague/plates)
 [![Total Downloads](https://img.shields.io/packagist/dt/league/plates.svg?style=flat-square)](https://packagist.org/packages/league/plates)
 

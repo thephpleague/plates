@@ -10,6 +10,15 @@ use LogicException;
  */
 class Name
 {
+    const NAMESPACE_DELIMITER = '::';
+
+    /**
+     * Hint path delimiter value.
+     *
+     * @var string
+     */
+    const HINT_PATH_DELIMITER = '::';
+
     /**
      * Instance of the template engine.
      * @var Engine
@@ -23,16 +32,17 @@ class Name
     protected $name;
 
     /**
-     * The parsed template folder.
-     * @var Folder
+     * The parsed namespace
      */
+    protected $namespace;
+
     protected $folder;
 
     /**
-     * The parsed template filename.
+     * The parsed template path.
      * @var string
      */
-    protected $file;
+    protected $path;
 
     /**
      * Create a new Name instance.
@@ -75,13 +85,13 @@ class Name
     {
         $this->name = $name;
 
-        $parts = explode('::', $this->name);
+        $parts = explode(static::NAMESPACE_DELIMITER, $this->name);
 
         if (count($parts) === 1) {
-            $this->setFile($parts[0]);
+            $this->setPath($parts[0]);
         } elseif (count($parts) === 2) {
-            $this->setFolder($parts[0]);
-            $this->setFile($parts[1]);
+            $this->setNamespace($parts[0]);
+            $this->setPath($parts[1]);
         } else {
             throw new LogicException(
                 'The template name "' . $this->name . '" is not valid. ' .
@@ -103,12 +113,12 @@ class Name
 
     /**
      * Set the parsed template folder.
-     * @param  string $folder
+     * @param  string $namespace
      * @return Name
      */
-    public function setFolder($folder)
+    public function setNamespace($namespace)
     {
-        $this->folder = $this->engine->getFolders()->get($folder);
+        $this->namespace = $namespace;
 
         return $this;
     }
@@ -117,64 +127,61 @@ class Name
      * Get the parsed template folder.
      * @return string
      */
+    public function getNamespace()
+    {
+        return $this->namespace;
+    }
+
+    /**
+     * @deprecated
+     */
     public function getFolder()
     {
-        return $this->folder;
+        if ($this->getNamespace()) {
+            return $this->getEngine()->getFolders()->get($this->getNamespace());
+        }
+        return null;
     }
 
     /**
      * Set the parsed template file.
-     * @param  string $file
+     * @param  string $path
      * @return Name
      */
-    public function setFile($file)
+    public function setPath($path)
     {
-        if ($file === '') {
+        if ($path === '') {
             throw new LogicException(
                 'The template name "' . $this->name . '" is not valid. ' .
                 'The template name cannot be empty.'
             );
         }
 
-        $this->file = $file;
-
-        if (!is_null($this->engine->getFileExtension())) {
-            $this->file .= '.' . $this->engine->getFileExtension();
-        }
+        $this->path = $path;
 
         return $this;
     }
 
-    /**
-     * Get the parsed template file.
-     * @return string
-     */
     public function getFile()
     {
-        return $this->file;
+        $file = $this->path;
+        if (!is_null($this->getEngine()->getFileExtension())) {
+            $file .= '.'.$this->getEngine()->getFileExtension();
+        }
+        return $file;
     }
 
     /**
-     * Resolve template path.
+     * Resolve template path or
+     * Get the parsed template file.
      * @return string
      */
-    public function getPath()
+    public function getPath($resolve = true )
     {
-        if (is_null($this->folder)) {
-            return "{$this->getDefaultDirectory()}/{$this->file}";
+        if ($resolve) {
+            return $this->engine->path($this);
         }
-
-        $path = "{$this->folder->getPath()}/{$this->file}";
-
-        if (
-            !is_file($path)
-            && $this->folder->getFallback()
-            && is_file("{$this->getDefaultDirectory()}/{$this->file}")
-        ) {
-            $path = "{$this->getDefaultDirectory()}/{$this->file}";
-        }
-
-        return $path;
+        return $this->path;
     }
 
     /**
@@ -183,24 +190,6 @@ class Name
      */
     public function doesPathExist()
     {
-        return is_file($this->getPath());
-    }
-
-    /**
-     * Get the default templates directory.
-     * @return string
-     */
-    protected function getDefaultDirectory()
-    {
-        $directory = $this->engine->getDirectory();
-
-        if (is_null($directory)) {
-            throw new LogicException(
-                'The template name "' . $this->name . '" is not valid. '.
-                'The default directory has not been defined.'
-            );
-        }
-
-        return $directory;
+        return $this->engine->exists($this);
     }
 }

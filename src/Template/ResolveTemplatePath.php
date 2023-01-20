@@ -10,4 +10,7 @@ interface ResolveTemplatePath
      * @throws TemplateNotFound if the template could not be properly resolved to a file path
      */
     public function __invoke(Name $name): string;
+
+
+    public function exists(Name $name): bool;
 }

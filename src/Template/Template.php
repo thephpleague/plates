@@ -261,21 +261,10 @@ class Template
             $this->sections[$this->sectionName] = '';
         }
 
-        switch ($this->sectionMode) {
+        $sectionContent = ob_get_clean();
 
-            case self::SECTION_MODE_REWRITE:
-                $this->sections[$this->sectionName] = ob_get_clean();
-                break;
+        $this->pushSection($this->sectionMode, $this->sectionName, $sectionContent);
 
-            case self::SECTION_MODE_APPEND:
-                $this->sections[$this->sectionName] .= ob_get_clean();
-                break;
-
-            case self::SECTION_MODE_PREPEND:
-                $this->sections[$this->sectionName] = ob_get_clean().$this->sections[$this->sectionName];
-                break;
-
-        }
         $this->sectionName = null;
         $this->sectionMode = self::SECTION_MODE_REWRITE;
         $this->appendSection = false; /* for backward compatibility */
@@ -306,6 +295,71 @@ class Template
     }
 
     /**
+     * Allows templates that are fetching this template to
+     * fetch the sections as well.
+     *
+     * @return array
+     */
+    protected function getSections()
+    {
+        return $this->sections;
+    }
+
+    /**
+     * Joins another Template's sections into this taking in
+     * consideration the template's section mode.
+     *
+     * @param Template $template
+     * @return void
+     */
+    protected function joinSections($template)
+    {
+        foreach ($template->getSections() as $sectionName => $sectionContent) {
+            $this->pushSection($template->sectionMode, $sectionName, $sectionContent);
+        }
+    }
+
+    /**
+     * Pushes the given section content to the sections array.
+     *
+     * @param int $sectionMode
+     * @param string $sectionName
+     * @param string $sectionContent
+     *
+     * @return void
+     */
+    private function pushSection($sectionMode, $sectionName, $sectionContent)
+    {
+        // if ob_clean failed for some reason let's just ignore the result
+        if ($sectionContent === false) {
+            return;
+        }
+
+        // if this template doesn't have that section, so we just add it.
+        if (![$sectionName]) {
+            $this->sections[$sectionName] = $sectionContent;
+            return;
+        }
+
+        // otherwise we need to consider the incoming section mode
+        switch ($sectionMode) {
+
+            case self::SECTION_MODE_REWRITE:
+                $this->sections[$sectionName] = $sectionContent;
+                break;
+
+            case self::SECTION_MODE_APPEND:
+                $this->sections[$sectionName] .= $sectionContent;
+                break;
+
+            case self::SECTION_MODE_PREPEND:
+                $this->sections[$sectionName] = $sectionContent.$this->sections[$sectionName];
+                break;
+
+        }
+    }
+
+    /**
      * Fetch a rendered template.
      * @param  string $name
      * @param  array  $data
@@ -313,7 +367,15 @@ class Template
      */
     public function fetch($name, array $data = array())
     {
-        return $this->engine->render($name, $data);
+        $template = $this->engine->make($name);
+        $content = $template->render($data);
+
+        // some info like 'sections' are only filled during
+        // the render processing, so here we have a window to
+        // fetch them and join to this template.
+        $this->joinSections($template);
+
+        return $content;
     }
 
     /**

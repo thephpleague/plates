@@ -342,20 +342,23 @@ class Template
         }
 
         // otherwise we need to consider the incoming section mode
-        switch ($sectionMode) {
-
-            case self::SECTION_MODE_REWRITE:
+        if ($sectionMode === self::SECTION_MODE_REWRITE) {
                 $this->sections[$sectionName] = $sectionContent;
-                break;
+            return;
+        }
 
-            case self::SECTION_MODE_APPEND:
-                $this->sections[$sectionName] .= $sectionContent;
-                break;
+        $existingContent = array_key_exists($sectionName, $this->sections)
+            ? $this->sections[$sectionName]
+            : '';
 
-            case self::SECTION_MODE_PREPEND:
-                $this->sections[$sectionName] = $sectionContent.$this->sections[$sectionName];
-                break;
+        if ($sectionMode === self::SECTION_MODE_APPEND) {
+            $this->sections[$sectionName] = $existingContent.$sectionContent;
+            return;
+        }
 
+        if ($sectionMode === self::SECTION_MODE_PREPEND) {
+            $this->sections[$sectionName] = $sectionContent.$existingContent;
+            return;
         }
     }
 

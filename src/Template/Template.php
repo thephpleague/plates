@@ -48,6 +48,14 @@ class Template
     protected $sections = array();
 
     /**
+     * Maps how sections are added so they cen
+     * be consumed by parent Templates later.
+     *
+     * @var array
+     */
+    protected $sectionsAddedModes = array();
+
+    /**
      * The name of the section currently being rendered.
      * @var string
      */
@@ -263,7 +271,7 @@ class Template
 
         $sectionContent = ob_get_clean();
 
-        $this->pushSection($this->sectionMode, $this->sectionName, $sectionContent);
+        $this->addSection($this->sectionMode, $this->sectionName, $sectionContent);
 
         $this->sectionName = null;
         $this->sectionMode = self::SECTION_MODE_REWRITE;
@@ -295,27 +303,17 @@ class Template
     }
 
     /**
-     * Allows templates that are fetching this template to
-     * fetch the sections as well.
-     *
-     * @return array
-     */
-    protected function getSections()
-    {
-        return $this->sections;
-    }
-
-    /**
      * Joins another Template's sections into this taking in
      * consideration the template's section mode.
      *
      * @param Template $template
      * @return void
      */
-    protected function joinSections($template)
+    private function joinSections($template)
     {
-        foreach ($template->getSections() as $sectionName => $sectionContent) {
-            $this->pushSection($template->sectionMode, $sectionName, $sectionContent);
+        foreach ($template->sections as $sectionName => $sectionContent) {
+            $sectionMode = $template->sectionsAddedModes[$sectionName];
+            $this->addSection($sectionMode, $sectionName, $sectionContent);
         }
     }
 
@@ -328,12 +326,14 @@ class Template
      *
      * @return void
      */
-    private function pushSection($sectionMode, $sectionName, $sectionContent)
+    private function addSection($sectionMode, $sectionName, $sectionContent)
     {
         // if ob_clean failed for some reason let's just ignore the result
         if ($sectionContent === false) {
             return;
         }
+
+        $this->sectionsAddedModes[$sectionName] = $sectionMode;
 
         // if this template doesn't have that section, so we just add it.
         if (![$sectionName]) {
@@ -343,7 +343,7 @@ class Template
 
         // otherwise we need to consider the incoming section mode
         if ($sectionMode === self::SECTION_MODE_REWRITE) {
-                $this->sections[$sectionName] = $sectionContent;
+            $this->sections[$sectionName] = $sectionContent;
             return;
         }
 

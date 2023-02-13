@@ -68,7 +68,7 @@ class Engine
     }
 
     public static function fromTheme(Theme $theme, string $fileExtension = 'php'): self {
-        $engine = new self(null, $fileExtension);
+        $engine = new static(null, $fileExtension);
         $engine->setResolveTemplatePath(new ResolveTemplatePath\ThemeResolveTemplatePath($theme));
         return $engine;
     }

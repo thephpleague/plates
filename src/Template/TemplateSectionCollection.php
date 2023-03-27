@@ -138,11 +138,11 @@ class TemplateSectionCollection implements ArrayAccess
     public function merge(TemplateSectionCollection $templateSections)
     {
         foreach ($templateSections->sections as $section) {
-            $this->add(
-                $section->getName(), 
-                $section->getContent(),
-                $section->getMode()
-            );
+            if (isset($this->sections[$section->getName()])) {
+                $this->sections[$section->getName()]->merge($section);
+            } else {
+                $this->sections[$section->getName()] = $section;
+            }
         }
     }
 }

@@ -262,10 +262,6 @@ class Template
             );
         }
 
-        if (!$this->sections->has($sectionName)) {
-            $this->sections[$sectionName] = '';
-        }
-
         $sectionContent = ob_get_clean();
 
         // if ob_clean failed for some reason let's just ignore the result

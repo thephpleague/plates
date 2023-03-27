@@ -72,7 +72,7 @@ class TemplateSectionCollection implements ArrayAccess
      *
      * @return string
      */
-    public function offsetGet($offset)
+    public function offsetGet($offset): string
     {
         if (!is_string($offset)) {
             throw new InvalidArgumentException('The desired section offset must be a string.');
@@ -99,7 +99,7 @@ class TemplateSectionCollection implements ArrayAccess
      *
      * @return void
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         if (!is_string($offset)) {
             throw new InvalidArgumentException('The desired section offset must be a string.');

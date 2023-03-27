@@ -5,3 +5,11 @@ doc/public
 doc/data/versions.json
 .generated
 .phpunit.result.cache
+.idea/.gitignore
+.idea/modules.xml
+.idea/php-test-framework.xml
+.idea/php.xml
+.idea/phpunit.xml
+.idea/plates.iml
+.idea/vcs.xml
+composer.phar

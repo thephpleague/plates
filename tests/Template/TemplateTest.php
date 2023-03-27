@@ -228,12 +228,12 @@ class TemplateTest extends TestCase
     public function testInheritedSectionReplacement()
     {
         vfsStream::create(array(
-            'template-child.php' => '<?php $this->push("textSection") ?>See this!<?php $this->stop() ?>',
-            'template.php' => '<?php $this->layout("layout")?><?= $this->fetch("template-child")?><?php $this->start("textSection") ?>See this too!<?php $this->stop() ?>',
+            'template-child.php' => '<?php $this->push("textSection") ?> See this too!<?php $this->stop() ?>',
+            'template.php' => '<?php $this->layout("layout")?><?= $this->fetch("template-child")?><?php $this->start("textSection") ?>See this!<?php $this->stop() ?>',
             'layout.php' => '<?php echo $this->section("textSection") ?>',
         ));
 
-        $this->assertSame('See this too!', $this->template->render());
+        $this->assertSame('See this! See this too!', $this->template->render());
     }
 
     public function testInheritedSectionReplacesParent()
@@ -247,6 +247,34 @@ class TemplateTest extends TestCase
         );
 
         $this->assertSame('See this replacement!', $this->template->render());
+    }
+
+    public function testInheritedSectionReplacesParentAndPush()
+    {
+        vfsStream::create(
+            array(
+                'template-child1.php' => '<?php $this->start("textSection") ?>See this replacement!<?php $this->stop() ?>',
+                'template-child2.php' => '<?php $this->push("textSection") ?> See this content pushed!<?php $this->stop() ?>',
+                'template.php' => '<?php $this->layout("layout")?><?php $this->start("textSection") ?>Not see this!<?php $this->stop() ?><?= $this->fetch("template-child1")?><?= $this->fetch("template-child2")?>',
+                'layout.php' => '<?php echo $this->section("textSection") ?>',
+            )
+        );
+
+        $this->assertSame('See this replacement! See this content pushed!', $this->template->render());
+    }
+
+    public function testInheritedSectionPushAndReplacesParent()
+    {
+        vfsStream::create(
+            array(
+                'template-child1.php' => '<?php $this->push("textSection") ?> See this content pushed!<?php $this->stop() ?>',
+                'template-child2.php' => '<?php $this->start("textSection") ?>See this replacement!<?php $this->stop() ?>',
+                'template.php' => '<?php $this->layout("layout")?><?php $this->start("textSection") ?>Not see this!<?php $this->stop() ?><?= $this->fetch("template-child1")?><?= $this->fetch("template-child2")?>',
+                'layout.php' => '<?php echo $this->section("textSection") ?>',
+            )
+        );
+
+        $this->assertSame('See this replacement! See this content pushed!', $this->template->render());
     }
 
     public function testStartSectionWithInvalidName()

@@ -360,6 +360,10 @@ class Template
     {
         static $flags;
 
+        if ($this->engine->doesFunctionExist('escape')) {
+            return $this->engine->getFunction('escape')->call($this, func_get_args());
+        }
+
         if (!isset($flags)) {
             $flags = ENT_QUOTES | (defined('ENT_SUBSTITUTE') ? ENT_SUBSTITUTE : 0);
         }

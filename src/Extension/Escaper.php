@@ -93,7 +93,7 @@ class Escaper implements ExtensionInterface
         bool $double_encode = true
     ): string {
 
-        if ($functions) {
+        if ($functions && $this->template instanceof Template) {
             $string = $this->template->batch($string, $functions);
         }
 

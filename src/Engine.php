@@ -57,17 +57,22 @@ class Engine
      * Create new Engine instance.
      * @param string $directory
      * @param string $fileExtension
+     * @param bool $registerEscapeFunctions Enabled by default to avoid bc-breaks
      */
-    public function __construct($directory = null, $fileExtension = 'php')
-    {
+    public function __construct(
+        $directory = null,
+        $fileExtension = 'php',
+        bool $registerEscapeFunctions = true
+    ) {
         $this->directory = new Directory($directory);
         $this->fileExtension = new FileExtension($fileExtension);
         $this->folders = new Folders();
         $this->functions = new Functions();
         $this->data = new Data();
         $this->resolveTemplatePath = new ResolveTemplatePath\NameAndFolderResolveTemplatePath();
-        // Register classic escaper template functions by default
-        $this->loadExtension($e = new Escaper());
+        if ($registerEscapeFunctions) {
+            $this->loadExtension(new Escaper());
+        }
     }
 
     public static function fromTheme(Theme $theme, string $fileExtension = 'php'): self {

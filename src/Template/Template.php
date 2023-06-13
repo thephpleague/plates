@@ -361,7 +361,7 @@ class Template
         static $flags;
 
         if (!isset($flags)) {
-            $flags = ENT_QUOTES | (defined('ENT_SUBSTITUTE') ? ENT_SUBSTITUTE : 0);
+            $flags = ENT_QUOTES | ENT_SUBSTITUTE;
         }
 
         if ($functions) {

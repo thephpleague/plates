@@ -349,36 +349,4 @@ class Template
 
         return $var;
     }
-
-    /**
-     * Escape string.
-     * @param  string      $string
-     * @param  null|string $functions
-     * @return string
-     */
-    public function escape($string, $functions = null)
-    {
-        static $flags;
-
-        if (!isset($flags)) {
-            $flags = ENT_QUOTES | (defined('ENT_SUBSTITUTE') ? ENT_SUBSTITUTE : 0);
-        }
-
-        if ($functions) {
-            $string = $this->batch($string, $functions);
-        }
-
-        return htmlspecialchars($string ?? '', $flags, 'UTF-8');
-    }
-
-    /**
-     * Alias to escape function.
-     * @param  string      $string
-     * @param  null|string $functions
-     * @return string
-     */
-    public function e($string, $functions = null)
-    {
-        return $this->escape($string, $functions);
-    }
 }

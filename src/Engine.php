@@ -3,6 +3,7 @@
 namespace League\Plates;
 
 use League\Plates\Extension\ExtensionInterface;
+use League\Plates\Extension\Escaper;
 use League\Plates\Template\Data;
 use League\Plates\Template\Directory;
 use League\Plates\Template\FileExtension;
@@ -56,19 +57,30 @@ class Engine
      * Create new Engine instance.
      * @param string $directory
      * @param string $fileExtension
+     * @param bool $registerEscapeFunctions Enabled by default to avoid bc-breaks
      */
-    public function __construct($directory = null, $fileExtension = 'php')
-    {
+    public function __construct(
+        $directory = null,
+        $fileExtension = 'php',
+        bool $registerEscapeFunctions = true
+    ) {
         $this->directory = new Directory($directory);
         $this->fileExtension = new FileExtension($fileExtension);
         $this->folders = new Folders();
         $this->functions = new Functions();
         $this->data = new Data();
         $this->resolveTemplatePath = new ResolveTemplatePath\NameAndFolderResolveTemplatePath();
+        if ($registerEscapeFunctions) {
+            $this->loadExtension(new Escaper());
+        }
     }
 
-    public static function fromTheme(Theme $theme, string $fileExtension = 'php'): self {
-        $engine = new self(null, $fileExtension);
+    public static function fromTheme(
+        Theme $theme,
+        string $fileExtension = 'php',
+        bool $registerEscapeFunctions = true
+    ): self {
+        $engine = new self(null, $fileExtension, $registerEscapeFunctions);
         $engine->setResolveTemplatePath(new ResolveTemplatePath\ThemeResolveTemplatePath($theme));
         return $engine;
     }

@@ -75,8 +75,12 @@ class Engine
         }
     }
 
-    public static function fromTheme(Theme $theme, string $fileExtension = 'php'): self {
-        $engine = new self(null, $fileExtension);
+    public static function fromTheme(
+        Theme $theme,
+        string $fileExtension = 'php',
+        bool $registerEscapeFunctions = true
+    ): self {
+        $engine = new self(null, $fileExtension, $registerEscapeFunctions);
         $engine->setResolveTemplatePath(new ResolveTemplatePath\ThemeResolveTemplatePath($theme));
         return $engine;
     }

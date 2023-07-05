@@ -45,12 +45,12 @@ location ~* (.+)\.(?:\d+)\.(js|css|png|jpg|jpeg|gif)$ {
 <html>
 <head>
     <title>Asset Extension Example</title>
-    <link rel="stylesheet" href="<?=$this->asset('/css/all.css')?>" />
+    <link rel="stylesheet" href="/assets<?=$this->asset('/css/all.css')?>" />
 </head>
 
 <body>
 
-<img src="<?=$this->asset('/img/logo.png')?>">
+<img src="/assets<?=$this->asset('/img/logo.png')?>">
 
 </body>
 </html>

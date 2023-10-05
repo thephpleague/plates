@@ -110,7 +110,7 @@ class Template
     /**
      * Assign or get template data.
      * @param  array $data
-     * @return mixed
+     * @return array
      */
     public function data(array $data = null)
     {
@@ -118,7 +118,7 @@ class Template
             return $this->data;
         }
 
-        $this->data = array_merge($this->data, $data);
+        return $this->data = array_merge($this->data, $data);
     }
 
     /**
@@ -196,7 +196,7 @@ class Template
     public function layout($name, array $data = array())
     {
         $this->layoutName = $name;
-        $this->layoutData = $data;
+        $this->layoutData = array_merge($this->data, $data);
     }
 
     /**
@@ -311,9 +311,9 @@ class Template
      * @param  array  $data
      * @return string
      */
-    public function fetch($name, array $data = array())
+    public function fetch($name, array $data = array(), bool $only = true)
     {
-        return $this->engine->render($name, $data);
+        return $this->engine->render($name, $only ? $data : array_merge($this->data, $data));
     }
 
     /**

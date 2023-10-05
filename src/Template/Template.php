@@ -199,6 +199,15 @@ class Template
         $this->layoutData = $data;
     }
 
+
+    private function mustStopRenderingSection(): bool
+    {
+        if (isset($this->sections[$this->sectionName]) && $this->sectionMode == self::SECTION_MODE_REWRITE)
+            return true;
+
+        return false;
+    }
+
     /**
      * Start a new section block.
      * @param  string  $name
@@ -217,6 +226,9 @@ class Template
         }
 
         $this->sectionName = $name;
+
+        if ($this->mustStopRenderingSection())
+            return;
 
         ob_start();
     }
@@ -256,6 +268,10 @@ class Template
                 'You must start a section before you can stop it.'
             );
         }
+
+
+        if ($this->mustStopRenderingSection())
+            return;
 
         if (!isset($this->sections[$this->sectionName])) {
             $this->sections[$this->sectionName] = '';

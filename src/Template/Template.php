@@ -211,7 +211,7 @@ class Template
     /**
      * Start a new section block.
      * @param  string  $name
-     * @return null
+     * @return bool
      */
     public function start($name)
     {

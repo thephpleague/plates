@@ -228,9 +228,9 @@ class Template
         $this->sectionName = $name;
 
         if ($this->mustStopRenderingSection())
-            return;
+            return false;
 
-        ob_start();
+        return ob_start();
     }
 
     /**

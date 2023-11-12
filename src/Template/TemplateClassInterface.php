@@ -4,5 +4,5 @@ namespace League\Plates\Template;
 
 interface TemplateClassInterface
 {
-    public function display(Template $tpl): void;
+    // public function display(...$args): void;
 }

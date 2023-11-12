@@ -299,7 +299,7 @@ class Engine
 
     /**
      * Create a new template and render it.
-     * @param  string $name
+     * @param  string|TemplateClassInterface $name
      * @param  array  $data
      * @return string
      */

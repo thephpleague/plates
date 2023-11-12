@@ -54,6 +54,6 @@ class TemplateClass extends Template
 
     public function path(): string
     {
-        return '';
+        return get_class($this->templateClass);
     }
 }

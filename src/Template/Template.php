@@ -62,7 +62,7 @@ class Template
 
     /**
      * The name of the template layout.
-     * @var string
+     * @var string|TemplateClassInterface
      */
     protected $layoutName;
 
@@ -158,17 +158,11 @@ class Template
     public function render(array $data = array())
     {
         $this->data($data);
-        $path = ($this->engine->getResolveTemplatePath())($this->name);
 
         try {
             $level = ob_get_level();
             ob_start();
-
-            (function() {
-                extract($this->data);
-                include func_get_arg(0);
-            })($path);
-
+            $this->display();
             $content = ob_get_clean();
 
             if (isset($this->layoutName)) {
@@ -185,6 +179,16 @@ class Template
 
             throw $e;
         }
+    }
+
+
+    protected function display() {
+        $path = ($this->engine->getResolveTemplatePath())($this->name);
+
+        (function() {
+            extract($this->data);
+            include func_get_arg(0);
+        })($path);
     }
 
     /**

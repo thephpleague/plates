@@ -311,9 +311,9 @@ class Template
      * @param  array  $data
      * @return string
      */
-    public function fetch($name, array $data = array(), bool $only = true)
+    public function fetch($name, array $data = array(), bool $useTemplateData = false)
     {
-        return $this->engine->render($name, $only ? $data : array_merge($this->data, $data));
+        return $this->engine->render($name, $useTemplateData ? array_merge($this->data, $data) : $data);
     }
 
     /**
@@ -322,9 +322,9 @@ class Template
      * @param  array  $data
      * @return null
      */
-    public function insert($name, array $data = array())
+    public function insert($name, array $data = array(), bool $useTemplateData = false)
     {
-        echo $this->engine->render($name, $data);
+        echo $this->fetch($name, $data, $useTemplateData);
     }
 
     /**

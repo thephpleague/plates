@@ -4,6 +4,7 @@ declare (strict_types=1);
 
 namespace League\Plates;
 
+use League\Plates\Template\DoNotAddItInConstructorInterface;
 use League\Plates\Template\Template;
 use League\Plates\Template\TemplateClass;
 use League\Plates\Template\TemplateClassInterface;
@@ -27,6 +28,7 @@ use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
  */
 final class RectorizeTemplate extends AbstractRector
 {
+    const CLASS_TO_NOT_ADD_IN_CONSTRUCTOR = [Template::class, TemplateClass::class, DoNotAddItInConstructorInterface::class];
     /**
      * @readonly
      * @var \Rector\Core\NodeAnalyzer\ParamAnalyzer
@@ -108,8 +110,10 @@ CODE_SAMPLE
         $methodDocBlock = $displayMethod?->getDocComment()?->getText() ?? '';
         foreach($displayMethod->params as $parameter) {
             $paramType = $this->paramTypeResolver->resolve($parameter);
-            if ($paramType instanceof FullyQualifiedObjectType && in_array($paramType->getClassName(), [Template::class, TemplateClass::class], true))
-                continue;
+            if ($paramType instanceof FullyQualifiedObjectType
+                && in_array($paramType->getClassName(), self::CLASS_TO_NOT_ADD_IN_CONSTRUCTOR, true)) {
+                    continue;
+            }
 
             $paramDocBlock = $this->getParameterDocblock($methodDocBlock, $this->getName($parameter));
             if ($paramDocBlock !== null)

@@ -34,6 +34,8 @@ final class RectorizeTemplate extends AbstractRector
 {
     public const CLASS_TO_NOT_ADD_IN_CONSTRUCTOR = [Template::class, TemplateClass::class, DoNotAddItInConstructorInterface::class];
 
+    public const PARAMETER_NAMES_TO_NOT_ADD = ['f'];
+
     public function __construct(
         private readonly ParamTypeResolver $paramTypeResolver
     ) {
@@ -99,8 +101,12 @@ CODE_SAMPLE
         $docBlockForConstructor = [];
         $methodDocBlock = $displayMethod?->getDocComment()?->getText() ?? '';
         foreach ($displayMethod->params as $parameter) {
+            if (in_array($this->getName($parameter), self::PARAMETER_NAMES_TO_NOT_ADD, true)) {
+                continue;
+            }
+
             $paramType = $this->paramTypeResolver->resolve($parameter);
-            if ($paramType instanceof FullyQualifiedObjectType && ! $this->mustAddObjectInConstructor($paramType)) {
+            if ($paramType instanceof FullyQualifiedObjectType && ! $this->mustAddObjectInConstructor($parameter, $paramType)) {
                 continue;
             }
 
@@ -201,7 +207,7 @@ CODE_SAMPLE
         return null;
     }
 
-    private function mustAddObjectInConstructor(FullyQualifiedObjectType $paramType): bool
+    private function mustAddObjectInConstructor(Param $param, FullyQualifiedObjectType $paramType): bool
     {
         if (\in_array($paramType->getClassName(), self::CLASS_TO_NOT_ADD_IN_CONSTRUCTOR, true)) {
             return false;

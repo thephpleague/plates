@@ -1,6 +1,6 @@
 <?php
 
-declare (strict_types=1);
+declare(strict_types=1);
 
 namespace League\Plates;
 
@@ -8,47 +8,41 @@ use League\Plates\Template\DoNotAddItInConstructorInterface;
 use League\Plates\Template\Template;
 use League\Plates\Template\TemplateClass;
 use League\Plates\Template\TemplateClassInterface;
-use PHP_CodeSniffer\Standards\Generic\Sniffs\NamingConventions\ConstructorNameSniff;
-use PhpParser\Node\Param;
 use PhpParser\Comment\Doc;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
+use PhpParser\Node\Expr\ConstFetch;
 use PhpParser\Node\Name;
-use PhpParser\Node\NullableType;
+use PhpParser\Node\Param;
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use PhpParser\Node\UnionType;
-use Rector\Core\NodeAnalyzer\ParamAnalyzer;
+use PHPStan\Type\NullType;
+use PHPStan\Type\Type;
 use Rector\Core\PhpParser\Printer\BetterStandardPrinter;
 use Rector\Core\Rector\AbstractRector;
 use Rector\Core\ValueObject\MethodName;
 use Rector\NodeTypeResolver\NodeTypeResolver\ParamTypeResolver;
-use Rector\Removing\NodeManipulator\ComplexNodeRemover;
 use Rector\StaticTypeMapper\ValueObject\Type\FullyQualifiedObjectType;
-use Rector\TypeDeclaration\NodeAnalyzer\CallTypesResolver;
 use Symplify\RuleDocGenerator\ValueObject\CodeSample\CodeSample;
 use Symplify\RuleDocGenerator\ValueObject\RuleDefinition;
+
 /**
  * @see \Rector\Tests\DeadCode\Rector\ClassMethod\RemoveUnusedConstructorParamRector\RemoveUnusedConstructorParamRectorTest
  */
 final class RectorizeTemplate extends AbstractRector
 {
-    const CLASS_TO_NOT_ADD_IN_CONSTRUCTOR = [Template::class, TemplateClass::class, DoNotAddItInConstructorInterface::class];
+    public const CLASS_TO_NOT_ADD_IN_CONSTRUCTOR = [Template::class, TemplateClass::class, DoNotAddItInConstructorInterface::class];
 
-
-    /**
-     * @readonly
-     * @var ParamTypeResolver
-     */
-    private $paramTypeResolver;
-
-    public function __construct(ParamTypeResolver $paramTypeResolver)
-    {
-        $this->paramTypeResolver = $paramTypeResolver;
+    public function __construct(
+        private readonly ParamTypeResolver $paramTypeResolver
+    ) {
     }
-    public function getRuleDefinition() : RuleDefinition
+
+    public function getRuleDefinition(): RuleDefinition
     {
-        return new RuleDefinition('Duplicate diplay to constructor except Template', [new CodeSample(<<<'CODE_SAMPLE'
+        return new RuleDefinition('Duplicate diplay to constructor except Template', [new CodeSample(
+            <<<'CODE_SAMPLE'
 final class SomeTemplate
 {
     public function display(string $name, Template $t): void
@@ -57,7 +51,8 @@ final class SomeTemplate
     }
 }
 CODE_SAMPLE
-, <<<'CODE_SAMPLE'
+            ,
+            <<<'CODE_SAMPLE'
 final class SomeClass
 {
     public function display(string $name, Template $t): void
@@ -70,12 +65,13 @@ final class SomeClass
     }
 }
 CODE_SAMPLE
-)]);
+        )]);
     }
+
     /**
      * @return array<class-string<Node>>
      */
-    public function getNodeTypes() : array
+    public function getNodeTypes(): array
     {
         return [Class_::class];
     }
@@ -83,61 +79,64 @@ CODE_SAMPLE
     /**
      * @param Class_ $node
      */
-    public function refactor(Node $node) : ?Node
+    public function refactor(Node $node): ?Node
     {
-        $implementedInterfaces = array_map( fn (Name $interface) => $interface->toString(), $node->implements );
-        if (! in_array(TemplateClassInterface::class, $implementedInterfaces, true)) {
+        $implementedInterfaces = array_map(static fn (Name $interface): string => $interface->toString(), $node->implements);
+        if (! \in_array(TemplateClassInterface::class, $implementedInterfaces, true)) {
             return null;
         }
 
-        $displayMethod = $node->getMethod('display') ;
-        if ($displayMethod === null)
+        $displayMethod = $node->getMethod('display');
+        if (null === $displayMethod) {
             return null;
+        }
 
-
-        if ($displayMethod->params === [])
+        if ([] === $displayMethod->params) {
             return $this->removeConstructor($node);
+        }
 
         $paramsForConstructor = [];
         $docBlockForConstructor = [];
         $methodDocBlock = $displayMethod?->getDocComment()?->getText() ?? '';
-        foreach($displayMethod->params as $parameter) {
+        foreach ($displayMethod->params as $parameter) {
             $paramType = $this->paramTypeResolver->resolve($parameter);
-            if ($paramType instanceof FullyQualifiedObjectType
-                && in_array($paramType->getClassName(), self::CLASS_TO_NOT_ADD_IN_CONSTRUCTOR, true)) {
-                    continue;
+            if ($paramType instanceof FullyQualifiedObjectType && ! $this->mustAddObjectInConstructor($paramType)) {
+                continue;
             }
 
             $paramDocBlock = $this->getParameterDocblock($methodDocBlock, $this->getName($parameter));
-            if ($paramDocBlock !== null)
+            if (null !== $paramDocBlock) {
                 $docBlockForConstructor[] = $paramDocBlock;
+            }
 
             $cloneParameter = clone $parameter;
             $cloneParameter->flags = 1;
 
-            if ($parameter->default instanceof Expr) {
-
-                if (! $this->hasNullType($paramType) && $parameter->default instanceof \PhpParser\Node\Expr\ConstFetch && $this->hasNullValue($parameter)) {
-                    $this->addTypeToParameter($cloneParameter, 'null');
-                }
+            if ($parameter->default instanceof Expr
+                && (! $this->hasNullType($paramType)
+                && $parameter->default instanceof ConstFetch
+                && $this->hasNullValue($parameter))) {
+                $this->addTypeToParameter($cloneParameter, 'null');
             }
 
             $paramsForConstructor[] = $cloneParameter;
         }
 
-        if ($paramsForConstructor === [])
+        if ([] === $paramsForConstructor) {
             return $this->removeConstructor($node);
+        }
 
-        $constructor = $node->getMethod(MethodName::CONSTRUCT) ;
+        $constructor = $node->getMethod(MethodName::CONSTRUCT);
         $docBlockConstructor = $constructor?->getDocComment();
         $newDocBlockConstructor = new Doc("/**\n * ".trim("Autogenerated constructor.\n * ".implode("\n * ", $docBlockForConstructor), "\n *")."\n */");
-        if ($paramsForConstructor === $constructor?->params || $docBlockConstructor === $newDocBlockConstructor) // TODO compare docblock
+        if ($paramsForConstructor === $constructor?->params || $docBlockConstructor === $newDocBlockConstructor) { // TODO compare docblock
             return null;
+        }
 
         $this->removeConstructor($node);
 
         $constructor = new ClassMethod('__construct', [
-            'flags' => Node\Stmt\Class_::MODIFIER_PUBLIC,
+            'flags' => Class_::MODIFIER_PUBLIC,
             'params' => $paramsForConstructor,
         ]);
         $constructor->setDocComment($newDocBlockConstructor);
@@ -147,13 +146,14 @@ CODE_SAMPLE
         return $node;
     }
 
-    private function hasNullType(\PHPStan\Type\Type $type):bool
+    private function hasNullType(Type $type): bool
     {
-        if ($type instanceof \PHPStan\Type\NullType)
+        if ($type instanceof NullType) {
             return true;
+        }
 
         if ($type instanceof \PHPStan\Type\UnionType) {
-            foreach($type->getTypes() as $type) {
+            foreach ($type->getTypes() as $type) {
                 if ($this->hasNullType($type)) {
                     return true;
                 }
@@ -167,17 +167,15 @@ CODE_SAMPLE
     {
         $text = (new BetterStandardPrinter())->print($param);
 
-        if (str_ends_with($text, 'null'))
-            return true;
-
-        return false;
+        return str_ends_with($text, 'null');
     }
 
-    private function removeConstructor(Class_ $class):null
+    private function removeConstructor(Class_ $class): null
     {
         foreach ($class->stmts as $key => $stmt) {
-            if ($stmt instanceof Node\Stmt\ClassMethod && $stmt->name->toString() === MethodName::CONSTRUCT) {
+            if ($stmt instanceof ClassMethod && MethodName::CONSTRUCT === $stmt->name->toString()) {
                 unset($class->stmts[$key]);
+
                 break;
             }
         }
@@ -187,7 +185,7 @@ CODE_SAMPLE
 
     private function getParameterDocblock(?string $methodDocblock, string $parameterName): ?string
     {
-        if ($methodDocblock === null) {
+        if (null === $methodDocblock) {
             return null;
         }
 
@@ -203,29 +201,42 @@ CODE_SAMPLE
         return null;
     }
 
-
-    private function addTypeToParameter( Param $param, string $type): void
+    private function mustAddObjectInConstructor(FullyQualifiedObjectType $paramType): bool
     {
+        if (\in_array($paramType->getClassName(), self::CLASS_TO_NOT_ADD_IN_CONSTRUCTOR, true)) {
+            return false;
+        }
 
+        foreach (self::CLASS_TO_NOT_ADD_IN_CONSTRUCTOR as $classToCheck) {
+            if (is_subclass_of($paramType->getClassName(), $classToCheck)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private function addTypeToParameter(Param $param, string $type): void
+    {
         $existingType = $this->nodeTypeResolver->getType($param);
 
         if ($existingType instanceof \PHPStan\Type\UnionType) {
             $existingTypes = $existingType->getTypes();
-            $newTypes = [...$existingTypes, new \PHPStan\Type\NullType()];
+            $newTypes = [...$existingTypes, new NullType()];
             $param->type = new UnionType($newTypes);
+
             return;
         }
 
-        if ( $existingType === null) {
-            $param->type = new \PHPStan\Type\NullType();
+        if (null === $existingType) {
+            $param->type = new NullType();
+
             return;
         }
 
         $param->type = null;
         // The following code is not working
-        //$param->type = new UnionType([$existingType, new \PHPStan\Type\NullType()]);
+        // $param->type = new UnionType([$existingType, new \PHPStan\Type\NullType()]);
         // Get it worked using nullable_type_declaration_for_default_null_value for phpcsfixer
-
     }
-
 }

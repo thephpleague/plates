@@ -81,6 +81,9 @@ class TemplateClass extends Template
             if ($propertyValue !== null) {
                 continue;
             }
+            if ($propertyName === 'template') {
+                $this->templateClass->template = $this;
+            }
 
             $this->templateClass->$propertyName = $this->data[$propertyName] ?? null;
         }

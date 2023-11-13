@@ -8,12 +8,12 @@ use League\Plates\Template\TemplateClassInterface;
 class Profile implements TemplateClassInterface
 {
 
-    public function display(Template $t, callable $f, string $name): void { ?>
+    public function display(Template $t, callable $f, callable $e, string $name): void { ?>
 <?php $t->layout(new Layout('User Profile')) ?>
 <?php // $this->layout('layout', ['title' => 'User Profile']) // this is working too and will get the example/templates/layout.php ?>
 
 <h1>User Profile</h1>
-<p>Hello, <?=$t->e($name)?>!</p>
+<p>Hello, <?=$e($name)?>!</p>
 
 <?php //$t->insert(new Sidebar()) ?>
 <?= $f(new Sidebar()) ?>

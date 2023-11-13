@@ -34,7 +34,7 @@ final class RectorizeTemplate extends AbstractRector
 {
     public const CLASS_TO_NOT_ADD_IN_CONSTRUCTOR = [Template::class, TemplateClass::class, DoNotAddItInConstructorInterface::class];
 
-    public const PARAMETER_NAMES_TO_NOT_ADD = ['f'];
+    public const PARAMETER_NAMES_TO_NOT_ADD = ['f', 'e'];
 
     public function __construct(
         private readonly ParamTypeResolver $paramTypeResolver

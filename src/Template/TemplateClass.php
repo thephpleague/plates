@@ -68,7 +68,14 @@ class TemplateClass extends Template
             }
 
             if ($parameter->getName() === 'f') {
-                $parametersToAutowire['f'] = [$this, 'fetch'];
+                $parametersToAutowire['f'] = $this->fetch(...);
+
+                continue;
+            }
+
+
+            if ($parameter->getName() === 'e') {
+                $parametersToAutowire['e'] = $this->escape(...);
 
                 continue;
             }

@@ -39,6 +39,9 @@ class TemplateClass extends Template
 
         $dataToImport = [];
         foreach ($properties as $property) {
+            if (!$property->isInitialized($this->templateClass)) // $property->isReadOnly() &&
+                continue;
+
             $propertyValue = $property->getValue($this->templateClass);
             if ($propertyValue === $property->getDefaultValue() || $propertyValue === null)
                 continue;

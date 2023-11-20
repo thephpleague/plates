@@ -95,17 +95,21 @@ class TemplateClass extends Template
 
     protected function autowireDataToTemplateClass()
     {
-        $properties = get_object_vars($this->templateClass);
-        foreach ($properties as $propertyName => $propertyValue) {
-            if ($propertyValue !== null) {
+        $properties = (new ReflectionClass($this->templateClass))->getProperties();
+
+        foreach ($properties as $property) {
+            if ($property->isInitialized($this->templateClass)) {
                 continue;
             }
-            if ($propertyName === 'template') {
+
+            if ($property->getName() === 'template') {
                 $this->templateClass->template = $this;
                 continue;
             }
 
-            $this->templateClass->$propertyName = $this->data[$propertyName] ?? null;
+            if (isset($this->data[$property->getName()])) {
+                $this->templateClass->{$property->getName()} = $this->data[$property->getName()];
+            }
         }
     }
 

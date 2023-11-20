@@ -7,6 +7,7 @@ use League\Plates\Engine;
 use League\Plates\Template\Name;
 use ReflectionClass;
 use ReflectionMethod;
+use ReflectionNamedType;
 use ReflectionProperty;
 
 /**
@@ -64,7 +65,9 @@ class TemplateClass extends Template
         // Extract the parameter names
         $parametersToAutowire = [];
         foreach ($parameters as $parameter) {
-            if (in_array($parameter->getType()->getName(), [TemplateClass::class, Template::class], true)) {
+
+            if ($parameter->getType() instanceof ReflectionNamedType // avoid union or intersection type
+                && in_array($parameter->getType()->getName(), [TemplateClass::class, Template::class], true)) {
                 $parametersToAutowire[$parameter->getName()] = $this;
 
                 continue;

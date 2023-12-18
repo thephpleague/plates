@@ -12,6 +12,11 @@ use LogicException;
 class URI implements ExtensionInterface
 {
     /**
+     * @var Template|null
+     */
+    protected ?Template $template;
+
+    /**
      * The request URI.
      * @var string
      */
@@ -41,6 +46,15 @@ class URI implements ExtensionInterface
     public function register(Engine $engine): void
     {
         $engine->registerFunction('uri', array($this, 'runUri'));
+    }
+
+    /**
+     * @param Template|null $template
+     * @return void
+     */
+    public function setTemplate(?Template $template): void
+    {
+        $this->template = $template;
     }
 
     /**

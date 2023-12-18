@@ -95,11 +95,13 @@ class Func
      */
     public function call(Template $template = null, $arguments = array())
     {
-        if (is_array($this->callback) and
-            isset($this->callback[0]) and
-            $this->callback[0] instanceof ExtensionInterface
-        ) {
-            $this->callback[0]->template = $template;
+        if ($template) {
+            if (is_array($this->callback) and
+                isset($this->callback[0]) and
+                $this->callback[0] instanceof ExtensionInterface
+            ) {
+                $this->callback[0]->setTemplate($template);
+            }
         }
 
         return call_user_func_array($this->callback, $arguments);

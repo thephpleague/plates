@@ -7,6 +7,7 @@ namespace League\Plates\Tests\Template;
 use League\Plates\Engine;
 use League\Plates\Extension\ExtensionInterface;
 use League\Plates\Template\Func;
+use League\Plates\Template\Template;
 use PHPUnit\Framework\TestCase;
 
 class FuncTest extends TestCase
@@ -59,9 +60,24 @@ class FuncTest extends TestCase
     public function testExtensionFunctionCall()
     {
         $extension = new class() implements ExtensionInterface {
-            public function register(Engine $engine)
+            protected ?Template $template;
+
+            /**
+             * Do nothing
+             */
+            public function register(Engine $engine): void
             {
             }
+
+            /**
+             * @param Template|null $template
+             * @return void
+             */
+            public function setTemplate(?Template $template): void
+            {
+                $this->template = $template;
+            }
+
             public function foo(): string
             {
                 return 'bar';

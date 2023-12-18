@@ -12,10 +12,9 @@ use LogicException;
 class Asset implements ExtensionInterface
 {
     /**
-     * Instance of the current template.
-     * @var Template
+     * @var Template|null
      */
-    public $template;
+    protected ?Template $template;
 
     /**
      * Path to asset directory.
@@ -43,11 +42,20 @@ class Asset implements ExtensionInterface
     /**
      * Register extension function.
      * @param Engine $engine
-     * @return null
+     * @return void
      */
-    public function register(Engine $engine)
+    public function register(Engine $engine): void
     {
         $engine->registerFunction('asset', array($this, 'cachedAssetUrl'));
+    }
+
+    /**
+     * @param Template|null $template
+     * @return void
+     */
+    public function setTemplate(?Template $template): void
+    {
+        $this->template = $template;
     }
 
     /**

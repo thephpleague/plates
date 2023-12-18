@@ -16,10 +16,17 @@ use League\Plates\Extension\ExtensionInterface;
 
 class ChangeCase implements ExtensionInterface
 {
-    public function register(Engine $engine)
+    protected ?Template $template;
+
+    public function register(Engine $engine): void
     {
         $engine->registerFunction('uppercase', [$this, 'uppercaseString']);
         $engine->registerFunction('lowercase', [$this, 'lowercaseString']);
+    }
+
+    public function setTemplate(?Template $template): void
+    {
+        $this->template = $template;
     }
 
     public function uppercaseString($var)
@@ -56,9 +63,16 @@ use League\Plates\Extension\ExtensionInterface;
 
 class ChangeCase implements ExtensionInterface
 {
-    public function register(Engine $engine)
+    protected ?Template $template;
+
+    public function register(Engine $engine): void
     {
         $engine->registerFunction('case', [$this, 'getObject']);
+    }
+
+    public function setTemplate(?Template $template): void
+    {
+        $this->template = $template;
     }
 
     public function getObject()
@@ -94,7 +108,7 @@ $engine->loadExtension(new ChangeCase());
 
 ## Accessing the engine and template
 
-It may be desirable to access the `engine` or `template` objects from within your extension. Plates makes both of these objects available to you. The engine is automatically passed to the `register()` method, and the template is assigned as a parameter on each function call.
+It may be desirable to access the `engine` or `template` objects from within your extension. Plates makes both of these objects available to you. The engine is automatically passed to the `register()` method, and the template is assigned with a call to `setTemplate` with the according template when available.
 
 ~~~ php
 use League\Plates\Engine;
@@ -103,7 +117,7 @@ use League\Plates\Extension\ExtensionInterface;
 class MyExtension implements ExtensionInterface
 {
     protected $engine;
-    public $template; // must be public
+    protected $template;
 
     public function register(Engine $engine)
     {
@@ -114,6 +128,11 @@ class MyExtension implements ExtensionInterface
 
         // Register functions
         // ...
+    }
+    
+    public function setTemplate(?Template $template): void
+    {
+        $this->template = $template;
     }
 }
 ~~~

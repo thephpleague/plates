@@ -108,7 +108,7 @@ $engine->loadExtension(new ChangeCase());
 
 ## Accessing the engine and template
 
-It may be desirable to access the `engine` or `template` objects from within your extension. Plates makes both of these objects available to you. The engine is automatically passed to the `register()` method, and the template is assigned with a call to `setTemplate` with the according template when available.
+It may be desirable to access the `engine` or `template` objects from within your extension. Plates makes both of these objects available to you. The engine is automatically passed to the `register()` method, and the template is assigned with a call to `setTemplate()` with the according template when available.
 
 ~~~ php
 use League\Plates\Engine;

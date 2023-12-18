@@ -9,14 +9,8 @@ use LogicException;
 /**
  * Extension that adds the ability to create "cache busted" asset URLs.
  */
-class Asset implements ExtensionInterface
+class Asset extends AbstractExtension
 {
-    /**
-     * Instance of the current template.
-     * @var Template
-     */
-    public $template;
-
     /**
      * Path to asset directory.
      * @var string
@@ -43,9 +37,9 @@ class Asset implements ExtensionInterface
     /**
      * Register extension function.
      * @param Engine $engine
-     * @return null
+     * @return void
      */
-    public function register(Engine $engine)
+    public function register(Engine $engine): void
     {
         $engine->registerFunction('asset', array($this, 'cachedAssetUrl'));
     }

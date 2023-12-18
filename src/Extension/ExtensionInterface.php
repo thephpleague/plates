@@ -9,5 +9,5 @@ use League\Plates\Engine;
  */
 interface ExtensionInterface
 {
-    public function register(Engine $engine);
+    public function register(Engine $engine): void;
 }

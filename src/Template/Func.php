@@ -2,6 +2,7 @@
 
 namespace League\Plates\Template;
 
+use League\Plates\Extension\AbstractExtension;
 use League\Plates\Extension\ExtensionInterface;
 use LogicException;
 
@@ -97,7 +98,7 @@ class Func
     {
         if (is_array($this->callback) and
             isset($this->callback[0]) and
-            $this->callback[0] instanceof ExtensionInterface
+            $this->callback[0] instanceof AbstractExtension
         ) {
             $this->callback[0]->template = $template;
         }

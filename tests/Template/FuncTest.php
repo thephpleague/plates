@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace League\Plates\Tests\Template;
 
 use League\Plates\Engine;
+use League\Plates\Extension\AbstractExtension;
 use League\Plates\Extension\ExtensionInterface;
 use League\Plates\Template\Func;
 use PHPUnit\Framework\TestCase;
@@ -58,8 +59,8 @@ class FuncTest extends TestCase
 
     public function testExtensionFunctionCall()
     {
-        $extension = new class() implements ExtensionInterface {
-            public function register(Engine $engine)
+        $extension = new class() extends AbstractExtension {
+            public function register(Engine $engine): void
             {
             }
             public function foo(): string

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace League\Plates\Tests\Template;
 
 use League\Plates\Engine;
-use League\Plates\Extension\AbstractExtension;
 use League\Plates\Extension\ExtensionInterface;
 use League\Plates\Template\Func;
 use League\Plates\Template\Template;

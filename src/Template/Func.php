@@ -2,7 +2,6 @@
 
 namespace League\Plates\Template;
 
-use League\Plates\Extension\AbstractExtension;
 use League\Plates\Extension\ExtensionInterface;
 use LogicException;
 

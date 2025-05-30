@@ -16,8 +16,7 @@ final class ThemeTest extends TestCase
     /** @var \Throwable */
     private $exception;
 
-    #[Test]
-    public function engine_renders_with_single_themes()
+    public function test_that_engine_renders_with_single_themes()
     {
         $this->given_a_directory_structure_is_setup_like('templates', ['main.php' => '<html></html>']);
         $this->given_an_engine_is_created_with_theme(Theme::new($this->vfsPath('templates')));
@@ -25,8 +24,7 @@ final class ThemeTest extends TestCase
         $this->then_the_rendered_template_matches('<html></html>');
     }
 
-    #[Test]
-    public function engine_renders_with_theme_hierarchy()
+    public function test_that_engine_renders_with_theme_hierarchy()
     {
         $this->given_a_directory_structure_is_setup_like('templates', [
             'parent' => [
@@ -45,8 +43,7 @@ final class ThemeTest extends TestCase
         $this->then_the_rendered_template_matches('<html>child: parent</html>');
     }
 
-    #[Test]
-    public function duplicate_theme_names_in_hierarchies_are_not_allowed()
+    public function test_that_duplicate_theme_names_in_hierarchies_are_not_allowed()
     {
         $this->when_a_theme_is_created_like(function () {
             Theme::hierarchy([
@@ -57,8 +54,7 @@ final class ThemeTest extends TestCase
         $this->then_an_exception_is_thrown_with_message('Duplicate theme names in hierarchies are not allowed. Received theme names: [Default, Default].');
     }
 
-    #[Test]
-    public function nested_hierarchies_are_not_allowed()
+    public function test_that_nested_hierarchies_are_not_allowed()
     {
         $this->when_a_theme_is_created_like(function () {
             Theme::hierarchy([
@@ -68,8 +64,7 @@ final class ThemeTest extends TestCase
         $this->then_an_exception_is_thrown_with_message('Nested theme hierarchies are not allowed, make sure to use Theme::new when creating themes in your hierarchy. Theme B is already in a hierarchy.');
     }
 
-    #[Test]
-    public function empty_hierarchies_are_not_allowed()
+    public function test_that_empty_hierarchies_are_not_allowed()
     {
         $this->when_a_theme_is_created_like(function () {
             Theme::hierarchy([]);
@@ -77,8 +72,7 @@ final class ThemeTest extends TestCase
         $this->then_an_exception_is_thrown_with_message('Empty theme hierarchies are not allowed.');
     }
 
-    #[Test]
-    public function template_not_found_errors_reference_themes_checked()
+    public function test_that_template_not_found_errors_reference_themes_checked()
     {
         $this->given_a_directory_structure_is_setup_like('templates', []);
         $this->given_an_engine_is_created_with_theme(Theme::hierarchy([

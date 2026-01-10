@@ -3,6 +3,8 @@
 namespace League\Plates\Tests;
 
 use League\Plates\Engine;
+use League\Plates\Exception\TemplateNotFound;
+use League\Plates\Template\Theme;
 use org\bovigo\vfs\vfsStream;
 
 class EngineTest extends \PHPUnit\Framework\TestCase
@@ -218,6 +220,34 @@ class EngineTest extends \PHPUnit\Framework\TestCase
         $this->assertSame('vfs://templates/template.php', $this->engine->path('template'));
     }
 
+    public function testGetTemplatePathWithThemes()
+    {
+        vfsStream::create(
+            [
+                'parent' => [
+                    'main.php' => '',
+                    'layout.php' => '',
+                    'same.php' => '',
+                ],
+                'child' => [
+                    'layout.php' => '',
+                    'child.php' => '',
+                    'same.php' => '',
+                ],
+            ]
+        );
+
+        $engine = Engine::fromTheme(Theme::hierarchy([
+            Theme::new(vfsStream::url('templates/parent'), 'parent'),
+            Theme::new(vfsStream::url('templates/child'), 'child'),
+        ]));
+        $this->assertSame('vfs://templates/parent/main.php', $engine->path('main'));
+        $this->assertSame('vfs://templates/child/child.php', $engine->path('child'));
+        $this->assertSame('vfs://templates/child/same.php', $engine->path('same'));
+        $this->expectException(TemplateNotFound::class);
+        $engine->path('dont-exist');
+    }
+
     public function testTemplateExists()
     {
         $this->assertFalse($this->engine->exists('template'));
@@ -229,6 +259,33 @@ class EngineTest extends \PHPUnit\Framework\TestCase
         );
 
         $this->assertTrue($this->engine->exists('template'));
+    }
+
+    public function testTemplateExistsWithThemes()
+    {
+        vfsStream::create(
+            [
+                'parent' => [
+                    'main.php' => '',
+                    'layout.php' => '',
+                    'same.php' => '',
+                ],
+                'child' => [
+                    'layout.php' => '',
+                    'child.php' => '',
+                    'same.php' => '',
+                ],
+            ]
+        );
+
+        $engine = Engine::fromTheme(Theme::hierarchy([
+            Theme::new(vfsStream::url('templates/parent'), 'parent'),
+            Theme::new(vfsStream::url('templates/child'), 'child'),
+        ]));
+        $this->assertTrue($engine->exists('main'));
+        $this->assertTrue($engine->exists('child'));
+        $this->assertTrue($engine->exists('same'));
+        $this->assertFalse($engine->exists('dont-exist'));
     }
 
     public function testMakeTemplate()

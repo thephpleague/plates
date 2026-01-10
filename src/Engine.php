@@ -2,6 +2,7 @@
 
 namespace League\Plates;
 
+use League\Plates\Exception\TemplateNotFound;
 use League\Plates\Extension\ExtensionInterface;
 use League\Plates\Template\Data;
 use League\Plates\Template\Directory;
@@ -265,7 +266,11 @@ class Engine
     {
         $name = new Name($this, $name);
 
-        return $name->getPath();
+        if($this->getResolveTemplatePath() instanceof ResolveTemplatePath\NameAndFolderResolveTemplatePath) {
+            return $name->getPath();
+        }
+
+        return ($this->getResolveTemplatePath())($name);
     }
 
     /**
@@ -275,9 +280,12 @@ class Engine
      */
     public function exists($name)
     {
-        $name = new Name($this, $name);
-
-        return $name->doesPathExist();
+        try {
+            ($this->getResolveTemplatePath())(new Name($this, $name));
+            return true;
+        } catch (TemplateNotFound $e) {
+            return false;
+        }
     }
 
     /**

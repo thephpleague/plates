@@ -199,10 +199,19 @@ class Template
         $this->layoutData = $data;
     }
 
+
+    private function mustStopRenderingSection(): bool
+    {
+        if (isset($this->sections[$this->sectionName]) && $this->sectionMode == self::SECTION_MODE_REWRITE)
+            return true;
+
+        return false;
+    }
+
     /**
      * Start a new section block.
      * @param  string  $name
-     * @return null
+     * @return bool
      */
     public function start($name)
     {
@@ -218,7 +227,10 @@ class Template
 
         $this->sectionName = $name;
 
-        ob_start();
+        if ($this->mustStopRenderingSection())
+            return false;
+
+        return ob_start();
     }
 
     /**
@@ -257,24 +269,28 @@ class Template
             );
         }
 
-        if (!isset($this->sections[$this->sectionName])) {
-            $this->sections[$this->sectionName] = '';
-        }
 
-        switch ($this->sectionMode) {
+        if (! $this->mustStopRenderingSection()) {
 
-            case self::SECTION_MODE_REWRITE:
-                $this->sections[$this->sectionName] = ob_get_clean();
-                break;
+            if (!isset($this->sections[$this->sectionName])) {
+                $this->sections[$this->sectionName] = '';
+            }
 
-            case self::SECTION_MODE_APPEND:
-                $this->sections[$this->sectionName] .= ob_get_clean();
-                break;
+            switch ($this->sectionMode) {
 
-            case self::SECTION_MODE_PREPEND:
-                $this->sections[$this->sectionName] = ob_get_clean().$this->sections[$this->sectionName];
-                break;
+                case self::SECTION_MODE_REWRITE:
+                    $this->sections[$this->sectionName] = ob_get_clean();
+                    break;
 
+                case self::SECTION_MODE_APPEND:
+                    $this->sections[$this->sectionName] .= ob_get_clean();
+                    break;
+
+                case self::SECTION_MODE_PREPEND:
+                    $this->sections[$this->sectionName] = ob_get_clean().$this->sections[$this->sectionName];
+                    break;
+
+            }
         }
         $this->sectionName = null;
         $this->sectionMode = self::SECTION_MODE_REWRITE;

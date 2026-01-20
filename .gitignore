@@ -6,3 +6,13 @@ build
 .generated
 .phpunit.result.cache
 .phpunit.cache
+composer.phar
+
+# JetBrains IDEA files
+.idea/.gitignore
+.idea/modules.xml
+.idea/php-test-framework.xml
+.idea/php.xml
+.idea/phpunit.xml
+.idea/plates.iml
+.idea/vcs.xml
